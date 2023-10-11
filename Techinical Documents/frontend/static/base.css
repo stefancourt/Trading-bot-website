@@ -26,7 +26,8 @@
     --tran-05: all 0.5s ease;
 }
 .text {
-    color: var(--text-color)
+    color: var(--text-color);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 /* === Top navbar === */
 .top-header {
