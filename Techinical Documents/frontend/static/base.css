@@ -39,6 +39,7 @@
     height: 50px;
     background-color: var(--navbar-color);
     border-bottom: 1px solid var(--border-color);
+    z-index: 10;
 }
 
 .menu-button {
@@ -117,7 +118,7 @@
 .sidebar.open {
     display: block;
     position: absolute;
-    z-index: 3;
+    z-index: 20;
     height: 100%;
     width: 220px;
     box-shadow: 0 0 100px 100px rgba(0,0,0,.4), 0 0 0 5000px rgba(0,0,0,.2);
@@ -137,7 +138,7 @@
     justify-content: center;
     border-radius: 4px;
     transition: 0.8s ease;
-    margin-left: 140px;
+    margin-left: -10px;
     opacity: 1;
     margin-bottom: 8px;
 }
