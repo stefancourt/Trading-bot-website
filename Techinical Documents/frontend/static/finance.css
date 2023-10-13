@@ -30,78 +30,80 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Different sections of the page */
-
-
+/* ==== Sectioning off the main body ==== */
 .section-one {
     position: absolute;
     height: 100%;
-    width: 300px;
+    width: 260px;
     left: 0;
+    border-right: 1px solid black;
 }
 
-.pnl {
+.section-one .overall {
+    position: absolute;
     margin-top: 50px;
-    position: absolute;
-    height: 180px;
+    border-bottom: 1px solid black;
     width: 100%;
+    height: 170px;
+}
+.overall span {
+    position: absolute;
+    font-size: 28px;
+    margin-top: 30px;
+    margin-left: 10px;
+}
+.overall img{
+    position: absolute;
+    right: 0;
+    height: 24px;
+    padding-right: 20px;
+    padding-top: 37px;
+}
+.overall input{
+    position: absolute;
+    margin-top: 90px;
+    margin-left: 40px;
     border: 1px solid black;
+    border-radius: 3px;
+    height: 25px;
+    font-size: 20px;
+    width: 155px;
+    outline: none;
+    text-align: right;
 }
-.account {
+.section-one .manage {
     position: absolute;
-    font-size: 80px;
-    padding-left: 10px;
-}
-.profits {
-    position: absolute;
-    color: rgb(0, 180, 0);
-    font-size: 50px;
-    margin-top: 100px;
-    margin-left: 130px;
-}
-
-.recent-trades {
-    position: absolute;
-    height: calc(100% - 233px);
-    width: 100%;
-    border: 1px solid black;
+    display: flex;
+    margin-top: 170px;
     bottom: 0;
+    width: 100%;
+    height: calc(100% - 220px);
+    flex-direction: column;
+    align-items: flex-end;
 }
-
-.trade-divs {
-    height: 10%
-
+.manage .title {
+    display: block;
+    padding-right: 80px;
+    padding-top: 30px;
+    font-size: 28px;
+}
+.manage div {
+    display: block;
+    padding-right: 20px;
+    font-size: 20px;
+    padding-top: 24px;
+    padding: right;
+}
+.manage div input {
+    height: 20px;
+    width: 140px;
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 3px;
 }
 .section-two {
     position: absolute;
-    left: 300px;
-    width: calc(100% - 300px);
+    width: calc(100% - 260px);
+    left: 260px;
     height: 100%;
-    right: 0;
-}
-
-.bar-chart {
-    margin-top: 50px;
-    position: absolute;
-    height: calc(100% - 148px);
-    width: 100%;
-    border: 1px solid black;
-}
-.bar-chart img {
-    height: 100%;
-    width: 100%;
-}
-
-.ai-options {
-    position: absolute;
-    bottom: 0;
-    height: 95px;
-    width: 100%;
-    border: 1px solid black;
-}
-.strategies {
-    float: left;
-    width: 25%;
-    height: 100%;
-    text-align: center;
 }
