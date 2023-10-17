@@ -13,6 +13,7 @@
     --sidebar-color: rgb(214, 214, 214);
     --navbar-color-dark: darkgreen; 
     --primary-color: red;
+    --container-color: rgb(185, 227, 241);
     --primary-color-dark: darkred;
     --toggle-color: rgb(67, 212, 105);
     --toggle-color-dark: grey;
@@ -33,22 +34,46 @@
 /* ==== Sectioning off the main body ==== */
 .section-one {
     position: absolute;
-    height: 100%;
-    width: 800px;
+    top: 50px;
+    height: calc(100% - 50px);
+    width: calc(100% - 300px);
     left: 0;
-    border-right: 1px solid black;
 }
+.news-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 10px;
+    bottom: 20px;
+    background-color: var(--container-color);
+    border-radius: 15px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
 .news {
     height: 10%;
 }
 
+/* ==== Stock prices ==== */
 .section-two {
     position: absolute;
-    width: calc(100% - 800px);
-    left: 800px;
-    height: 100%;
+    top: 50px;
+    width: 300px;
+    right: 0px;
+    height: calc(100% - 50px);
 }
-
+.stock-prices-container {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    right: 20px;
+    bottom: 20px;
+    background-color: var(--container-color);
+    border-radius: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
 .prices {
     height: 5%;
 }
