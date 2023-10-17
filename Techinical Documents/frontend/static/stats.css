@@ -13,6 +13,7 @@
     --sidebar-color: rgb(214, 214, 214);
     --navbar-color-dark: darkgreen; 
     --primary-color: red;
+    --container-color: rgb(185, 227, 241);
     --primary-color-dark: darkred;
     --toggle-color: rgb(67, 212, 105);
     --toggle-color-dark: grey;
@@ -31,47 +32,65 @@
 }
 
 /* Different sections of the page */
-
-
 .section-one {
     position: absolute;
     height: 100%;
     width: 300px;
     left: 0;
 }
-
 .pnl {
-    margin-top: 50px;
+    top: 50px;
     position: absolute;
     height: 180px;
     width: 100%;
-    border: 1px solid black;
+}
+.pnl-container {
+    position: absolute;
+    background-color: var(--container-color);
+    border-radius: 15px;
+    border-top-left-radius: 0px;
+    left: 20px;
+    top: 20px;
+    bottom: 10px;
+    right: 10px;
 }
 .account {
     position: absolute;
-    font-size: 80px;
+    font-size: 70px;
     padding-left: 10px;
 }
 .profits {
     position: absolute;
     color: rgb(0, 180, 0);
-    font-size: 50px;
-    margin-top: 100px;
+    font-size: 40px;
+    margin-top: 90px;
     margin-left: 130px;
 }
 
+/* === Recent Trades === */
 .recent-trades {
     position: absolute;
     height: calc(100% - 233px);
     width: 100%;
-    border: 1px solid black;
     bottom: 0;
+}
+.recent-trades-container {
+    position: absolute;
+    top: 10px;
+    bottom: 20px;
+    right: 10px;
+    left: 20px;
+    background-color: var(--container-color);
+    border-radius: 15px;
+    border-bottom-left-radius: 0px;
+
 }
 
 .trade-divs {
     height: 10%
-
 }
+
+/* === Charts === */
 .section-two {
     position: absolute;
     left: 300px;
@@ -81,23 +100,35 @@
 }
 
 .bar-chart {
-    margin-top: 50px;
+    top: 50px;
     position: absolute;
-    height: calc(100% - 148px);
+    height: calc(100% - 50px);
     width: 100%;
     border: 1px solid black;
 }
+.bar-chart-container {
+    position: absolute;
+    left: 10px;
+    right: 20px;
+    bottom: 20px;
+    top: 20px;
+    background-color: var(--container-color);
+    border-radius: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    
+}
+
 .bar-chart img {
-    height: 100%;
+    height: calc(100% - 70px);
     width: 100%;
 }
 
 .ai-options {
     position: absolute;
     bottom: 0;
-    height: 95px;
+    height: 70px;
     width: 100%;
-    border: 1px solid black;
 }
 .strategies {
     float: left;
