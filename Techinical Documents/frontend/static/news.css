@@ -30,50 +30,102 @@
     color: var(--text-color);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+/* ==== For Mobiles ==== */
 /* ==== Sectioning off the main body ==== */
 .section-one {
     position: absolute;
-    top: 50px;
-    height: calc(100% - 50px);
-    width: calc(100% - 300px);
-    left: 0;
+    top: 80px;
+    height: calc(100% - 80px);
+    width: 100%;
 }
 .news-container {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 10px;
-    bottom: 20px;
     background-color: var(--container-color);
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    bottom: 10px;
     border-radius: 15px;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
+    overflow-y: scroll;
 }
-
 .news {
-    height: 10%;
+    width: calc(100% - 4px);
+    height: 80px;
+    margin-top: 4px;
+    margin-left: 4px;
 }
-
 /* ==== Stock prices ==== */
 .section-two {
     position: absolute;
     top: 50px;
-    width: 300px;
-    right: 0px;
-    height: calc(100% - 50px);
+    width: 100%;
+    height: 30px;
+    border-bottom: 1px solid var(--border-color);
 }
 .stock-prices-container {
     position: absolute;
-    top: 20px;
-    left: 10px;
-    right: 20px;
-    bottom: 20px;
-    background-color: var(--container-color);
-    border-radius: 15px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+    background-color: var(--navbar-color);
+    height: 100%;
+    width: 100%;
+    overflow-x: scroll;
+    display: inline;
+    white-space: nowrap;
 }
 .prices {
-    height: 5%;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+/* ==== For Tablets and Desktops ==== */
+@media only screen and (min-width: 768px){
+    /* ==== Sectioning off the main body ==== */
+    .section-one {
+        position: absolute;
+        top: 50px;
+        height: calc(100% - 50px);
+        width: calc(100% - 300px);
+        left: 0;
+    }
+    .news-container {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 10px;
+        bottom: 20px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    
+    .news {
+        height: 10%;
+    }
+    
+    /* ==== Stock prices ==== */
+    .section-two {
+        position: absolute;
+        top: 50px;
+        width: 300px;
+        right: 0px;
+        height: calc(100% - 50px);
+        border-bottom: none;
+    }
+    .stock-prices-container {
+        position: absolute;
+        top: 20px;
+        left: 10px;
+        right: 20px;
+        bottom: 20px;
+        height: calc(100% - 40px);
+        width: calc(100% - 30px);
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+    .prices {
+        display: block;
+        height: 5%;
+    }   
 }

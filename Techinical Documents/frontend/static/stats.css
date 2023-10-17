@@ -30,103 +30,61 @@
     color: var(--text-color);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
-/* Different sections of the page */
-.section-one {
-    position: absolute;
-    height: 100%;
-    width: 300px;
-    left: 0;
-}
+/* === For mobile === */
 .pnl {
-    top: 50px;
     position: absolute;
-    height: 180px;
+    top: 50px;
+    height: 100px;
     width: 100%;
 }
 .pnl-container {
     position: absolute;
+    top: 10px;
+    bottom: 5px;
+    left: 10px;
+    right: 10px;
     background-color: var(--container-color);
     border-radius: 15px;
-    border-top-left-radius: 0px;
-    left: 20px;
-    top: 20px;
-    bottom: 10px;
-    right: 10px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 .account {
     position: absolute;
-    font-size: 70px;
+    padding-top: 4px;
+    font-size: 40px;
     padding-left: 10px;
 }
 .profits {
     position: absolute;
     color: rgb(0, 180, 0);
-    font-size: 40px;
-    margin-top: 90px;
-    margin-left: 130px;
-}
-
-/* === Recent Trades === */
-.recent-trades {
-    position: absolute;
-    height: calc(100% - 233px);
-    width: 100%;
-    bottom: 0;
-}
-.recent-trades-container {
-    position: absolute;
-    top: 10px;
-    bottom: 20px;
-    right: 10px;
-    left: 20px;
-    background-color: var(--container-color);
-    border-radius: 15px;
-    border-bottom-left-radius: 0px;
-
-}
-
-.trade-divs {
-    height: 10%
-}
-
-/* === Charts === */
-.section-two {
-    position: absolute;
-    left: 300px;
-    width: calc(100% - 300px);
-    height: 100%;
+    padding-top: 36px;
+    font-size: 34px;
     right: 0;
+    padding-right: 20px;
 }
 
 .bar-chart {
-    top: 50px;
     position: absolute;
-    height: calc(100% - 50px);
+    top: 150px;
+    height: 360px;
     width: 100%;
 }
 .bar-chart-container {
     position: absolute;
+    top: 5px;
+    bottom: 10px;
     left: 10px;
-    right: 20px;
-    bottom: 20px;
-    top: 20px;
+    right: 10px;
     background-color: var(--container-color);
-    border-radius: 15px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    
 }
-
 .bar-chart img {
-    height: calc(100% - 70px);
+    height: 300px;
     width: 100%;
 }
-
 .ai-options {
     position: absolute;
     bottom: 0;
-    height: 70px;
+    height: 32px;
     width: 100%;
 }
 .strategies {
@@ -134,4 +92,143 @@
     width: 25%;
     height: 100%;
     text-align: center;
+}
+
+.recent-trades {
+    position: absolute;
+    top: 510px;
+    width: 100%;
+    bottom: 0px;
+}
+.recent-trades-container {
+    position: absolute;
+    background-color: var(--container-color);
+    top: 5px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border-radius: 15px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    overflow-y: hidden;
+}
+.trade-divs {
+    height: 26px;
+    margin-left: 4px;
+    margin-top: 4px;
+}
+
+
+
+
+
+
+
+/* === For tablets and Desktops === */
+@media only screen and (min-width: 640px){
+    /* Different sections of the page */
+    .section-one {
+        position: absolute;
+        height: 100%;
+        width: 300px;
+        left: 0;
+    }
+    .pnl {
+        top: 50px;
+        position: absolute;
+        height: 180px;
+        width: 100%;
+    }
+    .pnl-container {
+        position: absolute;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-left-radius: 0px;
+        left: 20px;
+        top: 20px;
+        bottom: 10px;
+        right: 10px;
+    }
+    .account {
+        position: absolute;
+        font-size: 70px;
+        padding-left: 10px;
+    }
+    .profits {
+        position: absolute;
+        color: rgb(0, 180, 0);
+        font-size: 40px;
+        margin-top: 50px;
+        margin-right: 12px;
+        padding-right: 0px;
+    }
+    
+    /* === Recent Trades === */
+    .recent-trades {
+        position: absolute;
+        height: calc(100% - 230px);
+        top: 230px;
+        width: 100%;
+        bottom: 0;
+    }
+    .recent-trades-container {
+        position: absolute;
+        top: 10px;
+        bottom: 20px;
+        right: 10px;
+        left: 20px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-bottom-left-radius: 0px;
+    
+    }
+    
+    .trade-divs {
+        height: 10%
+    }
+    
+    /* === Charts === */
+    .section-two {
+        position: absolute;
+        left: 300px;
+        width: calc(100% - 300px);
+        height: 100%;
+        right: 0;
+    }
+    
+    .bar-chart {
+        top: 50px;
+        position: absolute;
+        height: calc(100% - 50px);
+        width: 100%;
+    }
+    .bar-chart-container {
+        position: absolute;
+        left: 10px;
+        right: 20px;
+        bottom: 20px;
+        top: 20px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    
+    .bar-chart img {
+        height: calc(100% - 70px);
+        width: 100%;
+    }
+    
+    .ai-options {
+        position: absolute;
+        bottom: 0;
+        height: 70px;
+        width: 100%;
+    }
+    .strategies {
+        float: left;
+        width: 25%;
+        height: 100%;
+        text-align: center;
+    }
 }
