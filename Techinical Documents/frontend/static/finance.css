@@ -12,6 +12,7 @@
     --navbar-color: rgb(219, 219, 219);
     --sidebar-color: rgb(214, 214, 214);
     --navbar-color-dark: darkgreen; 
+    --container-color: rgb(185, 227, 241);
     --primary-color: red;
     --primary-color-dark: darkred;
     --toggle-color: rgb(67, 212, 105);
@@ -31,79 +32,138 @@
 }
 
 /* ==== Sectioning off the main body ==== */
-.section-one {
-    position: absolute;
-    height: 100%;
-    width: 260px;
-    left: 0;
-    border-right: 1px solid black;
-}
-
-.section-one .overall {
-    position: absolute;
-    margin-top: 50px;
-    border-bottom: 1px solid black;
-    width: 100%;
-    height: 170px;
-}
-.overall span {
-    position: absolute;
-    font-size: 28px;
-    margin-top: 30px;
-    margin-left: 10px;
-}
-.overall img{
-    position: absolute;
-    right: 0;
-    height: 24px;
-    padding-right: 20px;
-    padding-top: 37px;
-}
-.overall input{
-    position: absolute;
-    margin-top: 90px;
-    margin-left: 40px;
-    border: 1px solid black;
-    border-radius: 3px;
-    height: 25px;
-    font-size: 20px;
-    width: 155px;
-    outline: none;
-    text-align: right;
-}
-.section-one .manage {
-    position: absolute;
-    display: flex;
-    margin-top: 170px;
-    bottom: 0;
-    width: 100%;
-    height: calc(100% - 220px);
-    flex-direction: column;
-    align-items: flex-end;
-}
-.manage .title {
-    display: block;
-    padding-right: 80px;
-    padding-top: 30px;
-    font-size: 28px;
-}
-.manage div {
-    display: block;
-    padding-right: 20px;
-    font-size: 20px;
-    padding-top: 24px;
-    padding: right;
-}
-.manage div input {
-    height: 20px;
-    width: 140px;
-    font-size: 18px;
-    border: 1px solid black;
-    border-radius: 3px;
-}
-.section-two {
-    position: absolute;
-    width: calc(100% - 260px);
-    left: 260px;
-    height: 100%;
+@media only screen and (min-width: 768px){
+    .section-one {
+        position: absolute;
+        height: 100%;
+        width: 260px;
+        left: 0;
+    }
+    
+    .section-one .overall {
+        position: absolute;
+        margin-top: 50px;
+        width: 100%;
+        height: 170px;
+    }
+    .overall-container {
+        position: absolute;
+        top: 20px;
+        bottom: 10px;
+        left: 20px;
+        right: 10px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-left-radius: 0px;
+    }
+    .overall span {
+        position: absolute;
+        font-size: 28px;
+        margin-top: 30px;
+        margin-left: 10px;
+    }
+    .overall img{
+        position: absolute;
+        right: 0;
+        height: 24px;
+        padding-right: 5px;
+        padding-top: 5px;
+    }
+    .overall .img-container {
+        position: absolute;
+        right: 0px;
+        background-color: rgb(209, 243, 255);;
+        height: 34px;
+        width: 34px;
+        border-radius: 10px;
+        border-top-right-radius: 15px;
+    }
+    .overall input{
+        position: absolute;
+        margin-top: 85px;
+        margin-left: 40px;
+        background-color: var(--container-color);
+        border: 0.7px solid black;
+        border-radius: 3px;
+        height: 25px;
+        font-size: 20px;
+        width: 155px;
+        outline: none;
+        text-align: right;
+    }
+    .overall input:hover{
+        background-color: rgb(209, 243, 255);
+        transition: var(--tran-02);
+    }
+    .overall input:focus{
+        background-color: rgb(209, 243, 255);
+    }
+    
+    /* ==== managing finance ==== */
+    .section-one .manage {
+        position: absolute;
+        margin-top: 170px;
+        bottom: 0;
+        width: 100%;
+        height: calc(100% - 220px);
+    }
+    .manage-container {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        overflow-y: scroll;
+        top: 10px;
+        bottom: 20px;
+        right: 10px;
+        left: 20px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-bottom-left-radius: 0px;
+    }
+    .manage .title {
+        padding-right: 10px;
+        font-size: 28px;
+    }
+    .manage div {
+        padding-right: 6px;
+        font-size: 18px;
+        padding-top: 22px;
+    }
+    .manage div input {
+        height: 20px;
+        width: 140px;
+        font-size: 18px;
+        background-color: var(--container-color);
+        border: 0.7px solid black;
+        border-radius: 3px;
+        outline: none;
+    }
+    .manage div input:hover {
+        background-color: rgb(209, 243, 255);
+        transition: var(--tran-02);
+    }
+    .manage div input:focus {
+        background-color: rgb(209, 243, 255);
+    }
+    
+    /* ==== charts ==== */
+    .section-two {
+        position: absolute;
+        width: calc(100% - 260px);
+        top: 50px;
+        left: 260px;
+        height: calc(100% - 50px);
+    }
+    .chart-container {
+        position: absolute;
+        top: 20px;
+        bottom: 20px;
+        right: 20px;
+        left: 10px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
 }
