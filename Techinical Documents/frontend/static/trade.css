@@ -1,0 +1,174 @@
+* body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--body-color)
+}
+
+:root {
+    --body-color: rgb(238, 237, 237);
+    --body-color-dark: black;
+    --navbar-color: rgb(219, 219, 219);
+    --sidebar-color: rgb(214, 214, 214);
+    --navbar-color-dark: darkgreen; 
+    --container-color: rgb(185, 227, 241);
+    --primary-color: red;
+    --primary-color-dark: darkred;
+    --toggle-color: rgb(67, 212, 105);
+    --toggle-color-dark: grey;
+    --text-color: rgb(29, 29, 29);
+    --border-color: rgba(101, 101, 101, 0.711);
+    --border-color-dark: white;
+
+    --tran-02: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
+}
+.text {
+    color: var(--text-color);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ==== Sectioning off the main body ==== */
+.section-one {
+    position: absolute;
+    height: 100%;
+    width: 300px;
+    left: 0;
+}
+.place-order {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50px;
+    height: 250px;
+    width: 100%;
+}
+.place-order-container {
+    background-color: var(--container-color);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 15px;
+    border-top-left-radius: 0px;
+    bottom: 30px;
+    top: 36px;
+}
+.place-order input {
+    background-color: var(--container-color);
+    border: 0.7px solid black;
+    border-radius: 3px;
+}
+.place-order input:hover {
+    background-color: rgb(209, 243, 255);
+    transition: var(--tran-02)
+}
+.place-order input:focus {
+    background-color: rgb(209, 243, 255);
+    outline: none;
+}
+.title {
+    display: block;
+    margin-right: 110px;
+    margin-bottom: 10px;
+    font-size: 26px;
+}
+.stoploss {
+    margin-top: 3px;
+    margin-bottom: 10px;
+    display: block;
+    margin-right: 12px;
+}
+.buttons-buy-sell button {
+    margin: 7px;
+    width: 98px;
+    height: 20px;
+    font-size: 13px;
+    background-color: var(--container-color);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid var(--container-color);
+}
+.buy:hover {
+    cursor: pointer;
+    border-bottom: 2px solid rgb(0, 154, 0);
+    transition: var(--tran-04)
+}
+.sell:hover {
+    cursor: pointer;
+    border-bottom: 2px solid red;
+    transition: var(--tran-04)
+}
+.confirm {
+    display: block;
+    margin-top: 10px;
+    margin-left: 160px;
+    cursor: pointer;
+    background-color: var(--container-color);
+    border-radius: 3px;
+    border: none;
+    border: 0.7px solid black;
+}
+.confirm:hover {
+    background-color: rgb(209, 243, 255);
+    transition: var(--tran-02);
+    border: 0.7px solid rgb(209, 243, 255);
+}
+
+/* ==== Stock Prices ==== */
+.stock-prices {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0px;
+    width: 100%;
+    height: calc(100% - 300px);
+}
+.stock-prices-container {
+    position: absolute;
+    background-color: var(--container-color);
+    width: 260px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 15px;
+    border-bottom-left-radius: 0px;
+    top: 0;
+    bottom: 20px;
+}
+.stock-prices span{
+    width: 100%;
+    height: 11%;
+}
+
+/* ==== Section 2 ==== */
+.section-two {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 300px);
+    top: 50px;
+    left: 300px;
+    height: calc(100% - 50px);
+}
+.graph-container {
+    position: absolute;
+    background-color: var(--container-color);
+    margin-top: 16px;
+    top: 20px;
+    bottom: 20px;
+    left: 10px;
+    right: 20px;
+    border-radius: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
