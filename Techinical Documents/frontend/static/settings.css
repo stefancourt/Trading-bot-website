@@ -5,21 +5,31 @@
     box-sizing: border-box;
     background-color: var(--body-color)
 }
+* body.dark{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--body-color-dark)
+}
 
 :root {
     --body-color: rgb(238, 237, 237);
-    --body-color-dark: black;
     --navbar-color: rgb(219, 219, 219);
     --sidebar-color: rgb(214, 214, 214);
     --navbar-color-dark: darkgreen; 
     --container-color: rgb(185, 227, 241);
-    --primary-color: red;
-    --primary-color-dark: darkred;
     --toggle-color: rgb(67, 212, 105);
-    --toggle-color-dark: grey;
     --text-color: rgb(29, 29, 29);
     --border-color: rgba(101, 101, 101, 0.711);
-    --border-color-dark: white;
+
+    --body-color-dark: rgb(14, 16, 23);
+    --sidebar-color-dark: rgb(28, 28, 39);
+    --navbar-color-dark: rgb(33, 34, 45); 
+    --container-color-dark: rgb(26, 27, 42);
+    --toggle-color-dark: rgb(29, 44, 159);
+    --text-color-dark: rgb(249, 247, 234);
+    --border-color-dark: rgb(104, 125, 144);
 
     --tran-02: all 0.2s ease;
     --tran-03: all 0.3s ease;
@@ -28,6 +38,10 @@
 }
 .text {
     color: var(--text-color);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.dark .text {
+    color: var(--text-color-dark);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 /* ==== Sectioning off the main body ==== */

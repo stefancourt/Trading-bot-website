@@ -5,21 +5,30 @@
     box-sizing: border-box;
     background-color: var(--body-color)
 }
+* body.dark{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--body-color-dark)
+}
 
 :root {
     --body-color: rgb(238, 237, 237);
-    --body-color-dark: black;
     --navbar-color: rgb(219, 219, 219);
     --sidebar-color: rgb(214, 214, 214);
-    --navbar-color-dark: darkgreen; 
     --container-color: rgb(185, 227, 241);
-    --primary-color: red;
-    --primary-color-dark: darkred;
     --toggle-color: rgb(67, 212, 105);
-    --toggle-color-dark: grey;
     --text-color: rgb(29, 29, 29);
     --border-color: rgba(101, 101, 101, 0.711);
-    --border-color-dark: white;
+
+    --body-color-dark: rgb(14, 16, 23);
+    --sidebar-color-dark: rgb(28, 28, 39);
+    --navbar-color-dark: rgb(33, 34, 45); 
+    --container-color-dark: rgb(26, 27, 42);
+    --toggle-color-dark: rgb(29, 44, 159);
+    --text-color-dark: rgb(249, 247, 234);
+    --border-color-dark: rgb(104, 125, 144);
 
     --tran-02: all 0.2s ease;
     --tran-03: all 0.3s ease;
@@ -30,7 +39,10 @@
     color: var(--text-color);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+.dark .text {
+    color: var(--text-color-dark);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 /* ==== Sectioning off the main body ==== */
 .stock-prices {
     position: absolute;
@@ -47,6 +59,9 @@
     display: inline;
     white-space: nowrap;
     border-bottom: 1px solid var(--border-color);
+}.dark .stock-prices-container {
+    background-color: var(--navbar-color-dark);
+    border-bottom: 1px solid var(--border-color-dark);
 }
 .stock-prices-container span {
     margin-top: 5px;
@@ -74,19 +89,29 @@
     border-radius: 15px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+}.dark .place-order-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
 }
 .place-order input {
     background-color: var(--container-color);
     border: 0.7px solid black;
     border-radius: 3px;
+}.dark .place-order input {
+    background-color: var(--container-color-dark);
+    border: 0.7px solid var(--border-color-dark);
 }
 .place-order input:hover {
     background-color: rgb(209, 243, 255);
     transition: var(--tran-02)
+}.dark .place-order input:hover {
+    background-color: rgb(39, 39, 61);
 }
 .place-order input:focus {
     background-color: rgb(209, 243, 255);
     outline: none;
+}.dark .place-order input:focus {
+    background-color: rgb(39, 39, 61);
 }
 .title {
     display: block;
@@ -110,16 +135,23 @@
     border-left: none;
     border-right: none;
     border-bottom: 2px solid var(--container-color);
+}.dark .buttons-buy-sell button {
+    background-color: var(--container-color-dark);
+    border-bottom: 2px solid var(--container-color-dark);
 }
 .buy:hover {
     cursor: pointer;
     border-bottom: 2px solid rgb(0, 154, 0);
     transition: var(--tran-04)
+}.dark .buy:hover {
+    border-bottom: 2px solid rgb(0, 154, 0);
 }
 .sell:hover {
     cursor: pointer;
     border-bottom: 2px solid red;
     transition: var(--tran-04)
+}.dark .sell:hover {
+    border-bottom: 2px solid red;
 }
 .confirm {
     display: block;
@@ -128,13 +160,18 @@
     cursor: pointer;
     background-color: var(--container-color);
     border-radius: 3px;
-    border: none;
     border: 0.7px solid black;
+}.dark .confirm {
+    background-color: var(--container-color-dark);
+    border: 0.7px solid var(--border-color-dark);
 }
 .confirm:hover {
     background-color: rgb(209, 243, 255);
     transition: var(--tran-02);
     border: 0.7px solid rgb(209, 243, 255);
+}.dark .confirm:hover {
+    background-color: rgb(39, 39, 61);
+    border: 0.7px solid rgb(39, 39, 61);
 }
 
 
@@ -155,6 +192,9 @@
     border-radius: 15px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+}.dark .graph-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
 }
 
 
@@ -197,7 +237,9 @@
         flex-direction: column;
         padding: 10px;
         border-radius: 15px;
-        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
         top: 20px;
         bottom: 10px;
         right: 10px;
@@ -279,18 +321,24 @@
         left: 20px;
         right: 10px;
         bottom: 20px;
-        height: calc(100% - 30px);
+        height: calc(100% - 32px);
         width: 90%;
         background-color: var(--container-color);
         display: flex;
         align-items: center;
         flex-direction: column;
         border-radius: 15px;
-        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
         border: none;
+    }.dark .stock-prices-container {
+        background-color: var(--container-color-dark);
+        border: 1px solid var(--border-color-dark)
     }
     .stock-prices span{
-        width: 100%;
+        width: calc(100% - 6px);
+        margin-left: 6px;
     }
     
     /* ==== Section 2 ==== */
@@ -312,7 +360,7 @@
         left: 10px;
         right: 20px;
         border-radius: 15px;
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0px;
     }
 }
