@@ -134,7 +134,7 @@
 
 
 /* ==== Sectioning off the main body ==== */
-@media only screen and (min-width: 768px){
+@media only screen and (min-width: 560px){
     .section-one {
         position: absolute;
         height: 100%;
