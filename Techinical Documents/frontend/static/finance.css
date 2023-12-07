@@ -17,7 +17,6 @@
     --body-color: rgb(238, 237, 237);
     --navbar-color: rgb(219, 219, 219);
     --sidebar-color: rgb(214, 214, 214);
-    --navbar-color-dark: darkgreen; 
     --container-color: rgb(185, 227, 241);
     --toggle-color: rgb(67, 212, 105);
     --text-color: rgb(29, 29, 29);
@@ -30,6 +29,7 @@
     --toggle-color-dark: rgb(29, 44, 159);
     --text-color-dark: rgb(249, 247, 234);
     --border-color-dark: rgb(104, 125, 144);
+    --hover-color-dark: rgb(15, 16, 25);
 
     --tran-02: all 0.2s ease;
     --tran-03: all 0.3s ease;
@@ -60,6 +60,10 @@
     background-color: var(--container-color);
     border-radius: 15px;
     border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}.dark .overall-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
 }
 .overall span {
     position: absolute;
@@ -77,11 +81,14 @@
 .overall .img-container {
     position: absolute;
     right: 0px;
-    background-color: rgb(209, 243, 255);;
+    background-color: rgb(209, 243, 255);
     height: 40px;
     width: 40px;
     border-radius: 10px;
-    border-top-right-radius: 15px;
+    border-top-right-radius: 0px;
+}.dark .overall .img-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
 }
 .overall input{
     position: absolute;
@@ -95,13 +102,22 @@
     width: 155px;
     outline: none;
     text-align: right;
+}.dark .overall input {
+    background-color: var(--container-color-dark);
+    border: 0.7px solid var(--border-color-dark);
 }
+
 .overall input:hover{
     background-color: rgb(209, 243, 255);
+    transition: var(--tran-02);
+}.dark .overall input:hover{
+    background-color: var(--hover-color-dark);
     transition: var(--tran-02);
 }
 .overall input:focus{
     background-color: rgb(209, 243, 255);
+}.dark .overall input:focus{
+    background-color: var(--hover-color-dark);
 }
 
 
@@ -124,6 +140,9 @@
     border-radius: 15px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+}.dark .chart-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
 }
 
 .manage {
@@ -237,6 +256,9 @@
         background-color: var(--container-color);
         border-radius: 15px;
         border-bottom-left-radius: 0px;
+    }.dark .manage-container {
+        background-color: var(--container-color-dark);
+        border: 1px solid var(--border-color-dark);
     }
     .manage .title {
         padding-right: 10px;
@@ -255,13 +277,21 @@
         border: 0.7px solid black;
         border-radius: 3px;
         outline: none;
+    }.dark .manage div input {
+        background-color: var(--container-color-dark);
+        border: 0.7px solid var(--border-color-dark);
     }
     .manage div input:hover {
         background-color: rgb(209, 243, 255);
         transition: var(--tran-02);
+    }.dark .manage div input:hover {
+        background-color: var(--hover-color-dark);
+        transition: var(--tran-02);
     }
     .manage div input:focus {
         background-color: rgb(209, 243, 255);
+    }.dark .manage div input:focus {
+        background-color: var(--hover-color-dark);
     }
     
     /* ==== charts ==== */
