@@ -8,7 +8,7 @@
     <link href="static/base.css" rel="stylesheet">
     <link href="static/ai-trade.css" rel="stylesheet">
 </head>
-<body>
+<body class="light">
     <header>
         <div class="top-header">
             <button class="menu-button"></button>
@@ -50,6 +50,11 @@
                         <span class="text side-text">News</span>
                     </a>
                 </li>
+                <div class="dark-mode">
+                    <img src="static/images/dark-mode.png">
+                    <span class="text side-text">Mode</span>
+                    <button class="mode-button"><div></div></button>
+                </div>
             </ul>
         </div>
     </header>
@@ -59,10 +64,10 @@
     <div class="graph">
         <div class="graph-container">
             <div class="ai-options">
-                <div class="strategies">Option 1</div>
-                <div class="strategies">Option 2</div>
-                <div class="strategies">Option 3</div>
-                <div class="strategies">Option 4</div>
+                <div class="text strategies">Option 1</div>
+                <div class="text strategies">Option 2</div>
+                <div class="text strategies">Option 3</div>
+                <div class="text strategies">Option 4</div>
             </div>
             <div class="amount">
 
@@ -72,11 +77,11 @@
     </div>
     <div class="returns">
         <div class="returns-container">
-            <span class="title">Returns:</span>
-            <span class="past-trades">Trade 1</span>
-            <span class="past-trades">Trade 2</span>
-            <span class="past-trades">Trade 3</span>
-            <span class="past-trades">Trade 4</span>
+            <span class="text title">Returns:</span>
+            <span class="text past-trades">Trade 1</span>
+            <span class="text past-trades">Trade 2</span>
+            <span class="text past-trades">Trade 3</span>
+            <span class="text past-trades">Trade 4</span>
         </div>
     </div>
 </body>

@@ -17,7 +17,6 @@
     --body-color: rgb(238, 237, 237);
     --navbar-color: rgb(219, 219, 219);
     --sidebar-color: rgb(214, 214, 214);
-    --navbar-color-dark: darkgreen; 
     --container-color: rgb(185, 227, 241);
     --toggle-color: rgb(67, 212, 105);
     --text-color: rgb(29, 29, 29);
@@ -61,6 +60,9 @@
     border-radius: 15px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+}.dark .pnl-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
 }
 .account {
     position: absolute;
@@ -90,6 +92,9 @@
     left: 10px;
     right: 10px;
     background-color: var(--container-color);
+}.dark .bar-chart-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark)
 }
 .bar-chart img {
     height: 300px;
@@ -125,6 +130,9 @@
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     overflow-y: hidden;
+}.dark .recent-trades-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
 }
 .trade-divs {
     height: 26px;
