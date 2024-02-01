@@ -1,0 +1,5 @@
+Django==3.2.18
+yfinance==0.2.36
+pandas==1.16.0
+django-extensions==3.2.3
+plotly==5.18.0

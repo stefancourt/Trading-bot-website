@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
 
-    <link href="static/login-register.css" rel="stylesheet">
+    <link href="{% static 'logins/login-register.css' %}" rel="stylesheet">
 </head>
 <body>
     <div class="background">
-        <img class = background-img src="static/images/background.jpg">
+        <img class = background-img src="{% static 'logins/images/background.jpg' %}" alt="">
         <form class="container">
             <span class="login-register text">Sign In</span>
             <input class = "text" type="text" placeholder="Enter Email" required>

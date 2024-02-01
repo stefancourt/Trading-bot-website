@@ -33,7 +33,7 @@ from trade.views import trade_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('stats/', stats_view, name='stats'),
-    path('login/', login_view, name='login'),
+    path('', login_view, name='login'),
     path('register/', register_view, name='register'),
     path('ai-trade/', aitrade_view, name='ai-trade'),
     path('finance/', finance_view, name='finance'),
