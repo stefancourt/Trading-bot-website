@@ -1,0 +1,316 @@
+* body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--body-color)
+}
+* body.dark{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--body-color-dark)
+}
+
+:root {
+    --body-color: rgb(238, 237, 237);
+    --navbar-color: rgb(219, 219, 219);
+    --sidebar-color: rgb(214, 214, 214);
+    --container-color: rgb(185, 227, 241);
+    --toggle-color: rgb(67, 212, 105);
+    --text-color: rgb(29, 29, 29);
+    --border-color: rgba(101, 101, 101, 0.711);
+
+    --body-color-dark: rgb(14, 16, 23);
+    --sidebar-color-dark: rgb(28, 28, 39);
+    --navbar-color-dark: rgb(33, 34, 45); 
+    --container-color-dark: rgb(26, 27, 42);
+    --toggle-color-dark: rgb(29, 44, 159);
+    --text-color-dark: rgb(249, 247, 234);
+    --border-color-dark: rgb(104, 125, 144);
+    --hover-color-dark: rgb(15, 16, 25);
+
+    --tran-02: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
+}
+.text {
+    color: var(--text-color);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.dark .text {
+    color: var(--text-color-dark);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/* ==== Sectioning off the main body ==== */
+.overall {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 180px;
+}
+.overall-container {
+    position: absolute;
+    top: 5px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    background-color: var(--container-color);
+    border-radius: 15px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}.dark .overall-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.overall span {
+    position: absolute;
+    font-size: 28px;
+    margin-top: 30px;
+    margin-left: 30px;
+}
+.overall img{
+    position: absolute;
+    right: 0;
+    height: 30px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+.overall .img-container {
+    position: absolute;
+    right: 0px;
+    background-color: rgb(209, 243, 255);
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+    border-top-right-radius: 0px;
+}.dark .overall .img-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.overall input{
+    position: absolute;
+    margin-top: 85px;
+    margin-left: 60px;
+    background-color: var(--container-color);
+    border: 0.7px solid black;
+    border-radius: 3px;
+    height: 25px;
+    font-size: 20px;
+    width: 155px;
+    outline: none;
+    text-align: right;
+}.dark .overall input {
+    background-color: var(--container-color-dark);
+    border: 0.7px solid var(--border-color-dark);
+}
+
+.overall input:hover{
+    background-color: rgb(209, 243, 255);
+    transition: var(--tran-02);
+}.dark .overall input:hover{
+    background-color: var(--hover-color-dark);
+    transition: var(--tran-02);
+}
+.overall input:focus{
+    background-color: rgb(209, 243, 255);
+}.dark .overall input:focus{
+    background-color: var(--hover-color-dark);
+}
+
+
+
+
+/* ==== Graph ==== */
+.section-two {
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    height: calc(100% - 230px);
+}
+.chart-container {
+    position: absolute;
+    background-color: var(--container-color);
+    top: 10px;
+    bottom: 5px;
+    left: 10px;
+    right: 10px;
+    border-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}.dark .chart-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+
+.manage {
+    height: 0px;
+    width: 0px;
+    overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==== Sectioning off the main body ==== */
+@media only screen and (min-width: 560px){
+    .section-one {
+        position: absolute;
+        height: 100%;
+        width: 260px;
+        left: 0;
+    }
+    
+    .section-one .overall {
+        position: absolute;
+        top: 0px;
+        margin-top: 50px;
+        width: 100%;
+        height: 170px;
+    }
+    .overall-container {
+        position: absolute;
+        top: 20px;
+        bottom: 10px;
+        left: 20px;
+        right: 10px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-left-radius: 0px;
+    }
+    .overall span {
+        position: absolute;
+        font-size: 28px;
+        margin-top: 30px;
+        margin-left: 10px;
+    }
+    .overall img{
+        position: absolute;
+        right: 0;
+        height: 24px;
+        padding-right: 5px;
+        padding-top: 5px;
+    }
+    .overall .img-container {
+        position: absolute;
+        right: 0px;
+        background-color: rgb(209, 243, 255);;
+        height: 34px;
+        width: 34px;
+        border-radius: 10px;
+        border-top-right-radius: 15px;
+    }
+    .overall input{
+        position: absolute;
+        margin-top: 85px;
+        margin-left: 40px;
+        background-color: var(--container-color);
+        border: 0.7px solid black;
+        border-radius: 3px;
+        height: 25px;
+        font-size: 20px;
+        width: 155px;
+        outline: none;
+        text-align: right;
+    }
+    .overall input:hover{
+        background-color: rgb(209, 243, 255);
+        transition: var(--tran-02);
+    }
+    .overall input:focus{
+        background-color: rgb(209, 243, 255);
+    }
+    
+    /* ==== managing finance ==== */
+    .section-one .manage {
+        position: absolute;
+        margin-top: 170px;
+        bottom: 0;
+        width: 100%;
+        height: calc(100% - 220px);
+    }
+    .manage-container {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        overflow-y: scroll;
+        top: 10px;
+        bottom: 20px;
+        right: 10px;
+        left: 20px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-bottom-left-radius: 0px;
+    }.dark .manage-container {
+        background-color: var(--container-color-dark);
+        border: 1px solid var(--border-color-dark);
+    }
+    .manage .title {
+        padding-right: 10px;
+        font-size: 28px;
+    }
+    .manage div {
+        padding-right: 6px;
+        font-size: 18px;
+        padding-top: 22px;
+    }
+    .manage div input {
+        height: 20px;
+        width: 140px;
+        font-size: 18px;
+        background-color: var(--container-color);
+        border: 0.7px solid black;
+        border-radius: 3px;
+        outline: none;
+    }.dark .manage div input {
+        background-color: var(--container-color-dark);
+        border: 0.7px solid var(--border-color-dark);
+    }
+    .manage div input:hover {
+        background-color: rgb(209, 243, 255);
+        transition: var(--tran-02);
+    }.dark .manage div input:hover {
+        background-color: var(--hover-color-dark);
+        transition: var(--tran-02);
+    }
+    .manage div input:focus {
+        background-color: rgb(209, 243, 255);
+    }.dark .manage div input:focus {
+        background-color: var(--hover-color-dark);
+    }
+    
+    /* ==== charts ==== */
+    .section-two {
+        position: absolute;
+        width: calc(100% - 260px);
+        top: 50px;
+        left: 260px;
+        height: calc(100% - 50px);
+    }
+    .chart-container {
+        position: absolute;
+        top: 20px;
+        bottom: 20px;
+        right: 20px;
+        left: 10px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+}

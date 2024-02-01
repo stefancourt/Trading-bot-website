@@ -1,11 +1,13 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base Homepage</title>
-    <link href="static/base.css" rel="stylesheet">
+    <title>Finance Homepage</title>
+    <link href="{% static 'base.css' %}" rel="stylesheet">
 </head>
 <body class="light">
     <header>
@@ -17,48 +19,46 @@
         <div class="sidebar close">
             <ul class="menu-links">
                 <a class="back">
-                    <img class="exit" src="static/images/cross.png">
+                    <img class="exit" src="{% static 'images/cross.png' %}" alt="">
                 </a>
                 <li class="nav-links">
                     <a href="#">
-                        <img src="static/images/bar-chart.png">
+                        <img src="{% static 'images/bar-chart.png' %}" alt="">
                         <span class="text side-text">My Stats</span>
                     </a>
                 </li>
                 <li class="nav-links">
                     <a href="#">
-                        <img src="static/images/robot.png">
+                        <img src="{% static 'images/robot.png' %}" alt="">
                         <span class="text side-text">AI Trading</span>
                     </a>
                 </li>
                 <li class="nav-links">
                     <a href="#">
-                        <img src="static/images/trading.png">
+                        <img src="{% static 'images/trading.png' %}" alt="">
                         <span class="text side-text">User Trading</span>
                     </a>
                 </li>
                 <li class="nav-links">
                     <a href="#">
-                        <img src="static/images/finance.png">
+                        <img src="{% static 'images/finance.png' %}" alt="">
                         <span class="text side-text">Finance</span>
                     </a>
                 </li>
                 <li class="nav-links">
                     <a href="#">
-                        <img src="static/images/news.png">
+                        <img src="{% static 'images/news.png' %}" alt="">
                         <span class="text side-text">News</span>
                     </a>
                 </li>
                 <div class="dark-mode">
-                    <img src="static/images/dark-mode.png">
+                    <img src="{% static 'images/dark-mode.png' %}" alt="">
                     <span class="text side-text">Mode</span>
                     <button class="mode-button"><div></div></button>
                 </div>
             </ul>
         </div>
     </header>
-    <script src="js/base.js"></script>
+    <script src="{% static 'js/base.js' %}"></script>
 </body>
 </html>
-
-<!-------------------------------------------------------------------------------------->

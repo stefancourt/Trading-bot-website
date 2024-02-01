@@ -17,6 +17,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from main.views import (
+    stats_view,
+)
+from logins.views import (
+    login_view,
+    register_view,
+)
+
+from aitrade.views import aitrade_view
+from finance.views import finance_view
+from news.views import news_view
+from trade.views import trade_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('stats/', stats_view, name='stats'),
+    path('login/', login_view, name='login'),
+    path('register/', register_view, name='register'),
+    path('ai-trade/', aitrade_view, name='ai-trade'),
+    path('finance/', finance_view, name='finance'),
+    path('news/', news_view, name='news'),
+    path('trade/', trade_view, name='trade'),
 ]

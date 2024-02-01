@@ -1,0 +1,53 @@
+{% include 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats Homepage</title>
+    <link href="{% static 'main/stats.css' %}" rel="stylesheet">
+</head>
+<body class="light">
+    <section class="section-one">
+        <div class="pnl">
+            <div class="pnl-container">
+                <span class="text account">£1000</span>
+                <span class="profits">-/+£30</span>
+            </div>
+        </div>
+        <div class="recent-trades">
+            <div class="recent-trades-container">
+            <div class="text trade-divs">Trade 1</div>
+            <div class="text trade-divs">Trade 2</div>
+            <div class="text trade-divs">Trade 3</div>
+            <div class="text trade-divs">Trade 4</div>
+            <div class="text trade-divs">Trade 5</div>
+            <div class="text trade-divs">Trade 6</div>
+            <div class="text trade-divs">Trade 7</div>
+            <div class="text trade-divs">Trade 8</div>
+            <div class="text trade-divs">Trade 9</div>
+            <div class="text trade-divs">Trade 10</div>
+        </div>
+        </div>
+    </section>
+
+    <section class="section-two">
+        <div class="bar-chart">
+            <div class="bar-chart-container">
+                <img src="static/images/candle-stick.jpg" alt="">
+                <div class="ai-options">
+                    <div class="text strategies">Option 1</div>
+                    <div class="text strategies">Option 2</div>
+                    <div class="text strategies">Option 3</div>
+                    <div class="text strategies">Option 4</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</body>
+</html>

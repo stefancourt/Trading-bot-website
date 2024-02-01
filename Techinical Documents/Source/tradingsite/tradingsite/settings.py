@@ -40,7 +40,12 @@ INSTALLED_APPS = [
 
     # Custom apps
     'main.apps.MainConfig',
-    'logins.apps.LoginsConfig'
+    'logins.apps.LoginsConfig',
+    'finance.apps.FinanceConfig',
+    'news.apps.NewsConfig',
+    'trade.apps.TradeConfig',
+    'aitrade.apps.AitradeConfig',
+    'tradingsite'
 ]
 
 MIDDLEWARE = [

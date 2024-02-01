@@ -1,0 +1,42 @@
+{% include 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Homepage</title>
+    <link href="{% static 'finance/finance.css' %}" rel="stylesheet">
+</head>
+<body class="light">
+    <section class="section-one">
+        <div class="overall">
+            <div class="overall-container">
+                <span class="text">Overall amount</span>
+                <div class="img-container">
+                    <img src="static/images/menu.png">
+                </div>
+                <input class = "text" type="text">
+            </div>
+        </div>
+        <div class="manage">
+            <div class="manage-container">
+                <span class="text title">Manage Finance</span>
+                <div><span class="text">Rent: </span><input class ="text" type="text"></div>
+                <div><span class="text">Bills: </span><input class = "text" type="text"></div>
+                <div><span class="text">Food: </span><input class = "text" type="text"></div>
+                <div><span class="text">Invest: </span><input class = "text" type="text"></div>
+                <div><span class="text">Savings: </span><input class = "text" type="text"></div>
+                <div><span class="text">Luxury: </span><input class = "text" type="text"></div>
+            </div>
+        </div>
+    </section>
+    <section class="section-two">
+        <div class="chart-container">
+
+        </div>
+    </section>
+</body>
+</html>

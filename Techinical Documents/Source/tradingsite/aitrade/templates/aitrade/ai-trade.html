@@ -1,0 +1,37 @@
+{% include 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading page</title>
+    <link href="{% static 'main/home.css' %}" rel="stylesheet">
+</head>
+<body class="light">
+    <div class="graph">
+        <div class="graph-container">
+            <div class="ai-options">
+                <div class="text strategies">Option 1</div>
+                <div class="text strategies">Option 2</div>
+                <div class="text strategies">Option 3</div>
+                <div class="text strategies">Option 4</div>
+            </div>
+            <div class="amount">
+
+            </div>
+            <button class="confirm"></button>
+        </div>
+    </div>
+    <div class="returns">
+        <div class="returns-container">
+            <span class="text title">Returns:</span>
+            <span class="text past-trades">Trade 1</span>
+            <span class="text past-trades">Trade 2</span>
+            <span class="text past-trades">Trade 3</span>
+            <span class="text past-trades">Trade 4</span>
+        </div>
+    </div>
+</body>

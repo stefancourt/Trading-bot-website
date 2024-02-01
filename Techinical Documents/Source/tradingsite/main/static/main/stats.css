@@ -1,0 +1,256 @@
+* body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--body-color)
+}
+* body.dark{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--body-color-dark)
+}
+
+:root {
+    --body-color: rgb(238, 237, 237);
+    --navbar-color: rgb(219, 219, 219);
+    --sidebar-color: rgb(214, 214, 214);
+    --container-color: rgb(185, 227, 241);
+    --toggle-color: rgb(67, 212, 105);
+    --text-color: rgb(29, 29, 29);
+    --border-color: rgba(101, 101, 101, 0.711);
+
+    --body-color-dark: rgb(14, 16, 23);
+    --sidebar-color-dark: rgb(28, 28, 39);
+    --navbar-color-dark: rgb(33, 34, 45); 
+    --container-color-dark: rgb(26, 27, 42);
+    --toggle-color-dark: rgb(29, 44, 159);
+    --text-color-dark: rgb(249, 247, 234);
+    --border-color-dark: rgb(104, 125, 144);
+
+    --tran-02: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
+}
+.text {
+    color: var(--text-color);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.dark .text {
+    color: var(--text-color-dark);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/* === For mobile === */
+.pnl {
+    position: absolute;
+    top: 50px;
+    height: 100px;
+    width: 100%;
+}
+.pnl-container {
+    position: absolute;
+    top: 10px;
+    bottom: 5px;
+    left: 10px;
+    right: 10px;
+    background-color: var(--container-color);
+    border-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}.dark .pnl-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.account {
+    position: absolute;
+    padding-top: 4px;
+    font-size: 40px;
+    padding-left: 10px;
+}
+.profits {
+    position: absolute;
+    color: rgb(0, 180, 0);
+    padding-top: 36px;
+    font-size: 34px;
+    right: 0;
+    padding-right: 20px;
+}
+
+.bar-chart {
+    position: absolute;
+    top: 150px;
+    height: 360px;
+    width: 100%;
+}
+.bar-chart-container {
+    position: absolute;
+    top: 5px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    background-color: var(--container-color);
+}.dark .bar-chart-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark)
+}
+.bar-chart img {
+    height: 300px;
+    width: 100%;
+}
+.ai-options {
+    position: absolute;
+    bottom: 0;
+    height: 32px;
+    width: 100%;
+}
+.strategies {
+    float: left;
+    width: 25%;
+    height: 100%;
+    text-align: center;
+}
+
+.recent-trades {
+    position: absolute;
+    top: 510px;
+    width: 100%;
+    bottom: 0px;
+}
+.recent-trades-container {
+    position: absolute;
+    background-color: var(--container-color);
+    top: 5px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border-radius: 15px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    overflow-y: hidden;
+}.dark .recent-trades-container {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.trade-divs {
+    height: 26px;
+    margin-left: 4px;
+    margin-top: 4px;
+}
+
+
+
+
+
+
+
+/* === For tablets and Desktops === */
+@media only screen and (min-width: 640px){
+    /* Different sections of the page */
+    .section-one {
+        position: absolute;
+        height: 100%;
+        width: 300px;
+        left: 0;
+    }
+    .pnl {
+        top: 50px;
+        position: absolute;
+        height: 180px;
+        width: 100%;
+    }
+    .pnl-container {
+        position: absolute;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-left-radius: 0px;
+        left: 20px;
+        top: 20px;
+        bottom: 10px;
+        right: 10px;
+    }
+    .account {
+        position: absolute;
+        font-size: 70px;
+        padding-left: 10px;
+    }
+    .profits {
+        position: absolute;
+        color: rgb(0, 180, 0);
+        font-size: 40px;
+        margin-top: 50px;
+        margin-right: 12px;
+        padding-right: 0px;
+    }
+    
+    /* === Recent Trades === */
+    .recent-trades {
+        position: absolute;
+        height: calc(100% - 230px);
+        top: 230px;
+        width: 100%;
+        bottom: 0;
+    }
+    .recent-trades-container {
+        position: absolute;
+        top: 10px;
+        bottom: 20px;
+        right: 10px;
+        left: 20px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-bottom-left-radius: 0px;
+    
+    }
+    
+    .trade-divs {
+        height: 10%
+    }
+    
+    /* === Charts === */
+    .section-two {
+        position: absolute;
+        left: 300px;
+        width: calc(100% - 300px);
+        height: 100%;
+        right: 0;
+    }
+    
+    .bar-chart {
+        top: 50px;
+        position: absolute;
+        height: calc(100% - 50px);
+        width: 100%;
+    }
+    .bar-chart-container {
+        position: absolute;
+        left: 10px;
+        right: 20px;
+        bottom: 20px;
+        top: 20px;
+        background-color: var(--container-color);
+        border-radius: 15px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    
+    .bar-chart img {
+        height: calc(100% - 70px);
+        width: 100%;
+    }
+    
+    .ai-options {
+        position: absolute;
+        bottom: 0;
+        height: 70px;
+        width: 100%;
+    }
+    .strategies {
+        float: left;
+        width: 25%;
+        height: 100%;
+        text-align: center;
+    }
+}
