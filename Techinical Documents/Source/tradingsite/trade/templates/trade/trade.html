@@ -40,6 +40,19 @@
     </section>
     <section class="section-two">
         <div class="graph-container">
+            {% block content %}
+            
+            <form method="GET" action="{% url 'trade' %}">
+
+                {{ date_form.as_p }}
+                {{ stock_type_form.as_p }}
+
+                <button>Submit</button>
+
+            </form>
+            {{ chart|safe }}
+
+            {% endblock content %}
         </div>
     </section>
 </body>
