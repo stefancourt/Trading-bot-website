@@ -1,17 +1,35 @@
+from calendar import c
 from django.db import models
 
 # Create your models here.
-class Stock(models.Model):
+class AAPLStock(models.Model):
     date = models.DateField()
+    open = models.FloatField()
     close = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+
 
     class Meta:
         ordering = ('date',)
 
+class MSFTStock(models.Model):
+    date = models.DateField()
+    open = models.FloatField()
+    close = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+
+
+    class Meta:
+        ordering = ('date',)
+
+
+
 class StockType(models.Model):
 
-    AAPL = 'AAPL_hist.csv'
-    MSFT = 'MSFT_hist.csv'
+    AAPL = 'Apple'
+    MSFT = 'Microsoft'
 
     STOCK_TYPE_CHOICES = [
         (AAPL, 'Apple (AAPL)'),

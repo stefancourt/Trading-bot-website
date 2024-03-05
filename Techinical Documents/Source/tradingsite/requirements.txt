@@ -1,5 +1,10 @@
-Django==3.2.18
+Django==4.2.6
 yfinance==0.2.36
 pandas==1.16.0
 django-extensions==3.2.3
 plotly==5.18.0
+channels==4.0.0
+daphne==4.1.0
+channels-redis==4.2.0
+
+download the redis server

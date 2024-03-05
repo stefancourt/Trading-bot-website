@@ -11,9 +11,14 @@
     <link href="{% static 'logins/login-register.css' %}" rel="stylesheet">
 </head>
 <body>
+    {% block content %}
+    {% if not request.user.is_authenticated %}
     <div class="background">
         <img class = background-img src="{% static 'logins/images/background.jpg' %}" alt="">
-        <form class="container">
+        {% csrf_token %}
+        <form class="container" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
             <span class="login-register text">Sign Up</span>
             <input class = "text" type="text" placeholder="Enter Email" required>
             <input class = "text" type="password" placeholder="Enter Password" required>

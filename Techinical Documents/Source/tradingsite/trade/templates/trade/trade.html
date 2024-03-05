@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trade Homepage</title>
     <link href="{% static 'trade/trade.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="light">
     <section class="section-one">
@@ -21,6 +22,7 @@
                 </div>
                 <span class="text">Amount: <input type="text"></span>
                 <span class="stoploss text">Stop Loss: <input type="text"></span>
+                <span class="takeprofit text">Take Profit: <input type="text"></span>
                 <button class="confirm text">Confirm</button>
             </div>
         </div>
@@ -41,7 +43,6 @@
     <section class="section-two">
         <div class="graph-container">
             {% block content %}
-            
             <form method="GET" action="{% url 'trade' %}">
 
                 {{ date_form.as_p }}
@@ -50,10 +51,11 @@
                 <button>Submit</button>
 
             </form>
-            {{ chart|safe }}
-
             {% endblock content %}
+            <canvas id="myChart"></canvas>
+            <button id="confirm" class="confirm"></button>
         </div>
     </section>
+    <script src="{% static 'trade/trade.js' %}"></script>
 </body>
 </html>

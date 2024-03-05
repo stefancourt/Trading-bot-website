@@ -97,6 +97,7 @@
     background-color: white;
     border: none;
     border-radius: 8px;
+    cursor: pointer;
 }.dark .graph-container .confirm {
     background-color: 1px solid var(--container-color-dark);
     border: 1px solid var(--border-color-dark);

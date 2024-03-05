@@ -2,8 +2,7 @@ from django import forms
 from trade.models import StockType
 
 class DateForm(forms.Form):
-    start = forms.DateField(widget = forms.DateInput(attrs={'type': 'date'}))
-    end = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    start = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
 class TypeForm(forms.ModelForm):
     class Meta:

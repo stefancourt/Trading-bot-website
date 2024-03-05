@@ -11,6 +11,19 @@ import os
 
 from django.core.asgi import get_asgi_application
 
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+
+from aitrade.routing import ai_ws_urlpatterns
+from trade.routing import trade_ws_urlpatterns
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tradingsite.settings')
 
-application = get_asgi_application()
+application = ProtocolTypeRouter({
+    'http': get_asgi_application(),
+    'websocket': AuthMiddlewareStack(
+        URLRouter(
+            ai_ws_urlpatterns + trade_ws_urlpatterns
+        )
+    )
+})

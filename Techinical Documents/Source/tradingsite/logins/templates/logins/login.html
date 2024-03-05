@@ -11,15 +11,26 @@
     <link href="{% static 'logins/login-register.css' %}" rel="stylesheet">
 </head>
 <body>
+    {% block content %}
+    {% if not request.user.is_authenticated %}
     <div class="background">
         <img class = background-img src="{% static 'logins/images/background.jpg' %}" alt="">
-        <form class="container">
+        {% csrf_token %}
+        <form class="container" METHOD="POST">
             <span class="login-register text">Sign In</span>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="text">Continue</button>
+            <!---<span class="login-register text">Sign In</span>
             <input class = "text" type="text" placeholder="Enter Email" required>
             <input class = "text" type="password" placeholder="Enter Password" required>
             <button class="text">Continue</button>
-            <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="#">Sign Up</a></span>
+            <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="#">Sign Up</a></span>-->
         </form>
     </div>
+    {% else %}
+    <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="#">Sign Up</a></span>
+    {% endif %}
+    {% endblock %}
 </body>
 </html>
