@@ -6,7 +6,7 @@ def register_view(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         user_obj = form.save()
-        return redirect('/login')
+        return redirect('/')
     context = {"form": form}
     return render(request, 'logins/register.html', context)
 
@@ -16,7 +16,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('main/stats')
+            return redirect('/stats')
     else:
         form = AuthenticationForm(request)
     context = {
@@ -27,5 +27,5 @@ def login_view(request):
 def logout_view(request):
     if request.method == "POST":
         logout(request)
-        return redirect("logins/login/")
+        return redirect("/")
     return render(request, 'logins/logout.html', {})

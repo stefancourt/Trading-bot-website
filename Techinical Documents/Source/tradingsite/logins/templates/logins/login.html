@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
 
-    <link href="{% static 'logins/login-register.css' %}" rel="stylesheet">
+    <!--<link href="{% static 'logins/login-register.css' %}" rel="stylesheet">-->
 </head>
 <body>
     {% block content %}
@@ -27,10 +27,12 @@
             <button class="text">Continue</button>
             <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="#">Sign Up</a></span>-->
         </form>
+        <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="/regsiter/">Sign Up</a></span>
     </div>
     {% else %}
-    <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="#">Sign Up</a></span>
+        <span class="bottom-text text">You're already logged in. Would you like to <a class="link text" href="/logout/">Logout</a></span>
     {% endif %}
+
     {% endblock %}
 </body>
 </html>

@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout Page</title>
+
+    <!--<link href="{% static 'logins/login-register.css' %}" rel="stylesheet">-->
+</head>
+<body>
+    {% block content %}
+    {% if request.user.is_authenticated %}
+    <div class="background">
+        <img class = background-img src="{% static 'logins/images/background.jpg' %}" alt="">
+        {% csrf_token %}
+        <form class="container" METHOD="POST">
+            {% csrf_token %}
+            <o>Are you sure you want to logout?</o>
+            <button type='submit' class="text">Logout</button>
+        </form>
+    </div>
+    {% else %}
+        <span class="bottom-text text">You're not logged in. Would you like to <a class="link text" href="/">Login</a></span>
+    {% endif %}
+
+    {% endblock %}
+</body>
+</html>

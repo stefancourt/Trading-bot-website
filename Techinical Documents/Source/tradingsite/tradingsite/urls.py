@@ -23,6 +23,7 @@ from main.views import (
 from logins.views import (
     login_view,
     register_view,
+    logout_view
 )
 
 from finance.views import finance_view
@@ -33,6 +34,7 @@ urlpatterns = [
     path('stats/', stats_view, name='stats'),
     path('', login_view, name='login'),
     path('register/', register_view, name='register'),
+    path('logout/', logout_view, name='logout'),
     path('ai-trade/', include('aitrade.urls')),
     path('finance/', finance_view, name='finance'),
     path('news/', news_view, name='news'),
