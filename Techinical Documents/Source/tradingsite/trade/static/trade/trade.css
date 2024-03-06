@@ -210,6 +210,17 @@
     border-radius: 8px;
     cursor: pointer;
 }
+.graph-container .stop{
+    position: absolute;
+    bottom: 5px;
+    right: 35px;
+    height: 30px;
+    width: 30px;
+    background-color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
 
 

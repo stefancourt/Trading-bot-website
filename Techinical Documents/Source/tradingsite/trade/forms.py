@@ -9,3 +9,8 @@ class TypeForm(forms.ModelForm):
         model = StockType
         fields = {'stock_type'}
         widget=forms.Select(attrs={'class': 'form-control'})
+
+class PlaceTradeForm(forms.Form):
+    take_profit = forms.DecimalField(label='Take Profit')
+    stop_loss = forms.DecimalField(label='Stop Loss')
+    order_type = forms.ChoiceField(choices=[('buy', 'Buy'), ('sell', 'Sell')], widget=forms.RadioSelect, label='Order Type')
