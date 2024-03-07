@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from main.models import UserProfile
 
 def register_view(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         user_obj = form.save()
+        UserProfile.objects.create(user=user_obj)
         return redirect('/')
     context = {"form": form}
     return render(request, 'logins/register.html', context)
