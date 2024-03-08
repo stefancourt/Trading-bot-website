@@ -76,8 +76,17 @@ function createWebSocket() {
                     newGraphStopLine.push(stopLossValue);
                     graphData.data.datasets[2].data = newGraphStopLine;
                 }
+                start = new Date(djangoData.date);
+                start.setDate(start.getDate() + 1);
+
+                // Format the date back to "YYYY-MM-DD" format
+                var year = start.getFullYear();
+                var month = (start.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+                var day = start.getDate().toString().padStart(2, '0');
+
+                start = year + '-' + month + '-' + day;
                 if (buy && djangoData.open > takeProfitValue) {
-                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade}));
+                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start}));
                     console.log(takeProfitValue)
                     console.log(userId)
                     console.log(openTrade)
@@ -89,7 +98,7 @@ function createWebSocket() {
                     userIdFlag = false;
                 }
                 else if (buy && djangoData.open < stopLossValue) {
-                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade}));
+                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start}));
                     console.log(stopLossValue)
                     console.log(userId)
                     console.log(openTrade)
@@ -100,8 +109,8 @@ function createWebSocket() {
                     buy = false;
                     userIdFlag = false;
                 }
-                if (sell && djangoData.open < takeProfitValue) {
-                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade}));
+                else if (sell && djangoData.open < takeProfitValue) {
+                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType,'start': start}));
                     console.log(takeProfitValue)
                     console.log(userId)
                     console.log(openTrade)
@@ -113,7 +122,7 @@ function createWebSocket() {
                     uaserIdFlag = false;
                 }
                 else if (sell && djangoData.open > stopLossValue) {
-                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade}));
+                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start}));
                     console.log(stopLossValue)
                     console.log(userId)
                     console.log(openTrade)
@@ -124,28 +133,16 @@ function createWebSocket() {
                     sell = false;
                     userIdFlag = false;
                 }
-                myChart.update('none');
-
-                start = new Date(djangoData.date);
-
-                // Add one day
-                start.setDate(start.getDate() + 1);
-
-                // Format the date back to "YYYY-MM-DD" format
-                var year = start.getFullYear();
-                var month = (start.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
-                var day = start.getDate().toString().padStart(2, '0');
-
-                start = year + '-' + month + '-' + day;
-
-                console.log(start);
-                var dataToSend = {
+                else {
+                    console.log(start);
+                    var dataToSend = {
                     start: start,
                     stockType: stockType
                 };
-
                 console.log(dataToSend);
                 socket.send(JSON.stringify(dataToSend));
+                }
+                myChart.update('none');
             }
         }
     }
