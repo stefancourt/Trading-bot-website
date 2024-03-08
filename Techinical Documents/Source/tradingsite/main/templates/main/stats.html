@@ -9,27 +9,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stats Homepage</title>
     <link href="{% static 'main/stats.css' %}" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body class="light">
     <section class="section-one">
         <div class="pnl">
             <div class="pnl-container">
                 <span class="text account">{{ money_in_account }}</span>
-                <span class="profits">-/+£30</span>
+                <span class="profits">{{ last_trade }}</span>
             </div>
         </div>
         <div class="recent-trades">
             <div class="recent-trades-container">
-            <div class="text trade-divs">Trade 1</div>
-            <div class="text trade-divs">Trade 2</div>
-            <div class="text trade-divs">Trade 3</div>
-            <div class="text trade-divs">Trade 4</div>
-            <div class="text trade-divs">Trade 5</div>
-            <div class="text trade-divs">Trade 6</div>
-            <div class="text trade-divs">Trade 7</div>
-            <div class="text trade-divs">Trade 8</div>
-            <div class="text trade-divs">Trade 9</div>
-            <div class="text trade-divs">Trade 10</div>
+            <div class="text trade-divs">Trade 1: {{ trade_1 }}</div>
+            <div class="text trade-divs">Trade 2: {{ trade_2 }}</div>
+            <div class="text trade-divs">Trade 3: {{ trade_3 }}</div>
+            <div class="text trade-divs">Trade 4: {{ trade_4 }}</div>
+            <div class="text trade-divs">Trade 5: {{ trade_5 }}</div>
+            <div class="text trade-divs">Trade 6: {{ trade_6 }}</div>
+            <div class="text trade-divs">Trade 7: {{ trade_7 }}</div>
+            <div class="text trade-divs">Trade 8: {{ trade_8 }}</div>
+            <div class="text trade-divs">Trade 9: {{ trade_9 }}</div>
+            <div class="text trade-divs">Trade 10: {{ trade_10 }}</div>
         </div>
         </div>
     </section>
@@ -44,6 +45,11 @@
                     <div class="text strategies">Option 3</div>
                     <div class="text strategies">Option 4</div>
                 </div>
+                {% block content %}
+
+                {{ chart|safe }}
+
+                {% endblock content %}
             </div>
         </div>
     </section>
