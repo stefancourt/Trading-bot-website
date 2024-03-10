@@ -23,7 +23,9 @@ def stats_view(request):
             title="Previous Trades Analysis",
             xaxis_title="Trades",
             yaxis_title="Profit/Loss",
-            showlegend=False  # If you don't want a legend
+            showlegend=False,  # If you don't want a legend
+            plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
+            paper_bgcolor='rgba(0,0,0,0)'  # Transparent paper background
         )
 
         # Convert the Plotly figure to JSON for passing to the template
@@ -32,7 +34,7 @@ def stats_view(request):
 
         context = {
             "money_in_account": "{:.2f}".format(money_in_account),
-            "last_trade": "{:.2f}".format(reversed_previous_trades[0].pnl),
+            "last_trade": "{:.2f}".format(reversed_previous_trades[0].total_pnl),
             "trade_1": "{:.2f}".format(reversed_previous_trades[0].pnl),
             "trade_2": "{:.2f}".format(reversed_previous_trades[1].pnl),
             "trade_3": "{:.2f}".format(reversed_previous_trades[2].pnl),

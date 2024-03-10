@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from trade.models import AAPLStock, MSFTStock
 from trade.forms import DateForm, TypeForm, PlaceTradeForm
-from main.models import UserProfile, Trades
+from main.models import UserProfile
 from django.http import JsonResponse
 
 def trade_view(request):

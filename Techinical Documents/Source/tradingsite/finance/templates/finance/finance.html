@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finance Homepage</title>
     <link href="{% static 'finance/finance.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 <body class="light">
     <section class="section-one">
@@ -24,19 +26,26 @@
         <div class="manage">
             <div class="manage-container">
                 <span class="text title">Manage Finance</span>
-                <div><span class="text">Rent: </span><input class ="text" type="text"></div>
+                <form action="POST" id="post-form">
+                    {% csrf_token %}
+                    {{ manage_form.as_p }}
+                    <button>Submit</button>
+
+                </form>
+                <!--<div><span class="text">Rent: </span><input class ="text" type="text"></div>
                 <div><span class="text">Bills: </span><input class = "text" type="text"></div>
                 <div><span class="text">Food: </span><input class = "text" type="text"></div>
                 <div><span class="text">Invest: </span><input class = "text" type="text"></div>
                 <div><span class="text">Savings: </span><input class = "text" type="text"></div>
-                <div><span class="text">Luxury: </span><input class = "text" type="text"></div>
+                <div><span class="text">Luxury: </span><input class = "text" type="text"></div>-->
             </div>
         </div>
     </section>
     <section class="section-two">
         <div class="chart-container">
-
+            <canvas id="Chart" width="400" height="400"></canvas>
         </div>
     </section>
+    <script src="{% static 'finance/finance.js' %}"></script>
 </body>
 </html>
