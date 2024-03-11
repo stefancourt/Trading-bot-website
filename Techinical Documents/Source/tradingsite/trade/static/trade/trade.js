@@ -29,6 +29,7 @@ var userIdFlag = false;
 var openTrade;
 var start;
 var stockType;
+var currentOpen;
 
 function createWebSocket() {
     if (socket === null || socket.readyState === WebSocket.CLOSED) {
@@ -51,6 +52,8 @@ function createWebSocket() {
             if (!isPaused) { // Check if updates are paused
                 var djangoData = JSON.parse(e.data);
                 console.log(djangoData);
+
+                currentOpen = djangoData.open
 
                 var newGraphDataValue = graphData.data.datasets[0].data;
                 var newGraphDataDate = graphData.data.labels;
@@ -168,7 +171,16 @@ document.getElementById('stop').addEventListener('click', function () {
 });
 
 // AJAX
-$(document).ready(
+$(document).ready(function() {
+    $('.close').click(function() {
+        $('#error-modal').hide();
+    });
+
+    $(window).click(function(event) {
+        if (event.target.id == 'error-modal') {
+            $('#error-modal').hide();
+        }
+    });
     $('#post-form').submit(function(e){
         e.preventDefault();
         var serializedData = $(this).serialize();
@@ -185,10 +197,28 @@ $(document).ready(
             takeProfitValue = parseFloat(data["take_profit"])
             stopLossValue = parseFloat(data["stop_loss"])
             if (data["order_type"] === 'buy' && takeProfitValue <= stopLossValue) {
-                $("#result").text('no buy');
+                $('#error-message').text('The value of your Stop Loss cannot be greater than your Take Profit on a buy order');
+                $('#error-modal').show();
             }
-            else if (data["order_type"] === 'sell' && takeProfitValue >= stopLossValue) {
-                $("#result").text('no sell');
+            else if (data["order_type"] === 'buy' && takeProfitValue <= currentOpen) {
+                $('#error-message').text('You cannot place a buy order where the Take Proft value is below the current price of the stock');
+                $('#error-modal').show();
+            }
+            else if (data["order_type"] === 'buy' && stopLossValue >= currentOpen) {
+                $('#error-message').text('You cannot place a buy order where the Stop Loss value is above the current price of the stock');
+                $('#error-modal').show();
+            }
+            else if (data["order_type"] === 'buy' && takeProfitValue <= stopLossValue) {
+                $('#error-message').text('The value of your Take Profit cannot be greater than your Stop Loss on a buy order');
+                $('#error-modal').show();
+            }
+            else if (data["order_type"] === 'sell' && takeProfitValue >= currentOpen) {
+                $('#error-message').text('You cannot place a sell order where the Take Profit value is above the current price of the stock');
+                $('#error-modal').show();
+            }
+            else if (data["order_type"] === 'sell' && stopLossValue <= currentOpen) {
+                $('#error-message').text('You cannot place a sell order where the Stop Loss value is below the current price of the stock');
+                $('#error-modal').show();
             }
             else if (data["order_type"] === 'buy' && takeProfitValue >= stopLossValue) {
                 buy = true;
@@ -249,4 +279,4 @@ $(document).ready(
             }
         });
     })
-);
+});

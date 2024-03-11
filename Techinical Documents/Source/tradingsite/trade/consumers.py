@@ -52,9 +52,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
             user_profile.money_in_account -= amount_lost
             await sync_to_async(user_profile.save)()
             trade = Trades(user_id=user_id, stock_name=stock_type, pnl=-amount_lost)
-            last_trade = await sync_to_async(Trades.objects.last)()
-            last_trade.total_pnl -= amount_lost
-            await sync_to_async(last_trade.save)()
+            await sync_to_async(trade.save)()
             all_trades = await sync_to_async(list) (
                 Trades.objects.filter(user_id=user_id)
             )

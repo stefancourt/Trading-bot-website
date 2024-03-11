@@ -10,8 +10,17 @@ var colors = [
 var allLabels = ['Rent', 'Bills', 'Food', 'Invest', 'Savings', 'Luxury']
 
 
-// AJAX
-$(document).ready(
+$(document).ready(function() {
+    $('.close').click(function() {
+        $('#error-modal').hide();
+    });
+
+    $(window).click(function(event) {
+        if (event.target.id == 'error-modal') {
+            $('#error-modal').hide();
+        }
+    });
+
     $('#post-form').submit(function(e){
         e.preventDefault();
         var serializedData = $(this).serialize();
@@ -126,8 +135,11 @@ $(document).ready(
                     };
                 }
                 window.myChart = new Chart(ctx, graphData);
-            } else { return null }
+            } else {
+                $('#error-message').text('Combined total of spendatures must not be greater then the total balance. Please enter £'+ (maximum - data.total).toFixed(2) +' less');
+                $('#error-modal').show();
+            }
         }
         });
     })
-);
+});
