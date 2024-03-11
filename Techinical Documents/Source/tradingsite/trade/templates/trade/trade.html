@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 <body class="light">
+    <div class="money text">£{{ money_in_account }}</div>
     <section class="section-one">
         <div class="place-order">
             <div class="place-order-container">
@@ -25,14 +26,6 @@
                     <button class="confirm text">Confirm</button>
 
                 </form>
-                <!-- <div class="buttons-buy-sell">
-                    <button class="buy text">Buy</button>
-                    <button class="sell text">Sell</button>
-                </div>
-                <span class="text">Amount: <input type="text"></span>
-                <span class="stoploss text">Stop Loss: <input type="text"></span>
-                <span class="takeprofit text">Take Profit: <input type="text"></span>
-                <button class="confirm text">Confirm</button> -->
             </div>
         </div>
         <div class="stock-prices">
@@ -53,17 +46,17 @@
         <div class="graph-container">
             <form method="GET" action="{% url 'trade' %}">
 
-                {{ date_form.as_p }}
-                {{ stock_type_form.as_p }}
+                <div class="date-form">{{ date_form.as_p }}</div>
+                <div class="type-form">{{ stock_type_form.as_p }}</div>
 
-                <button>Submit</button>
+                <button class="submit text">Submit</button>
 
             </form>
             {% endblock content %}
             <canvas id="myChart"></canvas>
             <div id="result" >{{ result }}</div>
-            <button id="confirm" class="confirm"></button>
-            <button id="stop" class="stop"></button>
+            <button id="confirm" class="confirm"><img src="{% static 'images/play.png' %}""></button>
+            <button id="stop" class="stop"><img src="{% static 'images/pause.png' %}"></button>
         </div>
     </section>
     <script src="{% static 'trade/trade.js' %}"></script>

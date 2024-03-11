@@ -32,6 +32,7 @@ def finance_view(request):
 
         else:
             context={
+                "user_total": "{:.2f}".format(user_total),
                 'manage_form': ManageForm(),
             }
             return render(request, "finance/finance.html", context=context)

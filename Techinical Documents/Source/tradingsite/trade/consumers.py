@@ -1,12 +1,10 @@
 import json
 from asyncio import sleep
-from django.db.models import Sum
 from trade.models import AAPLStock, MSFTStock
 from main.models import UserProfile, Trades
 from asgiref.sync import sync_to_async
 from django.utils.timezone import make_aware
 import datetime
-import threading
 
 from channels.generic.websocket import AsyncWebsocketConsumer, StopConsumer
 
@@ -14,8 +12,6 @@ from channels.generic.websocket import AsyncWebsocketConsumer, StopConsumer
 class GraphConsumer(AsyncWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.is_paused = False  # Initialize a boolean variable to track paused state
-        self.end = False
 
     async def connect(self):
         await self.accept()
@@ -46,13 +42,6 @@ class GraphConsumer(AsyncWebsocketConsumer):
             # To accumulate total_pnl get last two entries add and save
             reversed_all_trades[0].total_pnl = reversed_all_trades[1].total_pnl + amount_gained
             await sync_to_async(reversed_all_trades[0].save)()
-
-
-
-
-
-
-
 
         if data.get('stop_loss'):
             user_id = data.get('user_id')
@@ -101,19 +90,23 @@ class GraphConsumer(AsyncWebsocketConsumer):
             aapl_stocks = await sync_to_async(list)(
                 AAPLStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )
-            for stock in aapl_stocks:
-                print(stock)
-                if not self.is_paused:  # Check if updates are paused
-                    await self.send(json.dumps({"date": stock.date.isoformat(), "open": stock.open}))  
+            if aapl_stocks[0].date.isoformat() == start:
+                await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open}))  
                 await sleep(1)
+            else:
+                n = 1
+                while n < len(aapl_stocks):
+                    if aapl_stocks[0].date.isoformat() == start:
+                        await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open}))  
+                        await sleep(1)
+                        break
+                    else:
+                        n += 1
+                        start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
+                        start_date += datetime.timedelta(days=1)
+                        start = start_date.strftime("%Y-%m-%d")
 
     def disconnect(self, event):
         print('websocket disconnected...', event)
         self.end = True
         raise StopConsumer()
-
-    async def pause_graph(self):
-        self.is_paused = True
-
-    async def resume_graph(self):
-        self.is_paused = False

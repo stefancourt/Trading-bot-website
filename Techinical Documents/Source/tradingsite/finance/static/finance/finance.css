@@ -45,6 +45,13 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 /* ==== Sectioning off the main body ==== */
+.money {
+    font-size: 30px;
+    top: 8px;
+    right: 10px;
+    position: absolute;
+    z-index: 10;
+}
 .overall {
     position: absolute;
     bottom: 0px;
@@ -68,7 +75,7 @@
 .overall span {
     position: absolute;
     font-size: 28px;
-    margin-top: 30px;
+    margin-top: 26px;
     margin-left: 30px;
 }
 .overall img{
@@ -90,36 +97,20 @@
     background-color: var(--container-color-dark);
     border: 1px solid var(--border-color-dark);
 }
-.overall input{
+.overall .total{
     position: absolute;
-    margin-top: 85px;
-    margin-left: 60px;
+    margin-top: 72px;
     background-color: var(--container-color);
-    border: 0.7px solid black;
-    border-radius: 3px;
     height: 25px;
-    font-size: 20px;
-    width: 155px;
+    font-size: 32px;
     outline: none;
-    text-align: right;
-}.dark .overall input {
+    margin-left: 20px;
+}.dark .overall .total{
     background-color: var(--container-color-dark);
-    border: 0.7px solid var(--border-color-dark);
 }
-
-.overall input:hover{
-    background-color: rgb(209, 243, 255);
-    transition: var(--tran-02);
-}.dark .overall input:hover{
-    background-color: var(--hover-color-dark);
-    transition: var(--tran-02);
+.dark .form-control {
+    color: var(--text-color-dark);
 }
-.overall input:focus{
-    background-color: rgb(209, 243, 255);
-}.dark .overall input:focus{
-    background-color: var(--hover-color-dark);
-}
-
 
 
 
@@ -150,10 +141,6 @@
     width: 0px;
     overflow: hidden;
 }
-
-
-
-
 
 
 
@@ -247,7 +234,7 @@
         position: absolute;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items:flex-end;
         overflow-y: scroll;
         top: 10px;
         bottom: 20px;
@@ -293,6 +280,53 @@
     }.dark .manage div input:focus {
         background-color: var(--hover-color-dark);
     }
+    .dark form label{
+        color: var(--text-color-dark);
+    }
+    .form-select {
+        width: 140px;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: var(--text-color);
+        background-color: var(--container-color);
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+    }.dark .form-select {
+        background-color: var(--container-color-dark);
+        color: var(--text-color-dark);
+        border: 1px solid var(--border-color-dark);
+    }
+    .manage-container button {
+        position: absolute;
+        border: 0px;
+        top: 0px;
+        right: 0px;
+        background-color: rgb(209, 243, 255);
+        height: 26px;
+        width: 34px;
+        border-radius: 10px;
+        border-top-right-radius: 15px;
+    }.dark .manage-container button {
+        background-color: var(--container-color-dark);
+        border: 1px solid var(--border-color-dark);
+    }
+    .manage-container button img {
+        display: block;
+        position: absolute;
+        top: 2px;
+        height: 22px;
+        width: 22px;
+        left: 1px;
+    }
+    .manage-container button:hover {
+        position: absolute;
+        height: 26px;
+        width: 26px;
+        transition: var(--tran-02);
+    }
+    
     
     /* ==== charts ==== */
     .section-two {

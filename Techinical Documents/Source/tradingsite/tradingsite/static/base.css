@@ -91,45 +91,6 @@
     margin-left: 30%;
 }
 
-.search {
-    margin-right: 20px;
-    height: 32px;
-    width: 32px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background-image: url("images/search.png");
-    background-size: 20px;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-color: var(--navbar-color);
-    cursor: pointer;
-    text-align: right;
-}.dark .search {
-    border: 1px solid var(--border-color-dark);
-    background-color: var(--navbar-color-dark);
-}
-.search:hover {
-    background-color: var(--body-color);
-    transition: var(--tran-02);
-}.dark .search:hover {
-    background-color: var(--border-color-dark);
-    transition: var(--tran-02);
-}
-
-.search:focus {
-    margin-right: 20px;
-    height: 34px;
-    width: 180px;
-    outline: none;
-    background-color: var(--body-color);
-    text-align: right;
-    font-size: 16px;
-    transition: var(--tran-03);
-    background-image: unset;
-    box-shadow: 0 0 0 5000px rgba(0,0,0,.2)
-}.dark .search:focus {
-    background-color: var(--body-color-dark);
-}
 
 /* === Sidebar === */
 .exit {

@@ -44,7 +44,13 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 /* ==== Sectioning off the main body ==== */
-
+.money {
+    font-size: 30px;
+    top: 8px;
+    right: 10px;
+    position: absolute;
+    z-index: 10;
+}
 .graph {
     position: absolute;
     top: 50px;

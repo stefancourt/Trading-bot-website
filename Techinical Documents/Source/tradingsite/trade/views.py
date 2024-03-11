@@ -7,6 +7,7 @@ from django.http import JsonResponse
 def trade_view(request):
     if request.user.is_authenticated:
         user_profile = UserProfile.objects.get(user=request.user)
+        user_total = user_profile.money_in_account
         user_id = user_profile.user_id
         apple = AAPLStock.objects.all().order_by('-date')
         microsoft = MSFTStock.objects.all().order_by('-date')
@@ -26,6 +27,7 @@ def trade_view(request):
 
         else:
             context={
+                'money_in_account': "{:.2f}".format(user_total),
                 'place_trade_form': PlaceTradeForm(),
                 'date_form': DateForm(),
                 'stock_type_form': TypeForm(),

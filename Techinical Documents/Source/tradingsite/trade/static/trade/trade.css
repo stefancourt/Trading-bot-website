@@ -44,6 +44,21 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 /* ==== Sectioning off the main body ==== */
+label {
+    color: var(--text-color);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.dark label {
+    color: var(--text-color-dark);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.money {
+    font-size: 30px;
+    top: 8px;
+    right: 10px;
+    position: absolute;
+    z-index: 10;
+}
 .stock-prices {
     position: absolute;
     top: 50px;
@@ -158,8 +173,9 @@
 }
 .confirm {
     display: block;
-    margin-top: 10px;
-    margin-left: 160px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
     cursor: pointer;
     background-color: var(--container-color);
     border-radius: 3px;
@@ -167,6 +183,7 @@
 }.dark .confirm {
     background-color: var(--container-color-dark);
     border: 0.7px solid var(--border-color-dark);
+    transition: var(--tran-02);
 }
 .confirm:hover {
     background-color: rgb(209, 243, 255);
@@ -175,6 +192,98 @@
 }.dark .confirm:hover {
     background-color: rgb(39, 39, 61);
     border: 0.7px solid rgb(39, 39, 61);
+    transition: var(--tran-02);
+}
+.date-form {
+    padding-left: 5px;
+}
+.form-date {
+    color: var(--text-color);
+    background-color: var(--container-color);
+    border: 1px solid var(--border-color);
+}.dark .form-date {
+    color: var(--text-color-dark);
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.type-form {
+    position: absolute;
+    left: 140px;
+    top: 0px;
+}
+.form-type {
+    width: 120px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: var(--container-color);
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}.dark .form-type {
+    background-color: var(--container-color-dark);
+    color: var(--text-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.submit {
+    position: absolute;
+    display: block;
+    top: 19px;
+    left: 360px;
+    cursor: pointer;
+    background-color: var(--container-color);
+    border-radius: 3px;
+    border: 0.7px solid black;
+}.dark .submit {
+    background-color: var(--container-color-dark);
+    border: 0.7px solid var(--border-color-dark);
+}
+.submit:hover {
+    background-color: rgb(209, 243, 255);
+    transition: var(--tran-02);
+    border: 0.7px solid rgb(209, 243, 255);
+}.dark .submit:hover {
+    background-color: rgb(39, 39, 61);
+    border: 0.7px solid rgb(39, 39, 61);
+}
+
+.radio-input {
+    display: flex;
+}
+
+.radio-input input[type="radio"] {
+    position: absolute;
+    display: block;
+    height: 14px;
+    margin-left: -30px;
+    
+}
+.radio-input label {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 12px;
+    margin-left: 14px;
+}.dark .radio-input label {
+    border: 1px solid var(--border-color-dark);
+    transition: var(--tran-02);
+}
+.radio-input label:hover {
+    background-color: rgb(209, 243, 255);
+    transition: var(--tran-02);
+}.dark .radio-input label:hover {
+    background-color: rgb(39, 39, 61);
+    border: 1px solid rgb(39, 39, 61);
+    transition: var(--tran-02);
+}
+
+.form-control {
+    color: var(--text-color);
+}.dark .form-control {
+    color: var(--text-color-dark);
 }
 
 
@@ -201,25 +310,44 @@
 }
 .graph-container .confirm {
     position: absolute;
-    bottom: 5px;
+    top: -5px;
     right: 5px;
     height: 30px;
     width: 30px;
-    background-color: white;
+    background-color: rgb(209, 243, 255);
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}.dark .graph-container .confirm {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
 }
-.graph-container .stop{
+.graph-container .stop {
     position: absolute;
-    bottom: 5px;
-    right: 35px;
+    top: 5px;
+    right: 40px;
     height: 30px;
     width: 30px;
-    background-color: white;
+    background-color: rgb(209, 243, 255);
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}.dark .graph-container .stop {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.stop img {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    margin-right: 6px;
+    height: 28px;
+}
+.confirm img {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    height: 28px;
 }
 
 

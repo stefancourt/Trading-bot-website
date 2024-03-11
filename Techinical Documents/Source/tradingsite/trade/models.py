@@ -1,4 +1,3 @@
-from calendar import c
 from django.db import models
 
 # Create your models here.

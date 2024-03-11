@@ -44,6 +44,13 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 /* === For mobile === */
+.money {
+    font-size: 30px;
+    top: 8px;
+    right: 10px;
+    position: absolute;
+    z-index: 10;
+}
 .pnl {
     position: absolute;
     top: 50px;
@@ -129,7 +136,7 @@
     border-radius: 15px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
-    overflow-y: hidden;
+    overflow-y: scroll;
 }.dark .recent-trades-container {
     background-color: var(--container-color-dark);
     border: 1px solid var(--border-color-dark);
@@ -140,7 +147,10 @@
     margin-top: 4px;
 }
 
-
+.chart {
+    background-color: red;
+    height: 100%;
+}
 
 
 
@@ -202,11 +212,7 @@
         background-color: var(--container-color);
         border-radius: 15px;
         border-bottom-left-radius: 0px;
-    
-    }
-    
-    .trade-divs {
-        height: 10%
+        overflow-y: scroll;
     }
     
     /* === Charts === */
@@ -235,13 +241,7 @@
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
     }
-    
-    .bar-chart img {
-        height: calc(100% - 70px);
-        width: 100%;
-    }
-    
-    .ai-options {
+    /*.ai-options {
         position: absolute;
         bottom: 0;
         height: 70px;
@@ -252,5 +252,5 @@
         width: 25%;
         height: 100%;
         text-align: center;
-    }
+    }*/
 }

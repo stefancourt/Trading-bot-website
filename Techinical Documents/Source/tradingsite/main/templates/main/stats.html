@@ -12,6 +12,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body class="light">
+    <div class="money text">£{{ money_in_account }}</div>
     <section class="section-one">
         <div class="pnl">
             <div class="pnl-container">
@@ -38,16 +39,15 @@
     <section class="section-two">
         <div class="bar-chart">
             <div class="bar-chart-container">
-                <img src="static/images/candle-stick.jpg" alt="">
-                <div class="ai-options">
+                <!--<div class="ai-options">
                     <div class="text strategies">Option 1</div>
                     <div class="text strategies">Option 2</div>
                     <div class="text strategies">Option 3</div>
                     <div class="text strategies">Option 4</div>
-                </div>
+                </div>-->
                 {% block content %}
 
-                {{ chart|safe }}
+                <div class="chart">{{ chart|safe }}</div>
 
                 {% endblock content %}
             </div>

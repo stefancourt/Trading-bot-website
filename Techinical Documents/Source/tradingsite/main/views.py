@@ -23,9 +23,9 @@ def stats_view(request):
             title="Previous Trades Analysis",
             xaxis_title="Trades",
             yaxis_title="Profit/Loss",
-            showlegend=False,  # If you don't want a legend
-            plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
-            paper_bgcolor='rgba(0,0,0,0)'  # Transparent paper background
+            showlegend=False,
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
         )
 
         # Convert the Plotly figure to JSON for passing to the template

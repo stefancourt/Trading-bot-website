@@ -1,5 +1,3 @@
-const ctx = document.getElementById('Chart');
-
 var colors = [
     'rgba(255, 99, 132, 0.8)',
     'rgba(54, 162, 235, 0.8)',
@@ -34,6 +32,10 @@ $(document).ready(
             maximum = data.rent+data.bills+data.food+data.invest+data.savings+data.luxury
             
             if (data.total >= maximum) {
+                const ctx = document.getElementById('Chart');
+                if (window.myChart instanceof Chart) {
+                    window.myChart.destroy();
+                }
                 if (data.choices === "Pie") {
                     const ctx = document.getElementById('Chart');
                     var graphData = {
@@ -50,7 +52,6 @@ $(document).ready(
                             maintainAspectRatio: false
                         }
                     };
-                    var myChart = new Chart(ctx, graphData);
                 } else if (data.choices === "Bar") {
                     const ctx = document.getElementById('Chart');
                     var graphData = {
@@ -75,7 +76,6 @@ $(document).ready(
                             }
                         }
                     };
-                    var myChart = new Chart(ctx, graphData);
                 } else if (data.choices === "Polar") {
                     const ctx = document.getElementById('Chart');
                     var graphData = {
@@ -98,7 +98,6 @@ $(document).ready(
                             }
                         }
                     };
-                    var myChart = new Chart(ctx, graphData);
                 } else if (data.choices === "Radar") {
                     const ctx = document.getElementById('Chart');
                     var graphData = {
@@ -119,14 +118,14 @@ $(document).ready(
                             scales: {
                                 r: {
                                     min: 0,
-                                    max: 100, // You can adjust the maximum value as needed
+                                    max: data.total, // You can adjust the maximum value as needed
                                     stepSize: 20 // You can adjust the step size as needed
                                 }
                             }
                         }
                     };
-                    var myChart = new Chart(ctx, graphData);
                 }
+                window.myChart = new Chart(ctx, graphData);
             } else { return null }
         }
         });

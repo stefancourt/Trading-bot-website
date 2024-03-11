@@ -11,24 +11,36 @@
     <link href="{% static 'news/news.css' %}" rel="stylesheet">
 </head>
 <body class="light">
+    <div class="money text">£{{ money_in_account }}</div>
     <section class="section-one">
         <div class="news-container">
-            <div class="news text">News 1</div>
-            <div class="news text">News 2</div>
-            <div class="news text">News 3</div>
-            <div class="news text">News 4</div>
-            <div class="news text">News 5</div>
-            <div class="news text">News 6</div>
-            <div class="news text">News 7</div>
-            <div class="news text">News 8</div>
-            <div class="news text">News 9</div>
-            <div class="news text">News 10</div>
+            <form method="POST" id="post-form">
+                {% csrf_token %}
+                <div class="type-form">{{ stock_type_form.as_p }}</div>
+                <br>
+                <button class="submit text">Confirm</button>
+                <br>
+            </form>
+            <br>
+
+            <span class="news text">Relevance Score: {{ score_1 }}<br>{{ summary_1 }}</span>
+            <div></div>
+            <span class="news text"><br>Relevance Score: {{ score_2 }}<br>{{ summary_2 }}</span>
+            <div></div>
+            <span class="news text"><br>Relevance Score: {{ score_3 }}<br>{{ summary_3 }}</span>
+            <div></div>
+            <span class="news text"><br>Relevance Score: {{ score_4 }}<br>{{ summary_4 }}</span>
+            <div></div>
+            <span class="news text"><br>Relevance Score: {{ score_5 }}<br>{{ summary_5 }}</span>
+            <div></div>
+            <span class="news text"><br>Relevance Score: {{ score_6 }}<br>{{ summary_6 }}</span>
+            <div></div>
         </div>
     </section>
     <section class="section-two">
         <div class="stock-prices-container">
-            <div class="prices text">Prices 1</div>
-            <div class="prices text">Prices 2</div>
+            <div class="prices text">Apple: {{ apple }} {{ apple_change }}</div>
+            <div class="prices text">Mirosoft: {{ microsoft }} {{ microsoft_change }}</div>
             <div class="prices text">Prices 3</div>
             <div class="prices text">Prices 4</div>
             <div class="prices text">Prices 5</div>

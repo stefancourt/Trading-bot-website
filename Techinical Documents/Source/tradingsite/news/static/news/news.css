@@ -45,6 +45,21 @@
 }
 /* ==== For Mobiles ==== */
 /* ==== Sectioning off the main body ==== */
+.money {
+    font-size: 30px;
+    top: 8px;
+    right: 10px;
+    position: absolute;
+    z-index: 10;
+}
+label {
+    color: var(--text-color);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.dark label{
+    color: var(--text-color-dark);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 .section-one {
     position: absolute;
     top: 80px;
@@ -70,6 +85,47 @@
     margin-top: 4px;
     margin-left: 4px;
 }
+.type-form {
+    position: absolute;
+    top: 0px;
+}
+.form-type {
+    width: 120px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: var(--container-color);
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}.dark .form-type {
+    background-color: var(--container-color-dark);
+    color: var(--text-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.submit {
+    position: absolute;
+    display: block;
+    top: 19px;
+    left: 230px;
+    cursor: pointer;
+    background-color: var(--container-color);
+    border-radius: 3px;
+    border: 0.7px solid black;
+}.dark .submit {
+    background-color: var(--container-color-dark);
+    border: 0.7px solid var(--border-color-dark);
+}
+.submit:hover {
+    background-color: rgb(209, 243, 255);
+    transition: var(--tran-02);
+    border: 0.7px solid rgb(209, 243, 255);
+}.dark .submit:hover {
+    background-color: rgb(39, 39, 61);
+    border: 0.7px solid rgb(39, 39, 61);
+}
+
 /* ==== Stock prices ==== */
 .section-two {
     position: absolute;
@@ -111,14 +167,11 @@
         left: 20px;
         right: 10px;
         bottom: 20px;
+        padding: 6px;
         background-color: var(--container-color);
         border-radius: 15px;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
-    }
-    
-    .news {
-        height: 10%;
     }
     
     /* ==== Stock prices ==== */
