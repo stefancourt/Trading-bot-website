@@ -47,9 +47,31 @@
 .money {
     font-size: 30px;
     top: 8px;
-    right: 10px;
+    right: 60px;
     position: absolute;
     z-index: 10;
+}
+button.logout {
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    height: 36px;
+    width: 50px;
+    z-index: 11;
+    background-color: var(--navbar-color);
+    cursor: pointer;
+}.dark button.logout {
+    background-color: var(--navbar-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+button.logout:hover {
+    background-color:rgb(207, 207, 207);
+    transition: var(--tran-02);
+}.dark button.logout:hover {
+    background-color: rgb(39, 39, 61);
+    transition: var(--tran-02);
 }
 .pnl {
     position: absolute;

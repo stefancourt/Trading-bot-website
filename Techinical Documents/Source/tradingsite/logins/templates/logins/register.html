@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regsiter Page</title>
 
-    <!--<link href="{% static 'logins/login-register.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'logins/login-register.css' %}" rel="stylesheet">
 </head>
 <body>
     {% block content %}
@@ -17,14 +17,10 @@
         <img class = background-img src="{% static 'logins/images/background.jpg' %}" alt="">
         {% csrf_token %}
         <form class="container" method="POST">
+            <span class="login-register text">Sign Up</span>
             {% csrf_token %}
             {{ form.as_p }}
-            <!--<span class="login-register text">Sign Up</span>
-            <input class = "text" type="text" placeholder="Enter Email" required>
-            <input class = "text" type="password" placeholder="Enter Password" required>
-            <input class = "text" type="password" placeholder="Confirm Password" required>
-            <button class="text">Continue</button> -->
-            <button type='submit'></button>>
+            <button class="text">Continue</button>
         </form>
         {% else %}
             <span class="bottom-text text">Have an account Click here to <a class="link text" href="#">Sign In</a></span>

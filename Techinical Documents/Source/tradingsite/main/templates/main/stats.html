@@ -9,9 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stats Homepage</title>
     <link href="{% static 'main/stats.css' %}" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https//cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body class="light">
+    <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token %}
+        <button class="logout text">Logout</button>
+    </form>
     <div class="money text">£{{ money_in_account }}</div>
     <section class="section-one">
         <div class="pnl">
@@ -22,16 +26,16 @@
         </div>
         <div class="recent-trades">
             <div class="recent-trades-container">
-            <div class="text trade-divs">Trade 1: {{ trade_1 }}</div>
-            <div class="text trade-divs">Trade 2: {{ trade_2 }}</div>
-            <div class="text trade-divs">Trade 3: {{ trade_3 }}</div>
-            <div class="text trade-divs">Trade 4: {{ trade_4 }}</div>
-            <div class="text trade-divs">Trade 5: {{ trade_5 }}</div>
-            <div class="text trade-divs">Trade 6: {{ trade_6 }}</div>
-            <div class="text trade-divs">Trade 7: {{ trade_7 }}</div>
-            <div class="text trade-divs">Trade 8: {{ trade_8 }}</div>
-            <div class="text trade-divs">Trade 9: {{ trade_9 }}</div>
-            <div class="text trade-divs">Trade 10: {{ trade_10 }}</div>
+            <div class="text trade-divs">{{ trade_1 }}</div>
+            <div class="text trade-divs">{{ trade_2 }}</div>
+            <div class="text trade-divs">{{ trade_3 }}</div>
+            <div class="text trade-divs">{{ trade_4 }}</div>
+            <div class="text trade-divs">{{ trade_5 }}</div>
+            <div class="text trade-divs">{{ trade_6 }}</div>
+            <div class="text trade-divs">{{ trade_7 }}</div>
+            <div class="text trade-divs">{{ trade_8 }}</div>
+            <div class="text trade-divs">{{ trade_9 }}</div>
+            <div class="text trade-divs">{{ trade_10 }}</div>
         </div>
         </div>
     </section>

@@ -8,6 +8,7 @@ def stats_view(request):
         money_in_account = user_profile.money_in_account
         previous_trades = Trades.objects.filter(user=request.user)
         reversed_previous_trades = list(reversed(previous_trades))
+        count_of_trades = len(reversed_previous_trades)
 
         fig = go.Figure(go.Waterfall(
             name = "20", orientation = "v",
@@ -27,26 +28,20 @@ def stats_view(request):
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
         )
-
         # Convert the Plotly figure to JSON for passing to the template
         chart = fig.to_html()
 
 
         context = {
             "money_in_account": "{:.2f}".format(money_in_account),
-            "last_trade": "{:.2f}".format(reversed_previous_trades[0].total_pnl),
-            "trade_1": "{:.2f}".format(reversed_previous_trades[0].pnl),
-            "trade_2": "{:.2f}".format(reversed_previous_trades[1].pnl),
-            "trade_3": "{:.2f}".format(reversed_previous_trades[2].pnl),
-            "trade_4": "{:.2f}".format(reversed_previous_trades[3].pnl),
-            "trade_5": "{:.2f}".format(reversed_previous_trades[4].pnl),
-            "trade_6": "{:.2f}".format(reversed_previous_trades[5].pnl),
-            "trade_7": "{:.2f}".format(reversed_previous_trades[6].pnl),
-            "trade_8": "{:.2f}".format(reversed_previous_trades[7].pnl),
-            "trade_9": "{:.2f}".format(reversed_previous_trades[8].pnl),
-            "trade_10": "{:.2f}".format(reversed_previous_trades[9].pnl),
             "chart": chart
         }
+
+        for i in range(min(len(reversed_previous_trades), 10)):
+            context[f"trade_{i+1}"] =f"Trade {i+1}: " + "{:.2f}".format(reversed_previous_trades[i].pnl)
+        if len(reversed_previous_trades) != 0:
+            context["last_trade"] = "{:.2f}".format(reversed_previous_trades[0].total_pnl)
+        
         return render(request, "main/stats.html", context=context)
     else:
         return redirect("/")

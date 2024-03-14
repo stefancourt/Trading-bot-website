@@ -40,7 +40,10 @@ class GraphConsumer(AsyncWebsocketConsumer):
             )
             reversed_all_trades = list(reversed(all_trades))
             # To accumulate total_pnl get last two entries add and save
-            reversed_all_trades[0].total_pnl = reversed_all_trades[1].total_pnl + amount_gained
+            try:
+                reversed_all_trades[0].total_pnl = reversed_all_trades[1].total_pnl + amount_gained
+            except:
+                reversed_all_trades[0].total_pnl = amount_gained
             await sync_to_async(reversed_all_trades[0].save)()
 
         if data.get('stop_loss'):
@@ -58,7 +61,10 @@ class GraphConsumer(AsyncWebsocketConsumer):
             )
             reversed_all_trades = list(reversed(all_trades))
             # To accumulate total_pnl get last two entries add and save
-            reversed_all_trades[0].total_pnl = reversed_all_trades[1].total_pnl - amount_lost
+            try:
+                reversed_all_trades[0].total_pnl = reversed_all_trades[1].total_pnl - amount_lost
+            except:
+                reversed_all_trades[0].total_pnl = -amount_lost
             await sync_to_async(reversed_all_trades[0].save)()
 
 

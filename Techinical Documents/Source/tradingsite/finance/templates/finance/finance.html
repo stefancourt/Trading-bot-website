@@ -13,6 +13,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 <body class="light">
+    <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token %}
+        <button class="logout text">Logout</button>
+    </form>
     <div class="money text">£{{ user_total }}</div>
     <div id="error-modal" class="modal">
         <div class="modal-content">

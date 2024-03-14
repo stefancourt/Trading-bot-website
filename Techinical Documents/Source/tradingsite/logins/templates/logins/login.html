@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
 
-    <!--<link href="{% static 'logins/login-register.css' %}" rel="stylesheet">-->
+    <link href="{% static 'logins/login-register.css' %}" rel="stylesheet">
 </head>
 <body>
     {% block content %}
@@ -21,13 +21,8 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button class="text">Continue</button>
-            <!---<span class="login-register text">Sign In</span>
-            <input class = "text" type="text" placeholder="Enter Email" required>
-            <input class = "text" type="password" placeholder="Enter Password" required>
-            <button class="text">Continue</button>
-            <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="#">Sign Up</a></span>-->
+            <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="/register/">Sign Up</a></span>
         </form>
-        <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="/register/">Sign Up</a></span>
     </div>
     {% else %}
         <span class="bottom-text text">You're already logged in. Would you like to <a class="link text" href="/logout/">Logout</a></span>

@@ -44,6 +44,34 @@
 }
 
 /* === Form === */
+label {
+    color: white;
+    margin-left: 14px;
+    top: 50px;
+}
+.form-username {
+    color: white;
+    margin-left: 14px;
+}
+.form-password1 {
+    color: white;
+    margin-left: 14px;
+}
+.form-password2 {
+    color: white;
+    margin-left: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
 .container {
     display: flex;
     justify-content: center;
@@ -62,7 +90,7 @@
     font-weight: 500;
     font-size: 26px;
     margin-right: 140px;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 .container input {
@@ -77,7 +105,6 @@
 }
 
 .container button {
-    margin-top: 50px;
     height: 40px;
     width: 100px;
     font-size: 16px;

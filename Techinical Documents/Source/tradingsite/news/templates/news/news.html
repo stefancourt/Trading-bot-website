@@ -11,6 +11,10 @@
     <link href="{% static 'news/news.css' %}" rel="stylesheet">
 </head>
 <body class="light">
+    <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token %}
+        <button class="logout text">Logout</button>
+    </form>
     <div class="money text">£{{ money_in_account }}</div>
     <section class="section-one">
         <div class="news-container">
