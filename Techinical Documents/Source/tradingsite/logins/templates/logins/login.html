@@ -25,7 +25,17 @@
         </form>
     </div>
     {% else %}
-        <span class="bottom-text text">You're already logged in. Would you like to <a class="link text" href="/logout/">Logout</a></span>
+        <div class="background">
+            <img class = background-img src="{% static 'logins/images/background.jpg' %}" alt="">
+            <div class="container">
+                <span class="bottom-text text">You are already logged click to go to your Stats Page or Logout</span>
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button class="logout text">Logout</button>
+                </form>
+                <a href="/stats"><button class="text">Stats</button></a>
+            </div>
+        </div>
     {% endif %}
 
     {% endblock %}

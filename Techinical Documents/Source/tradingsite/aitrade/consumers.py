@@ -1,43 +1,182 @@
 import json
-from asyncio import sleep
+from asyncio import sleep, Lock
 from trade.models import AAPLStock, MSFTStock
+from main.models import UserProfile, Trades
 from asgiref.sync import sync_to_async
 from django.utils.timezone import make_aware
-from datetime import datetime
+import datetime
+import pandas as pd
+import numpy as np
+import os
+from random import choice
 
+from channels.generic.websocket import AsyncWebsocketConsumer, StopConsumer
 
-from channels.generic.websocket import AsyncWebsocketConsumer
+# Calculate moving averages
+def moving_average(data, window):
+    return data['Close'].rolling(window=window).mean()
 
+# Calculate momentum
+def momentum(data, window):
+    return data['Close'].diff(window - 1)
 
+# Calculate VWAP
+def vwap(data):
+    typical_price = (data['High'] + data['Low'] + data['Close']) / 3
+    volume_price = typical_price * data['Volume']
+    cumulative_volume = data['Volume'].cumsum()
+    cumulative_volume_price = volume_price.cumsum()
+    return cumulative_volume_price / cumulative_volume
 
+# Trading strategy combining moving average crossover, momentum, and VWAP
+def trading_strategy(data, short_window, long_window, momentum_window):
+    signals = pd.DataFrame(index=data.index)
+    signals['Date'] = pd.to_datetime(data['Date'])
+    signals['signal'] = 0.0
+
+    # Moving average crossover
+    signals['short_mavg'] = moving_average(data, short_window)
+    signals['long_mavg'] = moving_average(data, long_window)
+    signals['signal'][short_window:] = np.where(signals['short_mavg'][short_window:] > signals['long_mavg'][short_window:], 1.0, 0.0)
+
+    # Momentum
+    signals['momentum'] = momentum(data, momentum_window)
+    signals['signal'][(signals['momentum'] > 0) & (signals['signal'] != 0)] = 1.0
+
+    # VWAP
+    vwap_values = vwap(data)
+    signals['vwap'] = vwap_values.shift(1)
+    signals['signal'][data['Close'] > signals['vwap']] = 1.0
+
+    return signals
 
 class GraphConsumer(AsyncWebsocketConsumer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     async def connect(self):
-        n = 0
+        global robot_true
+        robot_true = True
         await self.accept()
-        
-    
+
     async def receive(self, text_data):
+        global exclude
+        global robot_true
         data = json.loads(text_data)
+
+        uuid = data.get('uuid')
+
         start = data.get('start')
         stock_type = data.get('stockType')
+
+        user_id = data.get('user_id')
+        open_trade = data.get('open_trade')
+
+        if data.get('take_profit'):
+            user_id = data.get('user_id')
+            open_trade = data.get('open_trade')
+            # So that amount_gained is always positive
+            amount_gained = abs(data.get('take_profit') - open_trade)
+            user_profile = await sync_to_async(UserProfile.objects.get)(user_id=user_id)
+            user_profile.money_in_account += amount_gained
+            await sync_to_async(user_profile.save)()
+            trade = Trades(user_id=user_id, stock_name=stock_type, pnl=amount_gained)
+            await sync_to_async(trade.save)()
+            all_trades = await sync_to_async(list) (
+                Trades.objects.filter(user_id=user_id)
+            )
+            reversed_all_trades = list(reversed(all_trades))
+            # To accumulate total_pnl get last two entries add and save
+            try:
+                reversed_all_trades[0].total_pnl = reversed_all_trades[1].total_pnl + amount_gained
+            except:
+                reversed_all_trades[0].total_pnl = amount_gained
+            await sync_to_async(reversed_all_trades[0].save)()
+
+        if data.get('stop_loss'):
+            user_id = data.get('user_id')
+            open_trade = data.get('open_trade')
+            # So that amount_gained is always negative
+            amount_lost = abs(open_trade - data.get('stop_loss'))
+            user_profile = await sync_to_async(UserProfile.objects.get)(user_id=user_id)
+            user_profile.money_in_account -= amount_lost
+            await sync_to_async(user_profile.save)()
+            trade = Trades(user_id=user_id, stock_name=stock_type, pnl=-amount_lost)
+            await sync_to_async(trade.save)()
+            all_trades = await sync_to_async(list) (
+                Trades.objects.filter(user_id=user_id)
+            )
+            reversed_all_trades = list(reversed(all_trades))
+            # To accumulate total_pnl get last two entries add and save
+            try:
+                reversed_all_trades[0].total_pnl = reversed_all_trades[1].total_pnl - amount_lost
+            except:
+                reversed_all_trades[0].total_pnl = -amount_lost
+            await sync_to_async(reversed_all_trades[0].save)()
+
+
         if stock_type == "Microsoft":
+            if robot_true:
+                df = pd.read_csv(f"tradingsite/stock_data/MSFT_hist.csv")
+                df = df[df['Date'] >= start]
+                signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5)
+                signals.to_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
+                print(signals[0:20])
+                robot_true=False
+            dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
             msft_stocks = await sync_to_async(list)(
-                MSFTStock.objects.filter(date__gte=make_aware(datetime.strptime(start, '%Y-%m-%d')))
-            )
-            for stock in msft_stocks:
-                await self.send(json.dumps({"date": stock.date.isoformat(), "open": stock.open}))  # Sending asynchronously
+                MSFTStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
+            )  # Check if updates are paused
+            if msft_stocks[0].date.isoformat() == start:
+                row = dataframe.loc[dataframe['Date'] == start]
+                await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0]}))
                 await sleep(1)
+            else:
+                n = 1
+                while n < len(msft_stocks):
+                    if msft_stocks[0].date.isoformat() == start:
+                        row = dataframe.loc[dataframe['Date'] == start]
+                        await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0]}))
+                        await sleep(1)
+                        break
+                    else:
+                        n += 1
+                        start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
+                        start_date += datetime.timedelta(days=1)
+                        start = start_date.strftime("%Y-%m-%d")
+
         elif stock_type == "Apple":
+            if robot_true:
+                df = pd.read_csv(f"tradingsite/stock_data/AAPL_hist.csv")
+                df = df[df['Date'] >= start]
+                signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5)
+                signals.to_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
+                print(signals[0:20])
+                robot_true=False
+            dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
             aapl_stocks = await sync_to_async(list)(
-                AAPLStock.objects.filter(date__gte=make_aware(datetime.strptime(start, '%Y-%m-%d')))
+                AAPLStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )
-            for stock in aapl_stocks:
-                await self.send(json.dumps({"date": stock.date.isoformat(), "open": stock.open}))  # Sending asynchronously
+            if aapl_stocks[0].date.isoformat() == start:
+                row = dataframe.loc[dataframe['Date'] == start]
+                await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0]}))
                 await sleep(1)
+            else:
+                n = 1
+                while n < len(aapl_stocks):
+                    if aapl_stocks[0].date.isoformat() == start:
+                        row = dataframe.loc[dataframe['Date'] == start]
+                        await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0]}))
+                        await sleep(1)
+                        break
+                    else:
+                        n += 1
+                        start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
+                        start_date += datetime.timedelta(days=1)
+                        start = start_date.strftime("%Y-%m-%d")
 
-    
-
-    def disconnect(self, close_code):
-        # No need to do anything here, but you could perform cleanup tasks if needed
-        pass
+    def disconnect(self, event):
+        os.remove(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
+        print('websocket disconnected...', event)
+        self.end = True
+        raise StopConsumer()

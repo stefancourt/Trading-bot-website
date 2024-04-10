@@ -28,10 +28,10 @@
             {% block content %}
             <form method="GET" action="{% url 'aitrade' %}">
 
-                {{ date_form.as_p }}
-                {{ stock_type_form.as_p }}
+                <div class="date-form">{{ date_form.as_p }}</div>
+                <div class="type-form">{{ stock_type_form.as_p }}</div>
 
-                <button>Submit</button>
+                <button class="submit text">Submit</button>
 
             </form>
             {% endblock content %}
@@ -49,6 +49,15 @@
             <span class="text past-trades">Trade 2</span>
             <span class="text past-trades">Trade 3</span>
             <span class="text past-trades">Trade 4</span>
+        </div>
+    </div>
+    <div class="stocks">
+        <div class="stocks-container">
+            <span class="text title">Stocks:</span>
+            <span class="text past-trades">Apple: {{ apple }}, {{ apple_change }}</span>
+            <span class="text past-trades">Microsoft: {{ microsoft }}, {{ microsoft_change }}</span>
+            <span class="text past-trades">Stock 3</span>
+            <span class="text past-trades">Stock 4</span>
         </div>
     </div>
     <script src="{% static 'aitrade/ai-trade.js' %}"></script>
