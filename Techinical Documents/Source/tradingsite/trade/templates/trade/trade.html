@@ -17,7 +17,7 @@
         {% csrf_token %}
         <button class="logout text">Logout</button>
     </form>
-    <div class="money text">£{{ money_in_account }}</div>
+    <div id="money_in_account" class="money text">£{{ money_in_account }}</div>
     <div id="error-modal" class="modal">
         <div class="modal-content">
           <span class="close">&times;</span>

@@ -75,13 +75,19 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 MSFTStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )  # Check if updates are paused
             if msft_stocks[0].date.isoformat() == start:
-                await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open}))  
+                if data.get('take_profit') or data.get("stop_loss"):
+                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "money_in_account": user_profile.money_in_account}))
+                else:
+                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open}))
                 await sleep(1)
             else:
                 n = 1
                 while n < len(msft_stocks):
                     if msft_stocks[0].date.isoformat() == start:
-                        await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open}))  
+                        if data.get('take_profit') or data.get("stop_loss"):
+                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "money_in_account": user_profile.money_in_account}))
+                        else:
+                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open}))
                         await sleep(1)
                         break
                     else:

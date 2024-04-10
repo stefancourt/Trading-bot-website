@@ -12,13 +12,34 @@ const body = document.querySelector("body"),
           sidebar.classList.remove("open");
           sidebar.classList.add("close");
       })
-      darkBtn.addEventListener("click", () =>{
-          if (body.classList.contains("light")) {
-            body.classList.remove("light")
-            body.classList.add("dark");
-          }
-          else if (body.classList.contains("dark")) {
-            body.classList.remove("dark");
-            body.classList.add("light");
-          }
-      })
+function toggleMode(mode) {
+  const body = document.body;
+  body.classList.toggle('light', mode === 'light');
+  body.classList.toggle('dark', mode === 'dark');
+}
+
+function setModePreference(mode) {
+  localStorage.setItem('mode', mode);
+}
+
+function getModePreference() {
+  return localStorage.getItem('mode');
+}
+
+const modeSaved = getModePreference();
+
+if (modeSaved) {
+  toggleMode(modeSaved);
+}
+
+// Listen for clicks on a button that toggles between light and dark mode
+document.getElementById('toggle').addEventListener('click', function() {
+  const body = document.body;
+  if (body.classList.contains('light')) {
+      toggleMode('dark');
+      setModePreference('dark');
+  } else {
+      toggleMode('light');
+      setModePreference('light');
+  }
+});
