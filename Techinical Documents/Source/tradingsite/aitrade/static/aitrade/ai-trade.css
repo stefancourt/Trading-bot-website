@@ -93,25 +93,47 @@ button.logout:hover {
     background-color: var(--container-color-dark);
     border: 1px solid var(--border-color-dark);
 }
-.strategies {
+
+canvas {
+    position: absolute;
+    top: 80px;
+}
+
+
+
+.links {
+    cursor: pointer;
     float: left;
     padding-top: 10px;
     width: 25%;
     height: 100%;
-    text-align: center;
-    height: 30px;
-    border-bottom: 1px solid black;;
-}.dark .strategies {
+    height: 40px;
+    border: none;
+    border-radius: 16px;
+    background-color: var(--container-color);
+    padding: 0px;
+    font-size: 14px;
+}
+.links:hover {
+    background-color: rgb(209, 243, 255);
+}
+
+.dark .strategies {
     border-bottom: 1px solid var(--border-color-dark);
 }
 .graph-container .amount {
     position: absolute;
-    background-color: white;
+    background-color: rgb(209, 243, 255);
+    border: none;
     bottom: 5px;
     right: 40px;
-    height: 30px;
+    height: 28px;
     width: 140px;
     border-radius: 8px;
+    outline: none;
+    text-align: right;
+    padding-right: 5px;
+    font-size: 14px;
 }.dark .graph-container .amount {
     background-color: 1px solid var(--container-color-dark);
     border: 1px solid var(--border-color-dark);
@@ -122,7 +144,7 @@ button.logout:hover {
     right: 5px;
     height: 30px;
     width: 30px;
-    background-color: white;
+    background-color: rgb(209, 243, 255);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -165,8 +187,11 @@ button.logout:hover {
 .past-trades {
     font-size: 20px;
     padding-left: 10px;
+    padding-bottom: 5px;
 }
 .date-form {
+    position: absolute;
+    margin-top: 36px;
     padding-left: 5px;
 }
 .form-date {
@@ -180,6 +205,7 @@ button.logout:hover {
 }
 .type-form {
     position: absolute;
+    margin-top: 36px;
     left: 140px;
     top: 0px;
 }
@@ -201,7 +227,7 @@ button.logout:hover {
 .submit {
     position: absolute;
     display: block;
-    top: 19px;
+    top: 53px;
     left: 360px;
     cursor: pointer;
     background-color: var(--container-color);
@@ -221,6 +247,13 @@ button.logout:hover {
 }
 .past-trades {
     font-size: 16px;
+}
+
+.confirm img {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    height: 28px;
 }
 
 

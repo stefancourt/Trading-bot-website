@@ -65,6 +65,13 @@ function createWebSocket() {
                 var djangoData = JSON.parse(e.data);
                 console.log(djangoData);
 
+                if (djangoData.money_in_account) {
+                    var moneyInAccountElement = document.getElementById('money_in_account');
+                    if (moneyInAccountElement) {
+                        moneyInAccountElement.innerText = "£" + djangoData.money_in_account.toFixed(2);
+                    }
+                }
+
                 currentOpen = djangoData.open
 
                 var newGraphDataValue = graphData.data.datasets[0].data;

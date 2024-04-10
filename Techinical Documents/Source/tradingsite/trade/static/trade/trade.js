@@ -55,9 +55,7 @@ function createWebSocket() {
 
                 if (djangoData.money_in_account) {
                     var moneyInAccountElement = document.getElementById('money_in_account');
-                    console.log("jet")
                     if (moneyInAccountElement) {
-                        console.log("what it worked")
                         moneyInAccountElement.innerText = "£" + djangoData.money_in_account.toFixed(2);
                     }
                 }

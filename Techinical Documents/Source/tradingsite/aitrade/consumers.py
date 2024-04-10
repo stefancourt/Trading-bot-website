@@ -129,14 +129,20 @@ class GraphConsumer(AsyncWebsocketConsumer):
             )  # Check if updates are paused
             if msft_stocks[0].date.isoformat() == start:
                 row = dataframe.loc[dataframe['Date'] == start]
-                await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0]}))
+                if data.get('take_profit') or data.get("stop_loss"):
+                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                else:
+                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0]}))
                 await sleep(1)
             else:
                 n = 1
                 while n < len(msft_stocks):
                     if msft_stocks[0].date.isoformat() == start:
                         row = dataframe.loc[dataframe['Date'] == start]
-                        await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0]}))
+                        if data.get('take_profit') or data.get("stop_loss"):
+                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                        else:
+                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0]}))
                         await sleep(1)
                         break
                     else:
@@ -159,14 +165,20 @@ class GraphConsumer(AsyncWebsocketConsumer):
             )
             if aapl_stocks[0].date.isoformat() == start:
                 row = dataframe.loc[dataframe['Date'] == start]
-                await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0]}))
+                if data.get('take_profit') or data.get("stop_loss"):
+                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                else:
+                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0]}))
                 await sleep(1)
             else:
                 n = 1
                 while n < len(aapl_stocks):
                     if aapl_stocks[0].date.isoformat() == start:
                         row = dataframe.loc[dataframe['Date'] == start]
-                        await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0]}))
+                        if data.get('take_profit') or data.get("stop_loss"):
+                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                        else:
+                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0]}))
                         await sleep(1)
                         break
                     else:

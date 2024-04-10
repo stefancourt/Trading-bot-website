@@ -16,14 +16,20 @@
         {% csrf_token %}
         <button class="logout text">Logout</button>
     </form>
-    <div class="money text">£{{ money_in_account }}</div>
+    <div id="money_in_account" class="money text">£{{ money_in_account }}</div>
+    <div id="error-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="error-message" class="text"></p>
+        </div>
+    </div>
     <div class="graph">
         <div class="graph-container">
             <div class="ai-options">
-                <div class="text strategies">Option 1</div>
-                <div class="text strategies">Option 2</div>
-                <div class="text strategies">Option 3</div>
-                <div class="text strategies">Option 4</div>
+                <div class="strategies"><button class="text links">Moving Average</button></div>
+                <div class="strategies"><button class="text links">Momentum</button></div>
+                <div class="strategies"><button class="text links">VWAP</button></div>
+                <div class="strategies"><button class="text links">Combination</button></div>
             </div>
             {% block content %}
             <form method="GET" action="{% url 'aitrade' %}">
@@ -36,19 +42,23 @@
             </form>
             {% endblock content %}
             <canvas id="myChart"></canvas>
-            <div class="amount">
+            <input class="amount text" placeholder="amount"></input>
 
-            </div>
-            <button id="confirm" class="confirm"></button>
+            <button id="confirm" class="confirm"><img src="{% static 'images/play.png' %}"></button>
         </div>
     </div>
     <div class="returns">
         <div class="returns-container">
             <span class="text title">Returns:</span>
-            <span class="text past-trades">Trade 1</span>
-            <span class="text past-trades">Trade 2</span>
-            <span class="text past-trades">Trade 3</span>
-            <span class="text past-trades">Trade 4</span>
+            <span class="text past-trades">{{ trade_1 }}</span>
+            <span class="text past-trades">{{ trade_2 }}</span>
+            <span class="text past-trades">{{ trade_3 }}</span>
+            <span class="text past-trades">{{ trade_4 }}</span>
+            <span class="text past-trades">{{ trade_5 }}</span>
+            <span class="text past-trades">{{ trade_6 }}</span>
+            <span class="text past-trades">{{ trade_7 }}</span>
+            <span class="text past-trades">{{ trade_8 }}</span>
+            <span class="text past-trades">{{ trade_9 }}</span>
         </div>
     </div>
     <div class="stocks">

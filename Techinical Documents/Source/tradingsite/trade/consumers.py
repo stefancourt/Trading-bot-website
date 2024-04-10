@@ -101,13 +101,19 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 AAPLStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )
             if aapl_stocks[0].date.isoformat() == start:
-                await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open}))  
+                if data.get('take_profit') or data.get("stop_loss"):
+                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "money_in_account": user_profile.money_in_account}))
+                else:
+                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open}))
                 await sleep(1)
             else:
                 n = 1
                 while n < len(aapl_stocks):
                     if aapl_stocks[0].date.isoformat() == start:
-                        await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open}))  
+                        if data.get('take_profit') or data.get("stop_loss"):
+                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "money_in_account": user_profile.money_in_account}))
+                        else:
+                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open}))
                         await sleep(1)
                         break
                     else:

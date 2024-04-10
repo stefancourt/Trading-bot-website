@@ -235,6 +235,16 @@ button.logout:hover {
         border-bottom-left-radius: 0px;
         overflow-y: scroll;
     }
+    .trade-divs {
+        padding-left: 10px;
+    }
+    .title {
+        font-size: 26px;
+        display: block;
+        margin-bottom: 6px;
+        padding-top: 4px;
+        padding-left: 4px;
+    }
     
     /* === Charts === */
     .section-two {
@@ -262,16 +272,4 @@ button.logout:hover {
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
     }
-    /*.ai-options {
-        position: absolute;
-        bottom: 0;
-        height: 70px;
-        width: 100%;
-    }
-    .strategies {
-        float: left;
-        width: 25%;
-        height: 100%;
-        text-align: center;
-    }*/
 }
