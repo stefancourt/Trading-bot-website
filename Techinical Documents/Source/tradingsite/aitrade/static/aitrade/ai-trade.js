@@ -30,6 +30,7 @@ var openTrade;
 var start;
 var stockType;
 var amount;
+var aiType;
 var currentOpen;
 var uuid = generateUUID();
 
@@ -52,11 +53,13 @@ function createWebSocket() {
             start = urlParams.get('start');
             stockType = urlParams.get('stock_type');
             amount = urlParams.get('amount')
+            aiType = urlParams.get('order_type')
             
             var dataToSend = {
                 start: start,
                 stockType: stockType,
                 amount: amount,
+                aiType: aiType,
                 uuid: uuid
             };
             $(document).ready(function() {
@@ -206,6 +209,7 @@ function createWebSocket() {
                     start: start,
                     stockType: stockType,
                     amount: amount,
+                    aiType: aiType,
                     uuid: uuid
                 };
                 console.log(dataToSend);

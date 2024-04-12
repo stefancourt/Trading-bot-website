@@ -1,5 +1,5 @@
 import json
-from asyncio import sleep, Lock
+from asyncio import sleep
 from trade.models import AAPLStock, MSFTStock
 from main.models import UserProfile, Trades
 from asgiref.sync import sync_to_async
@@ -28,24 +28,27 @@ def vwap(data):
     return cumulative_volume_price / cumulative_volume
 
 # Trading strategy combining moving average crossover, momentum, and VWAP
-def trading_strategy(data, short_window, long_window, momentum_window):
+def trading_strategy(data, short_window, long_window, momentum_window, ma_bool=False, vwap_bool=False, momentum_bool=False):
     signals = pd.DataFrame(index=data.index)
     signals['Date'] = pd.to_datetime(data['Date'])
     signals['signal'] = 0.0
 
     # Moving average crossover
-    signals['short_mavg'] = moving_average(data, short_window)
-    signals['long_mavg'] = moving_average(data, long_window)
-    signals['signal'][short_window:] = np.where(signals['short_mavg'][short_window:] > signals['long_mavg'][short_window:], 1.0, 0.0)
+    if ma_bool == True:
+        signals['short_mavg'] = moving_average(data, short_window)
+        signals['long_mavg'] = moving_average(data, long_window)
+        signals['signal'][short_window:] = np.where(signals['short_mavg'][short_window:] > signals['long_mavg'][short_window:], 1.0, 0.0)
 
     # Momentum
-    signals['momentum'] = momentum(data, momentum_window)
-    signals['signal'][(signals['momentum'] > 0) & (signals['signal'] != 0)] = 1.0
+    if momentum_bool == True:
+        signals['momentum'] = momentum(data, momentum_window)
+        signals['signal'][(signals['momentum'] > 0) & (signals['signal'] != 0)] = 1.0
 
     # VWAP
-    vwap_values = vwap(data)
-    signals['vwap'] = vwap_values.shift(1)
-    signals['signal'][data['Close'] > signals['vwap']] = 1.0
+    if vwap_bool == True:
+        vwap_values = vwap(data)
+        signals['vwap'] = vwap_values.shift(1)
+        signals['signal'][data['Close'] > signals['vwap']] = 1.0
 
     return signals
 
@@ -66,7 +69,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
 
         uuid = data.get('uuid')
-
+        ai_type = data.get('aiType')
         start = data.get('start')
         stock_type = data.get('stockType')
 
@@ -126,7 +129,14 @@ class GraphConsumer(AsyncWebsocketConsumer):
             if robot_true:
                 df = pd.read_csv(f"tradingsite/stock_data/MSFT_hist.csv")
                 df = df[df['Date'] >= start]
-                signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5)
+                if ai_type == "ma":
+                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=False, momentum_bool=False)
+                elif ai_type == "vwap":
+                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=True, momentum_bool=False)
+                elif ai_type == "momentum":
+                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=False, momentum_bool=True)
+                else:
+                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=True, momentum_bool=True)
                 signals.to_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
                 robot_true=False
             dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")

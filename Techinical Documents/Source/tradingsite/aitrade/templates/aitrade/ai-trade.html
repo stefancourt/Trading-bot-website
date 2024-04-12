@@ -26,16 +26,17 @@
     </div>
     <div class="graph">
         <div class="graph-container">
-            <div class="ai-options">
-                <div class="strategies"><button class="text links">Moving Average</button></div>
-                <div class="strategies"><button class="text links">Momentum</button></div>
-                <div class="strategies"><button class="text links">VWAP</button></div>
-                <div class="strategies"><button class="text links">Combination</button></div>
-            </div>
             {% block content %}
             <form method="GET" id="get_request" action="{% url 'aitrade' %}">
 
-                <div class="ai-type">{{ ai_type_form.as_p }}</div>
+                <div class="ai-type">
+                    {% for field in ai_type_form %}
+                        <div class="text strategies">
+                            {{ field }}
+                            <label class="links">{{ field.choice_label }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
                 <div class="date-form">{{ date_form.as_p }}</div>
                 <div class="type-form">{{ stock_type_form.as_p }}</div>
                 <div class="amount-form">{{ amount_form.as_p }}</div>
