@@ -8,7 +8,6 @@ import datetime
 import pandas as pd
 import numpy as np
 import os
-from random import choice
 
 from channels.generic.websocket import AsyncWebsocketConsumer, StopConsumer
 
@@ -56,12 +55,14 @@ class GraphConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         global robot_true
+        global first_pass
         robot_true = True
+        first_pass = True
         await self.accept()
 
     async def receive(self, text_data):
-        global exclude
         global robot_true
+        global first_pass
         data = json.loads(text_data)
 
         uuid = data.get('uuid')
@@ -116,12 +117,17 @@ class GraphConsumer(AsyncWebsocketConsumer):
 
 
         if stock_type == "Microsoft":
+            first_date = await sync_to_async(MSFTStock.objects.first)()
+            last_date = await sync_to_async(MSFTStock.objects.last)()
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() < first_date.date:
+                await self.send(json.dumps({'first_date': first_date.date.isoformat()}))
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
+                await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             if robot_true:
                 df = pd.read_csv(f"tradingsite/stock_data/MSFT_hist.csv")
                 df = df[df['Date'] >= start]
                 signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5)
                 signals.to_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
-                print(signals[0:20])
                 robot_true=False
             dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
             msft_stocks = await sync_to_async(list)(
@@ -150,14 +156,18 @@ class GraphConsumer(AsyncWebsocketConsumer):
                         start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
                         start_date += datetime.timedelta(days=1)
                         start = start_date.strftime("%Y-%m-%d")
-
         elif stock_type == "Apple":
+            first_date = await sync_to_async(AAPLStock.objects.first)()
+            last_date = await sync_to_async(AAPLStock.objects.last)()
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() < first_date.date:
+                await self.send(json.dumps({'first_date': first_date.date.isoformat()}))
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
+                await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             if robot_true:
                 df = pd.read_csv(f"tradingsite/stock_data/AAPL_hist.csv")
                 df = df[df['Date'] >= start]
                 signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5)
                 signals.to_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
-                print(signals[0:20])
                 robot_true=False
             dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
             aapl_stocks = await sync_to_async(list)(
@@ -188,7 +198,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
                         start = start_date.strftime("%Y-%m-%d")
 
     def disconnect(self, event):
-        os.remove(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
+        # os.remove(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
         print('websocket disconnected...', event)
         self.end = True
         raise StopConsumer()

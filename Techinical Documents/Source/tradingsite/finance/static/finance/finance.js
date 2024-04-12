@@ -136,7 +136,7 @@ $(document).ready(function() {
                 }
                 window.myChart = new Chart(ctx, graphData);
             } else {
-                $('#error-message').text('Combined total of spendatures must not be greater then the total balance. Please enter £'+ (maximum - data.total).toFixed(2) +' less');
+                $('#error-message').text('Combined total of spendatures must not exceed the total balance. Please enter £'+ (maximum - data.total).toFixed(2) +' less');
                 $('#error-modal').show();
             }
         }

@@ -71,6 +71,12 @@ class GraphConsumer(AsyncWebsocketConsumer):
 
 
         if stock_type == "Microsoft":
+            first_date = await sync_to_async(MSFTStock.objects.first)()
+            last_date = await sync_to_async(MSFTStock.objects.last)()
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() < first_date.date:
+                await self.send(json.dumps({'first_date': first_date.date.isoformat()}))
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
+                await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             msft_stocks = await sync_to_async(list)(
                 MSFTStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )  # Check if updates are paused
@@ -97,6 +103,12 @@ class GraphConsumer(AsyncWebsocketConsumer):
                         start = start_date.strftime("%Y-%m-%d")
 
         elif stock_type == "Apple":
+            first_date = await sync_to_async(AAPLStock.objects.first)()
+            last_date = await sync_to_async(AAPLStock.objects.last)()
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() < first_date.date:
+                await self.send(json.dumps({'first_date': first_date.date.isoformat()}))
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
+                await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             aapl_stocks = await sync_to_async(list)(
                 AAPLStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )

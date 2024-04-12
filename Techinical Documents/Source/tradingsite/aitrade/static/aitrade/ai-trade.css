@@ -96,7 +96,7 @@ button.logout:hover {
 
 canvas {
     position: absolute;
-    top: 80px;
+    top: 90px;
 }
 
 
@@ -224,11 +224,59 @@ canvas {
     color: var(--text-color-dark);
     border: 1px solid var(--border-color-dark);
 }
+
+.amount-form {
+    position: absolute;
+    margin-top: 36px;
+    left: 364px;
+    top: 0px;
+}.form-amount {
+    background-color: var(--container-color);
+    border: 1px solid var(--border-color);
+    bottom: 5px;
+    right: 40px;
+    height: 18px;
+    width: 100px;
+    border-radius: 8px;
+    outline: none;
+    padding-left: 5px;
+    font-size: 14px;
+}
+.radio-input label {
+    display: none;
+}
+
+
+
+
+
+
+.stop {
+    position: absolute;
+    bottom: 5px;
+    right: 40px;
+    height: 30px;
+    width: 30px;
+    background-color: rgb(209, 243, 255);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}.dark .stop {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.stop img {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    margin-right: 6px;
+    height: 28px;
+}
 .submit {
     position: absolute;
     display: block;
     top: 53px;
-    left: 360px;
+    left: 560px;
     cursor: pointer;
     background-color: var(--container-color);
     border-radius: 3px;
@@ -237,6 +285,9 @@ canvas {
     background-color: var(--container-color-dark);
     border: 0.7px solid var(--border-color-dark);
 }
+
+
+
 .submit:hover {
     background-color: rgb(209, 243, 255);
     transition: var(--tran-02);
@@ -257,7 +308,57 @@ canvas {
 }
 
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+  
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    margin-top: 50px;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 5px;
+    width: 50%;
+    text-align: center;
+}.dark .modal-content {
+    background-color: var(--container-color-dark);
+    margin: 15% auto;
+    margin-top: 50px;
+    padding: 20px;
+    border: 1px solid var(--border-color-dark);
+    border-radius: 5px;
+    width: 50%;
+    text-align: center;
+}
 
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+  
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}.dark .close:hover,
+.dark .close:focus {
+    color: var(--text-color-dark);
+    text-decoration: none;
+    cursor: pointer;
+}
 
 
 

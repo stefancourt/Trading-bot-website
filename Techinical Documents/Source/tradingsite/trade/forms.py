@@ -4,6 +4,17 @@ from trade.models import StockType
 class DateForm(forms.Form):
     start = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-date'}))
 
+class AmountForm(forms.Form):
+    amount = forms.DecimalField(widget=forms.TextInput(attrs={'class': 'form-amount'}))
+
+class AITypeForm(forms.Form):
+    order_type = forms.ChoiceField(
+        choices=[('ma', 'Moving Average'), ('vwap', 'VWAP'), ('momentum', 'Momentum'), ('combination', 'Combination')],
+        widget=forms.RadioSelect(attrs={'class': 'radio-input'}),
+        label=None
+    )
+
+
 class TypeForm(forms.ModelForm):
     class Meta:
         model = StockType

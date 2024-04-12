@@ -29,6 +29,7 @@ var userIdFlag = false;
 var openTrade;
 var start;
 var stockType;
+var amount;
 var currentOpen;
 var uuid = generateUUID();
 
@@ -50,14 +51,40 @@ function createWebSocket() {
             var urlParams = new URLSearchParams(window.location.search);
             start = urlParams.get('start');
             stockType = urlParams.get('stock_type');
+            amount = urlParams.get('amount')
             
             var dataToSend = {
                 start: start,
                 stockType: stockType,
+                amount: amount,
                 uuid: uuid
             };
+            $(document).ready(function() {
+                var urlParams = new URLSearchParams(window.location.search);
+                var amount = urlParams.get('amount');
+            
+                var thresholdValue = document.getElementById('money_in_account');
+                if (parseFloat(amount) > parseFloat(thresholdValue.innerText.replace('£', ''))) {
+                    $('#error-message').text('Amount willing to trade cannot exceed amount held in account. Please enter £'+ (amount - parseFloat(thresholdValue.innerText.replace('£', ''))).toFixed(2) +' less');
+                    $("#error-modal").show();
+        
+                    $(".close").click(function() {
+                        $("#error-modal").hide();
+                    });
+                }else {
+                    socket.send(JSON.stringify(dataToSend));
+                }
+            });
+            if (start === null || amount === null || stockType === null) {
+                $('#error-message').text('Please enter values for Start, Amount and Stock Type');
+                $("#error-modal").show();
+    
+                $(".close").click(function() {
+                    $("#error-modal").hide();
+                });
+                socket.close()
+            }
             console.log(dataToSend);
-            socket.send(JSON.stringify(dataToSend));
         };
         
         socket.onmessage = function (e) {
@@ -70,6 +97,24 @@ function createWebSocket() {
                     if (moneyInAccountElement) {
                         moneyInAccountElement.innerText = "£" + djangoData.money_in_account.toFixed(2);
                     }
+                }
+                if (djangoData.first_date !== undefined) {
+                    $('#error-message').text('Please enter a valid start date that starts after '+djangoData.first_date);
+                    $("#error-modal").show();
+        
+                    $(".close").click(function() {
+                        $("#error-modal").hide();
+                    });
+                    socket.close()
+                }
+                if (djangoData.last_date !== undefined) {
+                    $('#error-message').text('Last date of stock has been reached please input another date to start from before '+djangoData.last_date);
+                    $("#error-modal").show();
+        
+                    $(".close").click(function() {
+                        $("#error-modal").hide();
+                    });
+                    socket.close()
                 }
 
                 currentOpen = djangoData.open
@@ -108,7 +153,7 @@ function createWebSocket() {
 
                 start = year + '-' + month + '-' + day;
                 if (buy && djangoData.open > takeProfitValue) {
-                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'uuid': uuid}));
+                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'amount': amount, 'uuid': uuid}));
                     console.log(takeProfitValue)
                     console.log(userId)
                     console.log(openTrade)
@@ -120,7 +165,7 @@ function createWebSocket() {
                     userIdFlag = false;
                 }
                 else if (buy && djangoData.open < stopLossValue) {
-                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'uuid': uuid}));
+                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'amount': amount, 'uuid': uuid}));
                     console.log(stopLossValue)
                     console.log(userId)
                     console.log(openTrade)
@@ -132,7 +177,7 @@ function createWebSocket() {
                     userIdFlag = false;
                 }
                 else if (sell && djangoData.open < takeProfitValue) {
-                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'uuid': uuid}));
+                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'amount': amount, 'uuid': uuid}));
                     console.log(takeProfitValue)
                     console.log(userId)
                     console.log(openTrade)
@@ -144,7 +189,7 @@ function createWebSocket() {
                     uaserIdFlag = false;
                 }
                 else if (sell && djangoData.open > stopLossValue) {
-                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'uuid': uuid}));
+                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'amount': amount, 'uuid': uuid}));
                     console.log(stopLossValue)
                     console.log(userId)
                     console.log(openTrade)
@@ -160,6 +205,7 @@ function createWebSocket() {
                     var dataToSend = {
                     start: start,
                     stockType: stockType,
+                    amount: amount,
                     uuid: uuid
                 };
                 console.log(dataToSend);
@@ -176,11 +222,16 @@ document.getElementById('confirm').addEventListener('click', function () {
     if (isPaused) {
         var dataToSend = {
             start: start,
-            stockType: stockType
+            stockType: stockType,
+            uuid: uuid
         };
 
         console.log(dataToSend);
         socket.send(JSON.stringify(dataToSend));
     }
     isPaused = false;
+});
+
+document.getElementById('stop').addEventListener('click', function () {
+    isPaused = !isPaused; // Toggle the paused state
 });

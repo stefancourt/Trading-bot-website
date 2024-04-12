@@ -10,6 +10,7 @@
     <title>AI Trading page</title>
     <link href="{% static 'aitrade/ai-trade.css' %}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 <body class="light">
     <form action="{% url 'logout' %}" method="POST">
@@ -32,19 +33,21 @@
                 <div class="strategies"><button class="text links">Combination</button></div>
             </div>
             {% block content %}
-            <form method="GET" action="{% url 'aitrade' %}">
+            <form method="GET" id="get_request" action="{% url 'aitrade' %}">
 
+                <div class="ai-type">{{ ai_type_form.as_p }}</div>
                 <div class="date-form">{{ date_form.as_p }}</div>
                 <div class="type-form">{{ stock_type_form.as_p }}</div>
+                <div class="amount-form">{{ amount_form.as_p }}</div>
 
                 <button class="submit text">Submit</button>
 
             </form>
             {% endblock content %}
             <canvas id="myChart"></canvas>
-            <input class="amount text" placeholder="amount"></input>
 
             <button id="confirm" class="confirm"><img src="{% static 'images/play.png' %}"></button>
+            <button id="stop" class="stop"><img src="{% static 'images/pause.png' %}"></button>
         </div>
     </div>
     <div class="returns">

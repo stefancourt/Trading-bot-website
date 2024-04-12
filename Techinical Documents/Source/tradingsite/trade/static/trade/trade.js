@@ -44,6 +44,15 @@ function createWebSocket() {
                 start: start,
                 stockType: stockType
             };
+            if (start === null || stockType === null) {
+                $('#error-message').text('Please enter values for Start and Stock Type');
+                $("#error-modal").show();
+    
+                $(".close").click(function() {
+                    $("#error-modal").hide();
+                });
+                socket.close()
+            }
             console.log(dataToSend);
             socket.send(JSON.stringify(dataToSend));
         };
@@ -59,7 +68,24 @@ function createWebSocket() {
                         moneyInAccountElement.innerText = "£" + djangoData.money_in_account.toFixed(2);
                     }
                 }
-
+                if (djangoData.first_date !== undefined) {
+                    $('#error-message').text('Please enter a valid start date that starts after '+djangoData.first_date);
+                    $("#error-modal").show();
+        
+                    $(".close").click(function() {
+                        $("#error-modal").hide();
+                    });
+                    socket.close()
+                }
+                if (djangoData.last_date !== undefined) {
+                    $('#error-message').text('Last date of stock has been reached please input another date to start from before '+djangoData.last_date);
+                    $("#error-modal").show();
+        
+                    $(".close").click(function() {
+                        $("#error-modal").hide();
+                    });
+                    socket.close()
+                }
                 currentOpen = djangoData.open
 
                 var newGraphDataValue = graphData.data.datasets[0].data;

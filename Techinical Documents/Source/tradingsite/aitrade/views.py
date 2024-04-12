@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from trade.models import AAPLStock, MSFTStock
-from trade.forms import DateForm, TypeForm
+from trade.forms import DateForm, TypeForm, AmountForm, AITypeForm
 from main.models import UserProfile, Trades
 
 def aitrade_view(request):
@@ -15,7 +15,9 @@ def aitrade_view(request):
         context={
             'money_in_account': "{:.2f}".format(user_total),
             'date_form': DateForm(),
+            'ai_type_form': AITypeForm(),
             'stock_type_form': TypeForm(),
+            'amount_form': AmountForm(),
             'apple': "{:.2f}".format(apple[0].close),
             'apple_change': "{:.2f}".format(apple[0].close - apple[1].close),
             'microsoft': "{:.2f}".format(microsoft[0].close),
