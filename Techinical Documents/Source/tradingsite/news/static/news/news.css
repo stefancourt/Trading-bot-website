@@ -48,7 +48,7 @@
 .money {
     font-size: 30px;
     top: 8px;
-    right: 60px;
+    right: 70px;
     position: absolute;
     z-index: 10;
 }
@@ -59,7 +59,7 @@ button.logout {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     height: 36px;
-    width: 50px;
+    width: 60px;
     z-index: 11;
     background-color: var(--navbar-color);
     cursor: pointer;
@@ -135,6 +135,7 @@ label {
     background-color: var(--container-color);
     border-radius: 3px;
     border: 0.7px solid black;
+    height: 22px;
 }.dark .submit {
     background-color: var(--container-color-dark);
     border: 0.7px solid var(--border-color-dark);
@@ -224,5 +225,8 @@ label {
         margin-left: 4px;
         display: block;
         height: 5%;
-    }   
+    }
+    .submit {
+        height: 20px;
+    }
 }

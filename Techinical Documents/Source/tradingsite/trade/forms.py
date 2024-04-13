@@ -29,5 +29,5 @@ class PlaceTradeForm(forms.Form):
     order_type = forms.ChoiceField(
         choices=[('buy', 'Buy'), ('sell', 'Sell')],
         widget=forms.RadioSelect(attrs={'class': 'radio-input'}),
-        label='Order Type'
+        label=''
     )

@@ -48,7 +48,7 @@
 .money {
     font-size: 30px;
     top: 8px;
-    right: 60px;
+    right: 70px;
     position: absolute;
     z-index: 10;
 }
@@ -59,7 +59,7 @@ button.logout {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     height: 36px;
-    width: 50px;
+    width: 60px;
     z-index: 11;
     background-color: var(--navbar-color);
     cursor: pointer;
@@ -125,13 +125,13 @@ button.logout:hover {
     text-decoration: none;
     cursor: pointer;
 }
-.overall {
+.manage {
     position: absolute;
     bottom: 0px;
     width: 100%;
-    height: 180px;
+    height: 250px;
 }
-.overall-container {
+.manage-container {
     position: absolute;
     top: 5px;
     bottom: 10px;
@@ -141,7 +141,8 @@ button.logout:hover {
     border-radius: 15px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
-}.dark .overall-container {
+    overflow-y: scroll;
+}.dark .manage-container {
     background-color: var(--container-color-dark);
     border: 1px solid var(--border-color-dark);
 }
@@ -158,7 +159,7 @@ button.logout:hover {
     padding-right: 5px;
     padding-top: 5px;
 }
-.overall .img-container {
+.manage .button {
     position: absolute;
     right: 0px;
     background-color: rgb(209, 243, 255);
@@ -166,23 +167,112 @@ button.logout:hover {
     width: 40px;
     border-radius: 10px;
     border-top-right-radius: 0px;
-}.dark .overall .img-container {
+}.dark .manage .button {
     background-color: var(--container-color-dark);
     border: 1px solid var(--border-color-dark);
 }
-.overall .total{
-    position: absolute;
-    margin-top: 72px;
-    background-color: var(--container-color);
-    height: 25px;
-    font-size: 32px;
-    outline: none;
-    margin-left: 20px;
-}.dark .overall .total{
-    background-color: var(--container-color-dark);
-}
 .dark .form-control {
     color: var(--text-color-dark);
+}
+.manage div {
+    padding-right: 6px;
+    font-size: 18px;
+    padding-top: 22px;
+}
+.manage div input {
+    height: 20px;
+    width: 140px;
+    font-size: 18px;
+    background-color: var(--container-color);
+    border: 0.7px solid black;
+    border-radius: 3px;
+    outline: none;
+}.dark .manage div input {
+    background-color: var(--container-color-dark);
+    border: 0.7px solid var(--border-color-dark);
+}
+.manage div input:hover {
+    background-color: rgb(209, 243, 255);
+    transition: var(--tran-02);
+}.dark .manage div input:hover {
+    background-color: var(--hover-color-dark);
+    transition: var(--tran-02);
+}
+.manage div input:focus {
+    background-color: rgb(209, 243, 255);
+}.dark .manage div input:focus {
+    background-color: var(--hover-color-dark);
+}
+.dark form label{
+    color: var(--text-color-dark);
+}
+.form-select {
+    width: 140px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: var(--container-color);
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}.dark .form-select {
+    background-color: var(--container-color-dark);
+    color: var(--text-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.manage-container button {
+    position: absolute;
+    border: 0px;
+    top: 0px;
+    right: 0px;
+    background-color: rgb(209, 243, 255);
+    height: 26px;
+    width: 34px;
+    border-radius: 10px;
+    border-top-right-radius: 0px;
+}.dark .manage-container button {
+    background-color: var(--container-color-dark);
+    border: 1px solid var(--border-color-dark);
+}
+.manage-container button img {
+    display: block;
+    position: absolute;
+    top: 2px;
+    height: 22px;
+    width: 22px;
+    left: 1px;
+}
+.manage-container button:hover {
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    transition: var(--tran-02);
+}
+.form-control {
+    height: 100px;
+    width: 100%;
+    position: absolute;
+}
+.columns {
+    position: absolute;
+    top: -20px;
+    padding-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.columns p{
+    flex: calc(50% - 20px);
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.manage div input {
+    margin-left: 2px;
+    height: 20px;
+    width: 80px;
 }
 
 
@@ -192,7 +282,7 @@ button.logout:hover {
     position: absolute;
     top: 50px;
     width: 100%;
-    height: calc(100% - 230px);
+    height: calc(100% - 300px);
 }
 .chart-container {
     position: absolute;
@@ -207,12 +297,6 @@ button.logout:hover {
 }.dark .chart-container {
     background-color: var(--container-color-dark);
     border: 1px solid var(--border-color-dark);
-}
-
-.manage {
-    height: 0px;
-    width: 0px;
-    overflow: hidden;
 }
 
 
@@ -251,6 +335,15 @@ button.logout:hover {
         background-color: var(--container-color);
         border-radius: 15px;
         border-top-left-radius: 0px;
+    }.dark .overall-container {
+        background-color: var(--container-color-dark);
+        border: 1px solid var(--border-color-dark)
+    }
+    .overall .total{
+        position: absolute;
+        margin-top: 72px;
+        font-size: 40px;
+        margin-left: 34px;
     }
     .overall span {
         position: absolute;
@@ -273,28 +366,10 @@ button.logout:hover {
         width: 34px;
         border-radius: 10px;
         border-top-right-radius: 15px;
+    }.dark .overall .img-container {
+        background-color: var(--container-color-dark);
+        border: 1px solid var(--border-color-dark)
     }
-    .overall input{
-        position: absolute;
-        margin-top: 85px;
-        margin-left: 40px;
-        background-color: var(--container-color);
-        border: 0.7px solid black;
-        border-radius: 3px;
-        height: 25px;
-        font-size: 20px;
-        width: 155px;
-        outline: none;
-        text-align: right;
-    }
-    .overall input:hover{
-        background-color: rgb(209, 243, 255);
-        transition: var(--tran-02);
-    }
-    .overall input:focus{
-        background-color: rgb(209, 243, 255);
-    }
-    
     /* ==== managing finance ==== */
     .section-one .manage {
         position: absolute;
@@ -337,27 +412,29 @@ button.logout:hover {
         border: 0.7px solid black;
         border-radius: 3px;
         outline: none;
-    }.dark .manage div input {
-        background-color: var(--container-color-dark);
-        border: 0.7px solid var(--border-color-dark);
     }
-    .manage div input:hover {
-        background-color: rgb(209, 243, 255);
-        transition: var(--tran-02);
-    }.dark .manage div input:hover {
-        background-color: var(--hover-color-dark);
-        transition: var(--tran-02);
+
+    .form-control {
+        height: 100px;
+        width: 100%;
     }
-    .manage div input:focus {
-        background-color: rgb(209, 243, 255);
-    }.dark .manage div input:focus {
-        background-color: var(--hover-color-dark);
+    .columns {
+        left: 0px;
+        top: 40px;
+        padding-left: 10px;
+
+        display: block;
     }
+    
+    .columns p{
+        margin-bottom: 10px;
+    }
+
     .dark form label{
         color: var(--text-color-dark);
     }
     .form-select {
-        width: 140px;
+        width: 130px;
         padding: .375rem .75rem;
         font-size: 1rem;
         line-height: 1.5;
@@ -393,12 +470,6 @@ button.logout:hover {
         width: 22px;
         left: 1px;
     }
-    .manage-container button:hover {
-        position: absolute;
-        height: 26px;
-        width: 26px;
-        transition: var(--tran-02);
-    }
     
     
     /* ==== charts ==== */
@@ -419,5 +490,16 @@ button.logout:hover {
         border-radius: 15px;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
+    }
+}
+@media only screen and (max-width: 560px){
+    .overall-container span {
+        display: none;
+    }
+    .overall-container .total{
+        display: none;
+    }
+    .manage-container .title {
+        display: none;
     }
 }

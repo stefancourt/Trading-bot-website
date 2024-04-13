@@ -55,7 +55,7 @@ label {
 .money {
     font-size: 30px;
     top: 8px;
-    right: 60px;
+    right: 70px;
     position: absolute;
     z-index: 10;
 }
@@ -66,7 +66,7 @@ button.logout {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     height: 36px;
-    width: 50px;
+    width: 60px;
     z-index: 11;
     background-color: var(--navbar-color);
     cursor: pointer;
@@ -201,8 +201,9 @@ button.logout:hover {
 }
 .title {
     display: block;
+    position: absolute;
+    top: 4px;
     margin-right: 110px;
-    margin-bottom: 10px;
     font-size: 26px;
 }
 .stoploss {
@@ -271,18 +272,19 @@ button.logout:hover {
     padding-left: 5px;
 }
 .form-date {
+    position: absolute;
     color: var(--text-color);
     background-color: var(--container-color);
     border: 1px solid var(--border-color);
 }.dark .form-date {
-    color: var(--text-color-dark);
+    color: white;
     background-color: var(--container-color-dark);
     border: 1px solid var(--border-color-dark);
 }
 .type-form {
     position: absolute;
-    left: 140px;
-    top: 0px;
+    right: 10px;
+    top: -3px;
 }
 .form-type {
     width: 120px;
@@ -302,8 +304,8 @@ button.logout:hover {
 .submit {
     position: absolute;
     display: block;
-    top: 19px;
-    left: 360px;
+    bottom: 10px;
+    right: 80px;
     cursor: pointer;
     background-color: var(--container-color);
     border-radius: 3px;
@@ -359,6 +361,10 @@ button.logout:hover {
     color: var(--text-color-dark);
 }
 
+#post-form {
+    height: 136px;
+    padding-top: 10px;
+}
 
 /* ==== Graph of stock ==== */
 .section-two {
@@ -383,7 +389,7 @@ button.logout:hover {
 }
 .graph-container .confirm {
     position: absolute;
-    top: -5px;
+    bottom: 5px;
     right: 5px;
     height: 30px;
     width: 30px;
@@ -397,7 +403,7 @@ button.logout:hover {
 }
 .graph-container .stop {
     position: absolute;
-    top: 5px;
+    bottom: 5px;
     right: 40px;
     height: 30px;
     width: 30px;
@@ -486,7 +492,7 @@ button.logout:hover {
     .title {
         display: block;
         margin-right: 110px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         font-size: 26px;
     }
     .stoploss {
@@ -587,5 +593,16 @@ button.logout:hover {
         border-radius: 15px;
         border-bottom-left-radius: 0px;
         border-top-left-radius: 0px;
+    }
+    .type-form {
+        left: 140px;
+        top: 0px;
+    }
+    .submit {
+        position: absolute;
+        top: 16px;
+        height: 23px;
+        width: 50px;
+        left: 370px;
     }
 }

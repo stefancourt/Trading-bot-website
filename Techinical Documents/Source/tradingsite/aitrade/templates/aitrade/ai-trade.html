@@ -37,9 +37,11 @@
                         </div>
                     {% endfor %}
                 </div>
-                <div class="date-form">{{ date_form.as_p }}</div>
-                <div class="type-form">{{ stock_type_form.as_p }}</div>
-                <div class="amount-form">{{ amount_form.as_p }}</div>
+                <div class="forms">
+                    <div class="date-form text">{{ date_form.as_p }}</div>
+                    <div class="type-form text">{{ stock_type_form.as_p }}</div>
+                    <div class="amount-form text">{{ amount_form.as_p }}</div>
+                </div>
 
                 <button class="submit text">Submit</button>
 

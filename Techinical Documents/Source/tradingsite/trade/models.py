@@ -31,8 +31,8 @@ class StockType(models.Model):
     MSFT = 'Microsoft'
 
     STOCK_TYPE_CHOICES = [
-        (AAPL, 'Apple (AAPL)'),
-        (MSFT, 'Microsoft (MSFT)'),
+        (AAPL, 'Apple'),
+        (MSFT, 'Microsoft'),
     ]
 
     stock_type = models.CharField(

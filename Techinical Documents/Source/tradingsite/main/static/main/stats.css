@@ -47,7 +47,7 @@
 .money {
     font-size: 30px;
     top: 8px;
-    right: 60px;
+    right: 70px;
     position: absolute;
     z-index: 10;
 }
@@ -58,7 +58,7 @@ button.logout {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     height: 36px;
-    width: 50px;
+    width: 60px;
     z-index: 11;
     background-color: var(--navbar-color);
     cursor: pointer;

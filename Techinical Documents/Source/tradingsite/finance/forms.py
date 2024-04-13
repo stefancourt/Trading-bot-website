@@ -14,4 +14,4 @@ class ManageForm(forms.Form):
     invest = forms.IntegerField(label="Invest", widget=forms.TextInput(attrs={'class': 'form-control'}))
     savings = forms.IntegerField(label="Savings", widget=forms.TextInput(attrs={'class': 'form-control'}))
     luxury = forms.IntegerField(label="Luxury", widget=forms.TextInput(attrs={'class': 'form-control'}))
-    choices = forms.ChoiceField(choices=CHART_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}))
+    choices = forms.ChoiceField(choices=CHART_CHOICES, widget=forms.Select(attrs={'class': 'form-select third'}))

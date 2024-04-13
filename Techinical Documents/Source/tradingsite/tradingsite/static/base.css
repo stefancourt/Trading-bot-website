@@ -217,6 +217,7 @@
     position: absolute;
     height: 27px;
     width: 27px;
+    margin-left: -4px;
     border-radius: 30px;
     transform: translate(-4px, -13px);
     background-color: var(--navbar-color);
@@ -231,4 +232,10 @@ body.dark .sidebar.open .dark-mode button div {
 
 .sidebar.open .side-text {
     margin-left: 15px;
+}
+
+@media only screen and (min-width: 560px){
+    .sidebar.open .dark-mode button div {
+        margin-left: 0px;
+    }
 }

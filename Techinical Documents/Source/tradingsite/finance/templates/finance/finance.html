@@ -39,7 +39,9 @@
                 <span class="text title">Manage Finance</span>
                 <form action="POST" id="post-form">
                     {% csrf_token %}
-                    {{ manage_form.as_p }}
+                    <div class="columns">
+                        {{ manage_form.as_p }}
+                    </div>
                     <button><img src="{% static 'images/right.png' %}"></button>
 
                 </form>
