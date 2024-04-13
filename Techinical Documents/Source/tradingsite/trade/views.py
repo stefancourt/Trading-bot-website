@@ -6,9 +6,11 @@ from django.http import JsonResponse
 
 def trade_view(request):
     if request.user.is_authenticated:
+        # Obtains the user logged in
         user_profile = UserProfile.objects.get(user=request.user)
         user_total = user_profile.money_in_account
         user_id = user_profile.user_id
+        # pre-processing to obtain the latest stock price in the dataset
         apple = AAPLStock.objects.all().order_by('-date')
         microsoft = MSFTStock.objects.all().order_by('-date')
         if request.method == "POST":
@@ -18,11 +20,13 @@ def trade_view(request):
                 stop_loss = form.cleaned_data['stop_loss']
                 take_profit = form.cleaned_data['take_profit']
                 order_type = form.cleaned_data['order_type']
+            # Other data is not sent as it is always sent when the page is first opened
             context={
                 'place_trade_form': PlaceTradeForm(),
                 'date_form': DateForm(),
                 'stock_type_form': TypeForm(),
             }
+            # If a post request is submitted data is sent to the js console
             return JsonResponse({"take_profit":take_profit, "stop_loss":stop_loss, "order_type":order_type, "user_id": user_id})
 
         else:
@@ -38,5 +42,6 @@ def trade_view(request):
             }
             return render(request, "trade/trade.html", context=context)
     else:
+        # Returns the user to the login/sign-up page if not logged in
         return redirect('/')
             

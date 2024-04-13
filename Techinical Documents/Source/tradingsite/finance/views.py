@@ -5,6 +5,7 @@ from django.http import JsonResponse
 
 def finance_view(request):
     if request.user.is_authenticated:
+        # Obtains the user logged in
         user_profile = UserProfile.objects.get(user=request.user)
         user_total = user_profile.money_in_account
         if request.method == "POST":
@@ -21,6 +22,7 @@ def finance_view(request):
             context={
                 'manage_form': ManageForm(),
             }
+            # If a post request is opened data is sent to the js console
             return JsonResponse({"choices":choices,
                                 "rent":rent, 
                                 "bills":bills, 
@@ -37,4 +39,5 @@ def finance_view(request):
             }
             return render(request, "finance/finance.html", context=context)
     else:
+        # Returns the user to the login/sign-up page if not logged in
         return redirect('/')

@@ -49,7 +49,10 @@
             {% endblock content %}
             <canvas id="myChart"></canvas>
 
-            <button id="confirm" class="confirm"><img src="{% static 'images/play.png' %}"></button>
+            <form method="POST" id="post-form">
+                {% csrf_token %}
+                <button id="confirm" class="confirm"><img src="{% static 'images/play.png' %}"></button>
+            </form>
             <button id="stop" class="stop"><img src="{% static 'images/pause.png' %}"></button>
         </div>
     </div>

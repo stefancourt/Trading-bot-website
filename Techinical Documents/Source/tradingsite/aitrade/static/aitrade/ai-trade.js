@@ -17,7 +17,7 @@ var myChart = new Chart(ctx, graphData);
 
 
 var socket = null;
-var isPaused = false; // Variable to track whether graph updates are paused
+var isPaused = false;
 var takeProfitLineAdded = false;
 var stopLossLineAdded = false;
 var takeProfitValue;
@@ -75,6 +75,7 @@ function createWebSocket() {
                         $("#error-modal").hide();
                     });
                 }else {
+                    // Sends the URL parameters to the consumer
                     socket.send(JSON.stringify(dataToSend));
                 }
             });
@@ -95,6 +96,7 @@ function createWebSocket() {
                 var djangoData = JSON.parse(e.data);
                 console.log(djangoData);
 
+                // Changes the user's balance on the web page without needing to refreshing the page
                 if (djangoData.money_in_account) {
                     var moneyInAccountElement = document.getElementById('money_in_account');
                     if (moneyInAccountElement) {
@@ -108,6 +110,7 @@ function createWebSocket() {
                     $(".close").click(function() {
                         $("#error-modal").hide();
                     });
+                    // Closes socket if the date entered is invalid
                     socket.close()
                 }
                 if (djangoData.last_date !== undefined) {
@@ -117,6 +120,7 @@ function createWebSocket() {
                     $(".close").click(function() {
                         $("#error-modal").hide();
                     });
+                    // Closes socket if the date entered is invalid
                     socket.close()
                 }
 
@@ -130,22 +134,71 @@ function createWebSocket() {
                     newGraphDataDate.shift();
                 }
 
+                // Adds open point of stock for the date to the graph
                 newGraphDataValue.push(djangoData.open);
                 newGraphDataDate.push(djangoData.date);
                
                 graphData.data.datasets[0].data = newGraphDataValue;
                 graphData.data.labels = newGraphDataDate
 
+
+                if (djangoData.signal === 1 && !takeProfitLineAdded) {
+                    openTrade = graphData.data.datasets[0].data[graphData.data.datasets[0].data.length - 1]
+                    takeProfitValue = currentOpen + 4
+                    stopLossValue = currentOpen - 4
+                    buy = true;
+                    var takeProfitLineData = Array(myChart.data.labels.length).fill(takeProfitValue);
+                    var stopLossLineData = Array(myChart.data.labels.length).fill(stopLossValue);
+                    
+                    // Add the Take Profit line data to the datasets
+                    myChart.data.datasets.push({
+                        label: 'Take Profit',
+                        data: takeProfitLineData,
+                        borderColor: 'green',
+                        borderWidth: 1,
+                        fill: false,
+                        pointRadius: 0
+                    });
+                    // Add the Stop Loss line data to the datasets
+                    myChart.data.datasets.push({
+                        label: 'Stop Loss',
+                        data: stopLossLineData,
+                        borderColor: 'red',
+                        borderWidth: 1,
+                        fill: false,
+                        pointRadius: 0
+                    });
+                    takeProfitLineAdded = true;
+                    stopLossLineAdded = true;
+                    
+                    myChart.update('none');
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
                 if (takeProfitLineAdded) {
+                    // Adds point to the take profit line on each run
                     var newGraphTakeLine = graphData.data.datasets[1].data;
                     newGraphTakeLine.push(takeProfitValue);
                     graphData.data.datasets[1].data = newGraphTakeLine;
                 }
                 if (stopLossLineAdded) {
+                    // Adds point to the stop loss line on each run
                     var newGraphStopLine = graphData.data.datasets[2].data;
                     newGraphStopLine.push(stopLossValue);
                     graphData.data.datasets[2].data = newGraphStopLine;
                 }
+                // Sets the date one day forward
                 start = new Date(djangoData.date);
                 start.setDate(start.getDate() + 1);
 
@@ -155,6 +208,8 @@ function createWebSocket() {
                 var day = start.getDate().toString().padStart(2, '0');
 
                 start = year + '-' + month + '-' + day;
+
+                // If take-profit/stop-loss hit sends the value to the consumer
                 if (buy && djangoData.open > takeProfitValue) {
                     socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'amount': amount, 'uuid': uuid}));
                     console.log(takeProfitValue)
@@ -215,6 +270,7 @@ function createWebSocket() {
                 console.log(dataToSend);
                 socket.send(JSON.stringify(dataToSend));
                 }
+                // Points are animated from 0 axis which looks clunky so no aninmations
                 myChart.update('none');
             }
         }
@@ -238,4 +294,22 @@ document.getElementById('confirm').addEventListener('click', function () {
 
 document.getElementById('stop').addEventListener('click', function () {
     isPaused = !isPaused; // Toggle the paused state
+});
+
+$(document).ready(function() {
+    $('#post-form').submit(function(e){
+        e.preventDefault();
+        var serializedData = $(this).serialize();
+
+        // Ajax for hendling POST request
+        $.ajax({
+        type:"POST",
+        url: "",
+        data:  serializedData,
+        success: function(data){
+            // Draw a straight line at take_profit value
+            userId = data["user_id"]
+            }
+        });
+    })
 });

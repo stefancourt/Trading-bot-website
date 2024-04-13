@@ -25,6 +25,7 @@ $(document).ready(function() {
         e.preventDefault();
         var serializedData = $(this).serialize();
 
+        // AJAX handling POST request
         $.ajax({
         type:"POST",
         url: "",
@@ -42,7 +43,9 @@ $(document).ready(function() {
             
             if (data.total >= maximum) {
                 const ctx = document.getElementById('Chart');
+                // Checks if there is already a graph present
                 if (window.myChart instanceof Chart) {
+                    // Removes graph from the page
                     window.myChart.destroy();
                 }
                 if (data.choices === "Pie") {
@@ -134,6 +137,7 @@ $(document).ready(function() {
                         }
                     };
                 }
+                // Creates a graph
                 window.myChart = new Chart(ctx, graphData);
             } else {
                 $('#error-message').text('Combined total of spendatures must not exceed the total balance. Please enter £'+ (maximum - data.total).toFixed(2) +' less');

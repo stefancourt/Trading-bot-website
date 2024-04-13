@@ -13,8 +13,7 @@ class Command(BaseCommand):
             reader = csv.DictReader(csvfile)
 
             for row in reader:
-                # dt = row['date']
-
+                # Creates an Apple stock object for each row in the csv with the following attributes to be used
                 AAPLStock.objects.get_or_create(date=row['Date'],open=row['Open'],high=row['High'],low=row['Low'],close=row['Close'])
         
         datafile = settings.BASE_DIR / 'stock_data' / 'MSFT_hist.csv'
@@ -23,6 +22,5 @@ class Command(BaseCommand):
             reader = csv.DictReader(csvfile)
 
             for row in reader:
-                # dt = row['date']
-
+                # Creates a Microsoft stock object for each row in the csv with the following attributes to be used
                 MSFTStock.objects.get_or_create(date=row['Date'],open=row['Open'],high=row['High'],low=row['Low'],close=row['Close'])

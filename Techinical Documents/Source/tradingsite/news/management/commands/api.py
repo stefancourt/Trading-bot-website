@@ -9,16 +9,20 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         datafile = settings.BASE_DIR / 'stock_data' / 'news' / 'AAPL_news.json'
 
+        # Sends a request to pull information from alpha vantage api
         r = requests.get(AAPL_url)
         data = r.json()
 
+        # Writes this data to a json file in /stock_data/news/
         with open(datafile, 'w') as f:
             json.dump(data, f)
 
         datafile = settings.BASE_DIR / 'stock_data' / 'news' / 'MSFT_news.json'
 
+        # Sends a request to pull information from alpha vantage api
         r = requests.get(MSFT_url)
         data = r.json()
 
+        # Writes this data to a json file in /stock_data/news/
         with open(datafile, 'w') as f:
             json.dump(data, f)

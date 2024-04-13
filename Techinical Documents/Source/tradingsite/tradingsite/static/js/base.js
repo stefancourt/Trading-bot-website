@@ -12,12 +12,14 @@ const body = document.querySelector("body"),
           sidebar.classList.remove("open");
           sidebar.classList.add("close");
       })
+
 function toggleMode(mode) {
   const body = document.body;
   body.classList.toggle('light', mode === 'light');
   body.classList.toggle('dark', mode === 'dark');
 }
 
+// Saves the toggled mode to the local storage
 function setModePreference(mode) {
   localStorage.setItem('mode', mode);
 }

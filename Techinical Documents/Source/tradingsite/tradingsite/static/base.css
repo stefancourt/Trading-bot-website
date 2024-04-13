@@ -86,9 +86,10 @@
     transition: var(--tran-02);
 }
 
-.header-image {
+.top-header span{
     position: absolute;
-    margin-left: 30%;
+    margin-left: 16%;
+    font-size: 30px;
 }
 
 

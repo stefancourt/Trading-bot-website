@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class AAPLStock(models.Model):
     date = models.DateField()
     open = models.FloatField()
@@ -22,8 +21,6 @@ class MSFTStock(models.Model):
 
     class Meta:
         ordering = ('date',)
-
-
 
 class StockType(models.Model):
 

@@ -92,6 +92,7 @@ DATABASES = {
     }
 }
 
+# Allows use of Redis Server for asynchronous processes
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',

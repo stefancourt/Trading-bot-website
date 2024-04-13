@@ -1,9 +1,9 @@
 from django.db import models
 
-# Create your models here.
 from django.contrib.auth.models import User
 
 class Trades(models.Model):
+    # Obtains user from django user model
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     stock_name = models.CharField(max_length=255)
     pnl = models.FloatField(default=0)

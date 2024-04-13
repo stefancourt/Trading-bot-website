@@ -324,6 +324,7 @@ canvas {
     background-color: var(--container-color);
     border-radius: 3px;
     border: 0.7px solid black;
+    z-index: 100;
 }.dark .submit {
     background-color: var(--container-color-dark);
     border: 0.7px solid var(--border-color-dark);
@@ -403,7 +404,9 @@ canvas {
     cursor: pointer;
 }
 
-
+.canvas {
+    z-index: 10;
+}
 
 
 

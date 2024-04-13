@@ -6,8 +6,10 @@ import json
 
 def news_view(request):
     if request.user.is_authenticated:
+        # Obtains the user logged in
         user = UserProfile.objects.get(user=request.user)
         user_total = user.money_in_account
+        # Pre-processing for showing the latest stock price
         apple = AAPLStock.objects.all().order_by('-date')
         microsoft = MSFTStock.objects.all().order_by('-date')
         titles = []
@@ -21,11 +23,14 @@ def news_view(request):
                     stock_type = "AAPL"
                 elif stock_type == "Microsoft":
                     stock_type = "MSFT"
+                # Allows choice of stock for news shown
                 with open(f'tradingsite/stock_data/news/{stock_type}_news.json') as json_data:
                     data = json.load(json_data)
+                    # Obtains the title and summary for the news of stock
                     for item in data['feed'][:10]:
                         titles.append(item['title'])
                         summaries.append(item['summary'])
+                        # Gets all relevance scores for the news of stock
                         for i in item["ticker_sentiment"]:
                             if i['ticker'] == stock_type:
                                 print(i['ticker'])
@@ -52,12 +57,15 @@ def news_view(request):
                 }
                 return render(request, "news/news.html", context=context)
         else:
+            # Apple has been chose as the default news when the page is opened
             with open('tradingsite/stock_data/news/AAPL_news.json') as json_data:
                 data = json.load(json_data)
+                # Obtains the title and summary for the news of Apple stock
                 for item in data['feed'][:10]:
                     titles.append(item['title'])
                     summaries.append(item['summary'])
                     for i in item["ticker_sentiment"]:
+                        # Gets all relevance scores for the news of Apple stock
                         if i['ticker'] == 'AAPL':
                             print(i['ticker'])
                             relevance_scores.append(i['relevance_score'])
@@ -83,4 +91,5 @@ def news_view(request):
             }
             return render(request, "news/news.html", context=context)
     else:
+        # Returns the user to the login/sign-up page if not logged in
         return redirect('/')
