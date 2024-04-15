@@ -13,15 +13,15 @@ from channels.generic.websocket import AsyncWebsocketConsumer, StopConsumer
 
 # Calculate moving averages
 def moving_average(data, window):
-    return data['Close'].rolling(window=window).mean()
+    return data['Open'].rolling(window=window).mean()
 
 # Calculate momentum
 def momentum(data, window):
-    return data['Close'].diff(window - 1)
+    return data['Open'].diff(window - 1)
 
 # Calculate VWAP
 def vwap(data):
-    typical_price = (data['High'] + data['Low'] + data['Close']) / 3
+    typical_price = (data['High'] + data['Low'] + data['Open']) / 3
     volume_price = typical_price * data['Volume']
     cumulative_volume = data['Volume'].cumsum()
     cumulative_volume_price = volume_price.cumsum()
@@ -37,18 +37,20 @@ def trading_strategy(data, short_window, long_window, momentum_window, ma_bool=F
     if ma_bool == True:
         signals['short_mavg'] = moving_average(data, short_window)
         signals['long_mavg'] = moving_average(data, long_window)
-        signals['signal'][short_window:] = np.where(signals['short_mavg'][short_window:] > signals['long_mavg'][short_window:], 1.0, 0.0)
+        signals['signal'][short_window:] = np.where(signals['short_mavg'][short_window:] > signals['long_mavg'][short_window:], 1.0, -1.0)
 
     # Momentum
     if momentum_bool == True:
         signals['momentum'] = momentum(data, momentum_window)
         signals['signal'][(signals['momentum'] > 0) & (signals['signal'] != 0)] = 1.0
+        signals['signal'][(signals['momentum'] < 0) & (signals['signal'] != 0)] = -1.0
 
     # VWAP
     if vwap_bool == True:
         vwap_values = vwap(data)
         signals['vwap'] = vwap_values.shift(1)
         signals['signal'][data['Close'] > signals['vwap']] = 1.0
+        signals['signal'][data['Close'] < signals['vwap']] = -1.0
 
     return signals
 
@@ -133,7 +135,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             # Creates a file in stock_data/signals/ for the signals the websocket is using
             if robot_true:
-                df = pd.read_csv(f"tradingsite/stock_data/MSFT_hist.csv")
+                df = pd.read_csv("tradingsite/stock_data/MSFT_hist.csv")
                 # Start the file from the start date selected
                 df = df[df['Date'] >= start]
                 # Generates in the file the strategy selected
@@ -196,7 +198,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             # Creates a file in stock_data/signals/ for the signals the websocket is using
             if robot_true:
-                df = pd.read_csv(f"tradingsite/stock_data/AAPL_hist.csv")
+                df = pd.read_csv("tradingsite/stock_data/AAPL_hist.csv")
                 # Start the file from the start date selected
                 df = df[df['Date'] >= start]
                 # Generates in the file the strategy selected

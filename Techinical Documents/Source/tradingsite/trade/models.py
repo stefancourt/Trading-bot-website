@@ -22,6 +22,17 @@ class MSFTStock(models.Model):
     class Meta:
         ordering = ('date',)
 
+class METAStock(models.Model):
+    date = models.DateField()
+    open = models.FloatField()
+    close = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+
+
+    class Meta:
+        ordering = ('date',)
+
 class StockType(models.Model):
 
     AAPL = 'Apple'
