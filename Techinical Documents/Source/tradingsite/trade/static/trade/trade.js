@@ -27,10 +27,10 @@ var buy = false;
 var sell = false;
 var userId;
 var userIdFlag = false;
-var openTrade;
+var closeTrade;
 var start;
 var stockType;
-var currentOpen;
+var currentClose;
 
 function createWebSocket() {
     if (socket === null || socket.readyState === WebSocket.CLOSED) {
@@ -91,7 +91,7 @@ function createWebSocket() {
                     // Closes socket if the date entered is invalid
                     socket.close()
                 }
-                currentOpen = djangoData.open
+                currentClose = djangoData.close
 
                 var newGraphDataValue = graphData.data.datasets[0].data;
                 var newGraphDataDate = graphData.data.labels;
@@ -101,8 +101,8 @@ function createWebSocket() {
                     newGraphDataDate.shift();
                 }
 
-                // Adds open point of stock for the date to the graph
-                newGraphDataValue.push(djangoData.open);
+                // Adds close point of stock for the date to the graph
+                newGraphDataValue.push(djangoData.close);
                 newGraphDataDate.push(djangoData.date);
                
                 graphData.data.datasets[0].data = newGraphDataValue;
@@ -132,11 +132,11 @@ function createWebSocket() {
                 start = year + '-' + month + '-' + day;
 
                 // If take-profit/stop-loss hit sends the value to the consumer
-                if (buy && djangoData.open > takeProfitValue) {
-                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start}));
+                if (buy && djangoData.close > takeProfitValue) {
+                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start}));
                     console.log(takeProfitValue)
                     console.log(userId)
-                    console.log(openTrade)
+                    console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
                     graphData.data.datasets.splice(1, 1)
                     takeProfitLineAdded = null;
@@ -144,11 +144,11 @@ function createWebSocket() {
                     buy = false;
                     userIdFlag = false;
                 }
-                else if (buy && djangoData.open < stopLossValue) {
-                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start}));
+                else if (buy && djangoData.close < stopLossValue) {
+                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start}));
                     console.log(stopLossValue)
                     console.log(userId)
-                    console.log(openTrade)
+                    console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
                     graphData.data.datasets.splice(1, 1)
                     takeProfitLineAdded = null;
@@ -156,11 +156,11 @@ function createWebSocket() {
                     buy = false;
                     userIdFlag = false;
                 }
-                else if (sell && djangoData.open < takeProfitValue) {
-                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType,'start': start}));
+                else if (sell && djangoData.close < takeProfitValue) {
+                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType,'start': start}));
                     console.log(takeProfitValue)
                     console.log(userId)
-                    console.log(openTrade)
+                    console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
                     graphData.data.datasets.splice(1, 1)
                     takeProfitLineAdded = null;
@@ -168,11 +168,11 @@ function createWebSocket() {
                     sell = false;
                     uaserIdFlag = false;
                 }
-                else if (sell && djangoData.open > stopLossValue) {
-                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start}));
+                else if (sell && djangoData.close > stopLossValue) {
+                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start}));
                     console.log(stopLossValue)
                     console.log(userId)
-                    console.log(openTrade)
+                    console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
                     graphData.data.datasets.splice(1, 1)
                     takeProfitLineAdded = null;
@@ -238,18 +238,18 @@ $(document).ready(function() {
             // Draw a straight line at take_profit value
             userId = data["user_id"]
             userIdFlag = true;
-            openTrade = graphData.data.datasets[0].data[graphData.data.datasets[0].data.length - 1]
+            closeTrade = graphData.data.datasets[0].data[graphData.data.datasets[0].data.length - 1]
             takeProfitValue = parseFloat(data["take_profit"])
             stopLossValue = parseFloat(data["stop_loss"])
             if (data["order_type"] === 'buy' && takeProfitValue <= stopLossValue) {
                 $('#error-message').text('The value of your Stop Loss cannot be greater than your Take Profit on a buy order');
                 $('#error-modal').show();
             }
-            else if (data["order_type"] === 'buy' && takeProfitValue <= currentOpen) {
+            else if (data["order_type"] === 'buy' && takeProfitValue <= currentClose) {
                 $('#error-message').text('You cannot place a buy order where the Take Proft value is below the current price of the stock');
                 $('#error-modal').show();
             }
-            else if (data["order_type"] === 'buy' && stopLossValue >= currentOpen) {
+            else if (data["order_type"] === 'buy' && stopLossValue >= currentClose) {
                 $('#error-message').text('You cannot place a buy order where the Stop Loss value is above the current price of the stock');
                 $('#error-modal').show();
             }
@@ -257,11 +257,11 @@ $(document).ready(function() {
                 $('#error-message').text('The value of your Take Profit cannot be greater than your Stop Loss on a buy order');
                 $('#error-modal').show();
             }
-            else if (data["order_type"] === 'sell' && takeProfitValue >= currentOpen) {
+            else if (data["order_type"] === 'sell' && takeProfitValue >= currentClose) {
                 $('#error-message').text('You cannot place a sell order where the Take Profit value is above the current price of the stock');
                 $('#error-modal').show();
             }
-            else if (data["order_type"] === 'sell' && stopLossValue <= currentOpen) {
+            else if (data["order_type"] === 'sell' && stopLossValue <= currentClose) {
                 $('#error-message').text('You cannot place a sell order where the Stop Loss value is below the current price of the stock');
                 $('#error-modal').show();
             }

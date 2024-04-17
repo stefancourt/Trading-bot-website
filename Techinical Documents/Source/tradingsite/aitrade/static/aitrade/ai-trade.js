@@ -26,12 +26,12 @@ var buy = false;
 var sell = false;
 var userId;
 var userIdFlag = false;
-var openTrade;
+var closeTrade;
 var start;
 var stockType;
 var amount;
 var aiType;
-var currentOpen;
+var currentClose;
 var uuid = generateUUID();
 
 
@@ -46,7 +46,7 @@ function generateUUID() {
 
 function createWebSocket() {
     if (socket === null || socket.readyState === WebSocket.CLOSED) {
-        socket = new WebSocket('ws://localhost:8000/ws/ai-trade/');
+        socket = new WebSocket('ws://localhost:8000/ws/ai-trade/?id=' + uuid);
 
         socket.onopen = function (e) {
             var urlParams = new URLSearchParams(window.location.search);
@@ -60,7 +60,6 @@ function createWebSocket() {
                 stockType: stockType,
                 amount: amount,
                 aiType: aiType,
-                uuid: uuid
             };
             $(document).ready(function() {
                 var urlParams = new URLSearchParams(window.location.search);
@@ -124,7 +123,7 @@ function createWebSocket() {
                     socket.close()
                 }
 
-                currentOpen = djangoData.open
+                currentClose = djangoData.close
 
                 var newGraphDataValue = graphData.data.datasets[0].data;
                 var newGraphDataDate = graphData.data.labels;
@@ -134,8 +133,8 @@ function createWebSocket() {
                     newGraphDataDate.shift();
                 }
 
-                // Adds open point of stock for the date to the graph
-                newGraphDataValue.push(djangoData.open);
+                // Adds close point of stock for the date to the graph
+                newGraphDataValue.push(djangoData.close);
                 newGraphDataDate.push(djangoData.date);
                
                 graphData.data.datasets[0].data = newGraphDataValue;
@@ -143,9 +142,9 @@ function createWebSocket() {
 
 
                 if (djangoData.signal === 1 && !takeProfitLineAdded) {
-                    openTrade = graphData.data.datasets[0].data[graphData.data.datasets[0].data.length - 1]
-                    takeProfitValue = currentOpen + 4
-                    stopLossValue = currentOpen - 4
+                    closeTrade = graphData.data.datasets[0].data[graphData.data.datasets[0].data.length - 1]
+                    takeProfitValue = currentClose + 4
+                    stopLossValue = currentClose - 4
                     buy = true;
                     var takeProfitLineData = Array(myChart.data.labels.length).fill(takeProfitValue);
                     var stopLossLineData = Array(myChart.data.labels.length).fill(stopLossValue);
@@ -210,11 +209,11 @@ function createWebSocket() {
                 start = year + '-' + month + '-' + day;
 
                 // If take-profit/stop-loss hit sends the value to the consumer
-                if (buy && djangoData.open > takeProfitValue) {
-                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'amount': amount, 'uuid': uuid}));
+                if (buy && djangoData.close > takeProfitValue) {
+                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start, 'amount': amount}));
                     console.log(takeProfitValue)
                     console.log(userId)
-                    console.log(openTrade)
+                    console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
                     graphData.data.datasets.splice(1, 1)
                     takeProfitLineAdded = null;
@@ -222,11 +221,11 @@ function createWebSocket() {
                     buy = false;
                     userIdFlag = false;
                 }
-                else if (buy && djangoData.open < stopLossValue) {
-                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'amount': amount, 'uuid': uuid}));
+                else if (buy && djangoData.close < stopLossValue) {
+                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start, 'amount': amount}));
                     console.log(stopLossValue)
                     console.log(userId)
-                    console.log(openTrade)
+                    console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
                     graphData.data.datasets.splice(1, 1)
                     takeProfitLineAdded = null;
@@ -234,11 +233,11 @@ function createWebSocket() {
                     buy = false;
                     userIdFlag = false;
                 }
-                else if (sell && djangoData.open < takeProfitValue) {
-                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'amount': amount, 'uuid': uuid}));
+                else if (sell && djangoData.close < takeProfitValue) {
+                    socket.send(JSON.stringify({'take_profit': takeProfitValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start, 'amount': amount}));
                     console.log(takeProfitValue)
                     console.log(userId)
-                    console.log(openTrade)
+                    console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
                     graphData.data.datasets.splice(1, 1)
                     takeProfitLineAdded = null;
@@ -246,11 +245,11 @@ function createWebSocket() {
                     sell = false;
                     uaserIdFlag = false;
                 }
-                else if (sell && djangoData.open > stopLossValue) {
-                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'open_trade': openTrade, 'stockType': stockType, 'start': start, 'amount': amount, 'uuid': uuid}));
+                else if (sell && djangoData.close > stopLossValue) {
+                    socket.send(JSON.stringify({'stop_loss': stopLossValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start, 'amount': amount}));
                     console.log(stopLossValue)
                     console.log(userId)
-                    console.log(openTrade)
+                    console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
                     graphData.data.datasets.splice(1, 1)
                     takeProfitLineAdded = null;
@@ -265,7 +264,6 @@ function createWebSocket() {
                     stockType: stockType,
                     amount: amount,
                     aiType: aiType,
-                    uuid: uuid
                 };
                 console.log(dataToSend);
                 socket.send(JSON.stringify(dataToSend));
@@ -283,7 +281,6 @@ document.getElementById('confirm').addEventListener('click', function () {
         var dataToSend = {
             start: start,
             stockType: stockType,
-            uuid: uuid
         };
 
         console.log(dataToSend);

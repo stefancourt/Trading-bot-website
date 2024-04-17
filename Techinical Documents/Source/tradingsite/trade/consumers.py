@@ -23,13 +23,13 @@ class GraphConsumer(AsyncWebsocketConsumer):
         stock_type = data.get('stockType')
 
         user_id = data.get('user_id')
-        open_trade = data.get('open_trade')
+        close_trade = data.get('close_trade')
 
         if data.get('take_profit'):
             user_id = data.get('user_id')
-            open_trade = data.get('open_trade')
+            close_trade = data.get('close_trade')
             # So that amount_gained is always positive
-            amount_gained = abs(data.get('take_profit') - open_trade)
+            amount_gained = abs(data.get('take_profit') - close_trade)
             user_profile = await sync_to_async(UserProfile.objects.get)(user_id=user_id)
             user_profile.money_in_account += amount_gained
             await sync_to_async(user_profile.save)()
@@ -50,9 +50,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
 
         if data.get('stop_loss'):
             user_id = data.get('user_id')
-            open_trade = data.get('open_trade')
+            close_trade = data.get('close_trade')
             # So that amount_gained is always negative
-            amount_lost = abs(open_trade - data.get('stop_loss'))
+            amount_lost = abs(close_trade - data.get('stop_loss'))
             user_profile = await sync_to_async(UserProfile.objects.get)(user_id=user_id)
             user_profile.money_in_account -= amount_lost
             await sync_to_async(user_profile.save)()
@@ -87,9 +87,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
             )
             if msft_stocks[0].date.isoformat() == start:
                 if data.get('take_profit') or data.get("stop_loss"):
-                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "money_in_account": user_profile.money_in_account}))
+                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "close": msft_stocks[0].close, "money_in_account": user_profile.money_in_account}))
                 else:
-                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open}))
+                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "close": msft_stocks[0].close}))
                 await sleep(1)
             else:
                 n = 1
@@ -98,9 +98,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
                     if msft_stocks[0].date.isoformat() == start:
                         if data.get('take_profit') or data.get("stop_loss"):
                             # Sends the user's balance to change in the page dynamically
-                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "money_in_account": user_profile.money_in_account}))
+                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "close": msft_stocks[0].close, "money_in_account": user_profile.money_in_account}))
                         else:
-                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open}))
+                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "close": msft_stocks[0].close}))
                         await sleep(1)
                         break
                     else:
@@ -124,9 +124,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
             if aapl_stocks[0].date.isoformat() == start:
                 if data.get('take_profit') or data.get("stop_loss"):
                     # Sends the user's balance to change in the page dynamically
-                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "money_in_account": user_profile.money_in_account}))
+                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close, "money_in_account": user_profile.money_in_account}))
                 else:
-                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open}))
+                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close}))
                 await sleep(1)
             else:
                 n = 1
@@ -135,9 +135,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
                     if aapl_stocks[0].date.isoformat() == start:
                         if data.get('take_profit') or data.get("stop_loss"):
                             # Sends the user's balance to change in the page dynamically
-                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "money_in_account": user_profile.money_in_account}))
+                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close, "money_in_account": user_profile.money_in_account}))
                         else:
-                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open}))
+                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close}))
                         await sleep(1)
                         break
                     else:

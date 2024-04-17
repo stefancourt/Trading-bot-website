@@ -1,5 +1,6 @@
 import json
 from asyncio import sleep
+from tkinter import N
 from trade.models import AAPLStock, MSFTStock
 from main.models import UserProfile, Trades
 from asgiref.sync import sync_to_async
@@ -13,15 +14,15 @@ from channels.generic.websocket import AsyncWebsocketConsumer, StopConsumer
 
 # Calculate moving averages
 def moving_average(data, window):
-    return data['Open'].rolling(window=window).mean()
+    return data['Close'].rolling(window=window).mean()
 
 # Calculate momentum
 def momentum(data, window):
-    return data['Open'].diff(window - 1)
+    return data['Close'].diff(window - 1)
 
 # Calculate VWAP
 def vwap(data):
-    typical_price = (data['High'] + data['Low'] + data['Open']) / 3
+    typical_price = (data['High'] + data['Low'] + data['Close']) / 3
     volume_price = typical_price * data['Volume']
     cumulative_volume = data['Volume'].cumsum()
     cumulative_volume_price = volume_price.cumsum()
@@ -59,30 +60,27 @@ class GraphConsumer(AsyncWebsocketConsumer):
         super().__init__(*args, **kwargs)
 
     async def connect(self):
-        global robot_true
         global first_pass
-        robot_true = True
         first_pass = True
+        self.unique_id = self.scope["query_string"].decode("utf-8")
         await self.accept()
 
     async def receive(self, text_data):
-        global robot_true
         global first_pass
         data = json.loads(text_data)
 
-        uuid = data.get('uuid')
         ai_type = data.get('aiType')
         start = data.get('start')
         stock_type = data.get('stockType')
 
         user_id = data.get('user_id')
-        open_trade = data.get('open_trade')
+        close_trade = data.get('close_trade')
 
         if data.get('take_profit'):
             user_id = data.get('user_id')
-            open_trade = data.get('open_trade')
+            close_trade = data.get('close_trade')
             # So that amount_gained is always positive
-            amount_gained = abs(data.get('take_profit') - open_trade)
+            amount_gained = abs(data.get('take_profit') - close_trade)
             user_profile = await sync_to_async(UserProfile.objects.get)(user_id=user_id)
             user_profile.money_in_account += amount_gained
             await sync_to_async(user_profile.save)()
@@ -103,9 +101,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
 
         if data.get('stop_loss'):
             user_id = data.get('user_id')
-            open_trade = data.get('open_trade')
+            close_trade = data.get('close_trade')
             # So that amount_gained is always negative
-            amount_lost = abs(open_trade - data.get('stop_loss'))
+            amount_lost = abs(close_trade - data.get('stop_loss'))
             user_profile = await sync_to_async(UserProfile.objects.get)(user_id=user_id)
             user_profile.money_in_account -= amount_lost
             await sync_to_async(user_profile.save)()
@@ -134,7 +132,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
             if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
                 await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             # Creates a file in stock_data/signals/ for the signals the websocket is using
-            if robot_true:
+            if first_pass:
                 df = pd.read_csv("tradingsite/stock_data/MSFT_hist.csv")
                 # Start the file from the start date selected
                 df = df[df['Date'] >= start]
@@ -147,10 +145,10 @@ class GraphConsumer(AsyncWebsocketConsumer):
                     signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=False, momentum_bool=True)
                 else:
                     signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=True, momentum_bool=True)
-                signals.to_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
+                signals.to_csv(f"tradingsite/stock_data/signals/{self.unique_id}_signal.csv")
                 # Only on first pass
-                robot_true=False
-            dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
+                first_pass=False
+            dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{self.unique_id}_signal.csv")
             msft_stocks = await sync_to_async(list)(
                 MSFTStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )
@@ -158,9 +156,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 row = dataframe.loc[dataframe['Date'] == start]
                 if data.get('take_profit') or data.get("stop_loss"):
                     # Sends the user's balance to change in the page dynamically
-                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "close": msft_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
                 else:
-                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0]}))
+                    await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "close": msft_stocks[0].close, "signal": row["signal"].values[0]}))
                 await sleep(1)
             else:
                 n = 1
@@ -170,9 +168,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
                         row = dataframe.loc[dataframe['Date'] == start]
                         if data.get('take_profit') or data.get("stop_loss"):
                             # Sends the user's balance to change in the page dynamically
-                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "close": msft_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
                         else:
-                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "open": msft_stocks[0].open, "signal": row["signal"].values[0]}))
+                            await self.send(json.dumps({"date": msft_stocks[0].date.isoformat(), "close": msft_stocks[0].close, "signal": row["signal"].values[0]}))
                         await sleep(1)
                         break
                     else:
@@ -197,7 +195,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
             if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
                 await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             # Creates a file in stock_data/signals/ for the signals the websocket is using
-            if robot_true:
+            if first_pass:
                 df = pd.read_csv("tradingsite/stock_data/AAPL_hist.csv")
                 # Start the file from the start date selected
                 df = df[df['Date'] >= start]
@@ -210,10 +208,10 @@ class GraphConsumer(AsyncWebsocketConsumer):
                     signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=False, momentum_bool=True)
                 else:
                     signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=True, momentum_bool=True)
-                signals.to_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
+                signals.to_csv(f"tradingsite/stock_data/signals/{self.unique_id}_signal.csv")
                 # Only on first pass
-                robot_true=False
-            dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
+                first_pass=False
+            dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{self.unique_id}_signal.csv")
             aapl_stocks = await sync_to_async(list)(
                 AAPLStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )
@@ -221,9 +219,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 row = dataframe.loc[dataframe['Date'] == start]
                 if data.get('take_profit') or data.get("stop_loss"):
                     # Sends the user's balance to change in the page dynamically
-                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
                 else:
-                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0]}))
+                    await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close, "signal": row["signal"].values[0]}))
                 await sleep(1)
             else:
                 n = 1
@@ -233,9 +231,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
                         row = dataframe.loc[dataframe['Date'] == start]
                         if data.get('take_profit') or data.get("stop_loss"):
                             # Sends the user's balance to change in the page dynamically
-                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
                         else:
-                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "open": aapl_stocks[0].open, "signal": row["signal"].values[0]}))
+                            await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close, "signal": row["signal"].values[0]}))
                         await sleep(1)
                         break
                     else:
@@ -246,7 +244,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
                         start = start_date.strftime("%Y-%m-%d")
 
     def disconnect(self, event):
-        # os.remove(f"tradingsite/stock_data/signals/{uuid}_signal.csv")
-        print('websocket disconnected...', event)
+        print("WebSocket disconnected with unique ID:", self.unique_id)
+        os.remove(f'tradingsite/stock_data/signals/{self.unique_id}_signal.csv')
         self.end = True
         raise StopConsumer()
