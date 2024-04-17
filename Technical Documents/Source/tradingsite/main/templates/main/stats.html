@@ -44,13 +44,14 @@
     <section class="section-two">
         <div class="bar-chart">
             <div class="bar-chart-container">
-                <!--<div class="ai-options">
-                    <div class="text strategies">Option 1</div>
-                    <div class="text strategies">Option 2</div>
-                    <div class="text strategies">Option 3</div>
-                    <div class="text strategies">Option 4</div>
-                </div>-->
                 {% block content %}
+                <form method="GET" action="{% url 'stats' %}">
+
+                    <div class="type-form">{{ stock_type_form.as_p }}</div>
+    
+                    <button class="submit text">Submit</button>
+    
+                </form>
 
                 <div class="chart">{{ chart|safe }}</div>
 

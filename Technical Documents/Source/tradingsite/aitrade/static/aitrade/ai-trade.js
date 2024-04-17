@@ -268,7 +268,7 @@ function createWebSocket() {
                 console.log(dataToSend);
                 socket.send(JSON.stringify(dataToSend));
                 }
-                // Points are animated from 0 axis which looks clunky so no aninmations
+                // Points are animated from 0 axis which looks clunky so no animations
                 myChart.update('none');
             }
         }
