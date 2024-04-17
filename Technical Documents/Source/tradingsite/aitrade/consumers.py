@@ -1,6 +1,5 @@
 import json
 from asyncio import sleep
-from tkinter import N
 from trade.models import AAPLStock, MSFTStock
 from main.models import UserProfile, Trades
 from asgiref.sync import sync_to_async
@@ -133,7 +132,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             # Creates a file in stock_data/signals/ for the signals the websocket is using
             if first_pass:
-                df = pd.read_csv("tradingsite/stock_data/MSFT_hist.csv")
+                df = pd.read_csv("stock_data/MSFT_hist.csv")
                 # Start the file from the start date selected
                 df = df[df['Date'] >= start]
                 # Generates in the file the strategy selected
@@ -145,10 +144,10 @@ class GraphConsumer(AsyncWebsocketConsumer):
                     signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=False, momentum_bool=True)
                 else:
                     signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=True, momentum_bool=True)
-                signals.to_csv(f"tradingsite/stock_data/signals/{self.unique_id}_signal.csv")
+                signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
                 # Only on first pass
                 first_pass=False
-            dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{self.unique_id}_signal.csv")
+            dataframe = pd.read_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
             msft_stocks = await sync_to_async(list)(
                 MSFTStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )
@@ -196,7 +195,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
             # Creates a file in stock_data/signals/ for the signals the websocket is using
             if first_pass:
-                df = pd.read_csv("tradingsite/stock_data/AAPL_hist.csv")
+                df = pd.read_csv("stock_data/AAPL_hist.csv")
                 # Start the file from the start date selected
                 df = df[df['Date'] >= start]
                 # Generates in the file the strategy selected
@@ -208,10 +207,10 @@ class GraphConsumer(AsyncWebsocketConsumer):
                     signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=False, momentum_bool=True)
                 else:
                     signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=True, momentum_bool=True)
-                signals.to_csv(f"tradingsite/stock_data/signals/{self.unique_id}_signal.csv")
+                signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
                 # Only on first pass
                 first_pass=False
-            dataframe = pd.read_csv(f"tradingsite/stock_data/signals/{self.unique_id}_signal.csv")
+            dataframe = pd.read_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
             aapl_stocks = await sync_to_async(list)(
                 AAPLStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
             )
@@ -245,6 +244,6 @@ class GraphConsumer(AsyncWebsocketConsumer):
 
     def disconnect(self, event):
         print("WebSocket disconnected with unique ID:", self.unique_id)
-        os.remove(f'tradingsite/stock_data/signals/{self.unique_id}_signal.csv')
+        os.remove(f'stock_data/signals/{self.unique_id}_signal.csv')
         self.end = True
         raise StopConsumer()
