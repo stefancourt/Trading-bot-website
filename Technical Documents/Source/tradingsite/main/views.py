@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import UserProfile, Trades
 from .forms import OverallTypeForm
 import plotly.graph_objects as go
+
 
 def stats_view(request):
     if request.user.is_authenticated:
