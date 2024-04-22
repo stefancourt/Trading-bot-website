@@ -9,7 +9,7 @@ class AmountForm(forms.Form):
 
 class AITypeForm(forms.Form):
     order_type = forms.ChoiceField(
-        choices=[('ma', 'Moving Average'), ('vwap', 'VWAP'), ('momentum', 'Momentum'), ('combination', 'Combination')],
+        choices=[('ma', 'Moving Average'), ('rsi', 'RSI'), ('adx', 'ADX'), ('combination', 'Combination')],
         widget=forms.RadioSelect(attrs={'class': 'radio-input'}),
         label=None
     )

@@ -143,8 +143,8 @@ function createWebSocket() {
 
                 if (djangoData.signal === 1 && !takeProfitLineAdded) {
                     closeTrade = graphData.data.datasets[0].data[graphData.data.datasets[0].data.length - 1]
-                    takeProfitValue = currentClose + 4
-                    stopLossValue = currentClose - 4
+                    takeProfitValue = (currentClose*1.20)
+                    stopLossValue = (currentClose*0.95)
                     buy = true;
                     var takeProfitLineData = Array(myChart.data.labels.length).fill(takeProfitValue);
                     var stopLossLineData = Array(myChart.data.labels.length).fill(stopLossValue);
@@ -304,7 +304,6 @@ $(document).ready(function() {
         url: "",
         data:  serializedData,
         success: function(data){
-            // Draw a straight line at take_profit value
             userId = data["user_id"]
             }
         });

@@ -12,46 +12,103 @@ import os
 from channels.generic.websocket import AsyncWebsocketConsumer, StopConsumer
 
 # Calculate moving averages
-def moving_average(data, window):
-    return data['Close'].rolling(window=window).mean()
+def moving_average(data, span):
+    return data['Close'].ewm(span=span, adjust=False).mean()
+    #return data['Close'].rolling(window=span).mean()
 
 # Calculate momentum
-def momentum(data, window):
-    return data['Close'].diff(window - 1)
+def calculate_rsi(data, window=14):
+    delta = data['Close'].diff()
+
+    gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=window).mean()
+
+    rs = gain / loss
+
+    rsi = 100 - (100 / (1 + rs))
+
+    return rsi
 
 # Calculate VWAP
-def vwap(data):
-    typical_price = (data['High'] + data['Low'] + data['Close']) / 3
-    volume_price = typical_price * data['Volume']
-    cumulative_volume = data['Volume'].cumsum()
-    cumulative_volume_price = volume_price.cumsum()
-    return cumulative_volume_price / cumulative_volume
+def adx(data, window=14):
 
-# Trading strategy combining moving average crossover, momentum, and VWAP
-def trading_strategy(data, short_window, long_window, momentum_window, ma_bool=False, vwap_bool=False, momentum_bool=False):
+    # Calculate True Range
+    data['tr0'] = abs(data['High'] - data['Low'])
+    data['tr1'] = abs(data['High'] - data['Close'].shift())
+    data['tr2'] = abs(data['Low'] - data['Close'].shift())
+    data['TR'] = data[['tr0', 'tr1', 'tr2']].max(axis=1)
+
+    # Calculate Directional Movement
+    data['DMplus'] = np.where((data['High'] - data['High'].shift()) > (data['Low'].shift() - data['Low']), data['High'] - data['High'].shift(), 0)
+    data['DMminus'] = np.where((data['Low'].shift() - data['Low']) > (data['High'] - data['High'].shift()), data['Low'].shift() - data['Low'], 0)
+
+    # Calculate Smoothed True Range
+    data['ATR'] = data['TR'].rolling(window=window).mean()
+
+    # Calculate Smoothed Directional Movement
+    data['ADMplus'] = data['DMplus'].rolling(window=window).mean()
+    data['ADMminus'] = data['DMminus'].rolling(window=window).mean()
+
+    # Calculate Directional Index
+    data['DIplus'] = (data['ADMplus'] / data['ATR']) * 100
+    data['DIminus'] = (data['ADMminus'] / data['ATR']) * 100
+
+    data['DX'] = abs(data['DIplus'] - data['DIminus']) / (data['DIplus'] + data['DIminus']) * 100
+
+    adx_values = data['DX'].rolling(window=window).mean()
+
+    return (adx_values, data['DIplus'], data['DIminus'])
+
+# Trading strategy combining moving average crossover, RSI and ADX
+def trading_strategy(data, complete=False, rsi_window=None, overbought_threshold=None, oversold_threshold=None, adx_window=None, adx_threshold=None, short_window=None, long_window=None):
     signals = pd.DataFrame(index=data.index)
     signals['Date'] = pd.to_datetime(data['Date'])
     signals['signal'] = 0.0
 
+        
     # Moving average crossover
-    if ma_bool == True:
+    if short_window:
         signals['short_mavg'] = moving_average(data, short_window)
         signals['long_mavg'] = moving_average(data, long_window)
-        signals['signal'][short_window:] = np.where(signals['short_mavg'][short_window:] > signals['long_mavg'][short_window:], 1.0, -1.0)
+        signals['signal_ma'] = 0.0
+        # Place buy order when short moving average crosses above long moving average
+        signals.loc[(signals['short_mavg'].shift(1) < signals['long_mavg'].shift(1)) & (signals['short_mavg'] > signals['long_mavg']), 'signal_ma'] = 1.0
 
-    # Momentum
-    if momentum_bool == True:
-        signals['momentum'] = momentum(data, momentum_window)
-        signals['signal'][(signals['momentum'] > 0) & (signals['signal'] != 0)] = 1.0
-        signals['signal'][(signals['momentum'] < 0) & (signals['signal'] != 0)] = -1.0
+        # Place sell order when short moving average crosses below long moving average
+        signals.loc[(signals['short_mavg'].shift(1) > signals['long_mavg'].shift(1)) & (signals['short_mavg'] < signals['long_mavg']), 'signal_ma'] = -1.0
+        
+    if rsi_window:
+        rsi_values = calculate_rsi(data, window=rsi_window)
+        signals['signal_rsi'] = 0.0
+        signals['rsi'] = rsi_values
+        signals.loc[signals['rsi'] > overbought_threshold, 'signal_rsi'] = -1.0
+        signals.loc[signals['rsi'] < oversold_threshold, 'signal_rsi'] = 1.0
 
-    # VWAP
-    if vwap_bool == True:
-        vwap_values = vwap(data)
-        signals['vwap'] = vwap_values.shift(1)
-        signals['signal'][data['Close'] > signals['vwap']] = 1.0
-        signals['signal'][data['Close'] < signals['vwap']] = -1.0
-
+    if adx_window:
+        adx_values = adx(data, window=adx_window)
+        signals['signal_adx'] = 0.0
+        signals['adx'] = adx_values[0]
+        signals['+DI'] = adx_values[1]
+        signals['-DI'] = adx_values[2]
+        signals.loc[(signals['+DI'].shift(1) < signals['-DI'].shift(1)) & (signals['+DI'] > signals['-DI']) & (signals['adx'] > adx_threshold), 'signal_adx'] = 1.0
+    
+        # Place sell signal when -DI crosses over +DI and ADX is above the threshold
+        signals.loc[(signals['+DI'].shift(1) > signals['-DI'].shift(1)) & (signals['+DI'] < signals['-DI']) & (signals['adx'] > adx_threshold), 'signal_adx'] = -1.0
+        
+        
+    if complete:
+        signals_sum = signals['signal_ma'] + signals['signal_rsi'] + signals['signal_adx']
+        signals['sum'] = signals_sum
+        signals['signal'] = 0.0
+        signals.loc[signals['sum'] >= 2.0, 'signal'] = 1.0
+        signals.loc[signals['sum'] <= -2.0, 'signal'] = -1.0
+            
+    elif short_window:
+        signals['signal'] = signals['signal_ma']
+    elif rsi_window:
+        signals['signal'] = signals['signal_rsi']
+    elif adx_window:
+        signals['signal'] = signals['signal_adx']
     return signals
 
 class GraphConsumer(AsyncWebsocketConsumer):
@@ -140,13 +197,13 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 df = df[df['Date'] >= start]
                 # Generates in the file the strategy selected
                 if ai_type == "ma":
-                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=False, momentum_bool=False)
-                elif ai_type == "vwap":
-                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=True, momentum_bool=False)
-                elif ai_type == "momentum":
-                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=False, momentum_bool=True)
+                    signals = trading_strategy(df, short_window=10, long_window=30,) # tp = 0.2
+                elif ai_type == "adx":
+                    signals = trading_strategy(df, adw_window=10, adx_threshold=25) # tp = 0.2
+                elif ai_type == "rsi":
+                    signals = trading_strategy(df, rsi_window=100, overbought_threshold=90, oversold_threshold=60)# 0.2
                 else:
-                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=True, momentum_bool=True)
+                    signals = trading_strategy(df, complete=True, short_window=5, long_window=10, adx_window=14, adx_threshold=25, rsi_window=70, overbought_threshold=70, oversold_threshold=60) # tp = 0.2
                 signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
                 # Only on first pass
                 first_pass=False
@@ -203,13 +260,13 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 df = df[df['Date'] >= start]
                 # Generates in the file the strategy selected
                 if ai_type == "ma":
-                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=False, momentum_bool=False)
-                elif ai_type == "vwap":
-                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=True, momentum_bool=False)
-                elif ai_type == "momentum":
-                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=False, vwap_bool=False, momentum_bool=True)
+                    signals = trading_strategy(df, short_window=10, long_window=30,) # tp = 0.2
+                elif ai_type == "adx":
+                    signals = trading_strategy(df, adw_window=10, adx_threshold=25) # tp = 0.2
+                elif ai_type == "rsi":
+                    signals = trading_strategy(df, rsi_window=100, overbought_threshold=90, oversold_threshold=60)# 0.2
                 else:
-                    signals = trading_strategy(df, short_window=50, long_window=200, momentum_window=5, ma_bool=True, vwap_bool=True, momentum_bool=True)
+                    signals = trading_strategy(df, complete=True, short_window=5, long_window=10, adx_window=14, adx_threshold=25, rsi_window=70, overbought_threshold=70, oversold_threshold=60) # tp = 0.2
                 signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
                 # Only on first pass
                 first_pass=False
