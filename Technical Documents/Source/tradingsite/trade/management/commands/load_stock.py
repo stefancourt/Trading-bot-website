@@ -15,7 +15,6 @@ class Command(BaseCommand):
 
         for stock_name in multi_data["Open"]:
             yf.download([stock_name], period="10y").to_csv(datafile / (stock_name + '_hist.csv'))
-            print(datafile)
 
 
         datafile = settings.BASE_DIR / 'stock_data' / 'AAPL_hist.csv'

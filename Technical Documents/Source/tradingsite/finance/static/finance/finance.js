@@ -40,7 +40,7 @@ $(document).ready(function() {
                 data.luxury, 
             ]
             maximum = data.rent+data.bills+data.food+data.invest+data.savings+data.luxury
-            
+            var maxData = Math.max(...allData);
             if (data.total >= maximum) {
                 const ctx = document.getElementById('Chart');
                 // Checks if there is already a graph present
@@ -93,6 +93,7 @@ $(document).ready(function() {
                     var graphData = {
                         type: 'polarArea',
                         data: {
+                            labels: allLabels,
                             datasets: [{
                                 data: allData,
                                 backgroundColor: colors,
@@ -130,8 +131,8 @@ $(document).ready(function() {
                             scales: {
                                 r: {
                                     min: 0,
-                                    max: data.total, // You can adjust the maximum value as needed
-                                    stepSize: 20 // You can adjust the step size as needed
+                                    max: Math.ceil(maxData / 100) * 100,
+                                    stepSize: 20
                                 }
                             }
                         }
