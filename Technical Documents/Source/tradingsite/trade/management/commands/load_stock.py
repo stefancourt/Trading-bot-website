@@ -11,7 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         datafile = Path(settings.BASE_DIR) / 'stock_data'
-        multi_data = yf.download(["AAPL", "MSFT", "META", "JNJ", "PFE", "JPM", "BAC", ], period="10y")
+        multi_data = yf.download(["AAPL", "MSFT", "JNJ", "PFE", "JPM", "BAC"], period="10y")
 
         for stock_name in multi_data["Open"]:
             yf.download([stock_name], period="10y").to_csv(datafile / (stock_name + '_hist.csv'))

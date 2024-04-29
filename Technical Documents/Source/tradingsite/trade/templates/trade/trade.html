@@ -31,8 +31,9 @@
                 {% block content %}
                 <form method="POST" id="post-form">
                     {% csrf_token %}
-                    {{ place_trade_form.as_p }}
-
+                    <div class="columns">
+                        {{ place_trade_form.as_p }}
+                    </div>
                     <button class="confirm text">Confirm</button>
 
                 </form>

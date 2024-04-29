@@ -46,7 +46,6 @@ To launch the TradeIT application, follow the steps below:
 ```bash
 redis-server
 ```
-
 2. In a seperate terminal navigate to the **Technical Documents/Source/tradingsite** directory.
 3. In a seperate terminal execute the following commands:
 
@@ -54,23 +53,43 @@ redis-server
 source venv/bin/activate
 python3 manage.py runserver 0.0.0.0:8000
 ```
+### 💻 On PC
+1. Put http://127.0.0.1:8000/ into the url to run the application.
 
+### 📱 on Phone
+1. Add your local IP address of your computer to your ALLOWED_HOSTS in the **Technical Documents/Source/tradingsite/tradingsite/settings.py** file.
+2. Change
+```bash
+socket = new WebSocket('ws://localhost:8000/ws/trade/');
+```
+to
+```bash
+socket = new WebSocket('ws://{your_ip}:8000/ws/trade/');
+```
+in both **Technical Documents/Source/tradingsite/tradingsite/trade/trade.js** and **Technical Documents/Source/tradingsite/tradingsite/aitrade/ai-trade.js** files
+
+3. Put http://{your_ip}:8000/ into the url to run the application
+Important: If these changes have completed to run on computer you will need to rever the changes.
 ## 🧪 Executing Test Suites
 
 To execute the test suites for the TradeIT application, follow these steps:
 
 1. Ensure you are within the application's virtual environment.
-2. Locate the tests using the **pytest** framework within each separate app, including backend, frontend, and database tests.
-3. Run the tests for a specific app by entering the following command in the terminal:
+2. Run all the tests by entering the following command in the terminal:
 
 ```bash
-pytest <app>
+python3 manage.py test
 ```
 
+3. If wanting to run tests for a specific app run
+
+```bash
+python3 manage.py test '<app>'
+```
 Replace `<app>` with the name of the app whose tests you want to run. For example:
 
 ```bash
-pytest trade
+python3 manage.py test trade
 ```
 
 ## 📦 Requirements

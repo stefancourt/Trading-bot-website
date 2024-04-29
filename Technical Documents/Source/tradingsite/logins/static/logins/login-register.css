@@ -62,8 +62,15 @@ label {
     margin-left: 14px;
 }
 
-
-
+.errorlist {
+    color: var(--text-color-dark);
+    text-align: center;
+    list-style-type: none;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
 
 
 
@@ -94,7 +101,7 @@ label {
 }
 
 .container input {
-    margin-top: 20px;
+    margin-top: 3px;
     height: 40px;
     width: 220px;
     padding-left: 10px;

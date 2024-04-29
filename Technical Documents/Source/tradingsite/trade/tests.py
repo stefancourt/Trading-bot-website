@@ -90,7 +90,7 @@ class TradeViewTest(TestCase):
         self.assertEqual(float(response.context['microsoft_change']), 10.00)
 
     def test_trade_view_authenticated_post(self):
-        request = self.factory.post('/trade/', data={'stop_loss': 80, 'take_profit': 110, 'order_type': 'buy'})
+        request = self.factory.post('/trade/', data={'amount': 100, 'stop_loss': 80, 'take_profit': 110, 'order_type': 'buy'})
         request.user = self.user
         response = trade_view(request)
         self.assertEqual(response.status_code, 200)

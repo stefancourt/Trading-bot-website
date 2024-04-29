@@ -17,8 +17,8 @@
         <img class = background-img src="{% static 'logins/images/background.jpg' %}" alt="">
         {% csrf_token %}
         <form class="container" METHOD="POST">
-            <span class="login-register text">Sign In</span>
             {% csrf_token %}
+            <span class="login-register text">Sign In</span>
             {{ form.as_p }}
             <button class="text">Continue</button>
             <span class="bottom-text text">Don't have an account Click here to <a class="link text" href="/register/">Sign Up</a></span>

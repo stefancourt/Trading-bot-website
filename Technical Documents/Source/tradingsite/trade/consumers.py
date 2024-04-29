@@ -23,13 +23,15 @@ class GraphConsumer(AsyncWebsocketConsumer):
         stock_type = data.get('stockType')
 
         user_id = data.get('user_id')
+        amount = data.get('amount')
         close_trade = data.get('close_trade')
 
         if data.get('take_profit'):
             user_id = data.get('user_id')
             close_trade = data.get('close_trade')
+            percentage = float(amount)/close_trade
             # So that amount_gained is always positive
-            amount_gained = abs(data.get('take_profit') - close_trade)
+            amount_gained = abs(data.get('take_profit') - close_trade) * percentage
             user_profile = await sync_to_async(UserProfile.objects.get)(user_id=user_id)
             user_profile.money_in_account += amount_gained
             await sync_to_async(user_profile.save)()
@@ -51,8 +53,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
         if data.get('stop_loss'):
             user_id = data.get('user_id')
             close_trade = data.get('close_trade')
+            percentage = float(amount)/close_trade
             # So that amount_gained is always negative
-            amount_lost = abs(close_trade - data.get('stop_loss'))
+            amount_lost = abs(close_trade - data.get('stop_loss')) * percentage
             user_profile = await sync_to_async(UserProfile.objects.get)(user_id=user_id)
             user_profile.money_in_account -= amount_lost
             await sync_to_async(user_profile.save)()

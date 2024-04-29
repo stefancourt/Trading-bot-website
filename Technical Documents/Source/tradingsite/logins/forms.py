@@ -23,6 +23,8 @@ class RegisterUserForm(UserCreationForm):
 
 class CustomAuthenticationForm(AuthenticationForm):
 
+    error_css_class = 'error'
+
     def __init__(self, *args, **kwargs):
         # Calls the constructor of the parent class
         super(CustomAuthenticationForm, self).__init__(*args, **kwargs)
@@ -30,6 +32,7 @@ class CustomAuthenticationForm(AuthenticationForm):
         # Adds classes to each field
         self.fields['username'].widget.attrs['class'] = 'form-username'
         self.fields['password'].widget.attrs['class'] = 'form-password1'
+
 
     def clean(self):
         # Cleans the data to be used in the model

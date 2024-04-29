@@ -198,11 +198,11 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 df = df[df['Date'] >= start]
                 # Generates in the file the strategy selected
                 if ai_type == "ma":
-                    signals = trading_strategy(df, short_window=10, long_window=30,) # tp = 0.2
+                    signals = trading_strategy(df, short_window=10, long_window=30) # tp = 0.2
                 elif ai_type == "adx":
-                    signals = trading_strategy(df, adw_window=10, adx_threshold=25) # tp = 0.2
+                    signals = trading_strategy(df, adx_window=14, adx_threshold=25) # tp = 0.2
                 elif ai_type == "rsi":
-                    signals = trading_strategy(df, rsi_window=100, overbought_threshold=90, oversold_threshold=60)# 0.2
+                    signals = trading_strategy(df, rsi_window=70, overbought_threshold=90, oversold_threshold=60)# 0.2
                 else:
                     signals = trading_strategy(df, complete=True, short_window=5, long_window=10, adx_window=14, adx_threshold=25, rsi_window=70, overbought_threshold=70, oversold_threshold=60) # tp = 0.2
                 signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
@@ -263,9 +263,9 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 if ai_type == "ma":
                     signals = trading_strategy(df, short_window=10, long_window=30,) # tp = 0.2
                 elif ai_type == "adx":
-                    signals = trading_strategy(df, adw_window=10, adx_threshold=25) # tp = 0.2
+                    signals = trading_strategy(df, adx_window=14, adx_threshold=25) # tp = 0.2
                 elif ai_type == "rsi":
-                    signals = trading_strategy(df, rsi_window=100, overbought_threshold=90, oversold_threshold=60) # tp = 0.2
+                    signals = trading_strategy(df, rsi_window=70, overbought_threshold=90, oversold_threshold=60) # tp = 0.2
                 else:
                     signals = trading_strategy(df, complete=True, short_window=5, long_window=10, adx_window=14, adx_threshold=25, rsi_window=70, overbought_threshold=70, oversold_threshold=60) # tp = 0.2
                 signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")

@@ -17,6 +17,7 @@ def trade_view(request):
             form = PlaceTradeForm(request.POST)
             if form.is_valid():
                 # Process the form data
+                amount = form.cleaned_data['amount']
                 stop_loss = form.cleaned_data['stop_loss']
                 take_profit = form.cleaned_data['take_profit']
                 order_type = form.cleaned_data['order_type']
@@ -27,7 +28,7 @@ def trade_view(request):
                 'stock_type_form': TypeForm(),
             }
             # If a post request is submitted data is sent to the js console
-            return JsonResponse({"take_profit":take_profit, "stop_loss":stop_loss, "order_type":order_type, "user_id": user_id})
+            return JsonResponse({"amount": amount,"take_profit":take_profit, "stop_loss":stop_loss, "order_type":order_type, "user_id": user_id})
 
         else:
             context={

@@ -175,16 +175,6 @@ function createWebSocket() {
 
 
 
-
-
-
-
-
-
-
-
-
-
                 if (takeProfitLineAdded) {
                     // Adds point to the take profit line on each run
                     var newGraphTakeLine = graphData.data.datasets[1].data;

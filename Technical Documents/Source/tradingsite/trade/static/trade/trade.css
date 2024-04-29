@@ -606,3 +606,28 @@ button.logout:hover {
         left: 370px;
     }
 }
+@media only screen and (max-width: 560px){
+    .form-control {
+        height: 10px;
+        width: 80px;
+        position: absolute;
+        color: var(--text-color);
+    }.dark .form-control {
+        color: var(--text-color-dark);
+    }
+    .columns {
+        position: absolute;
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -180px;
+        justify-content: space-between;
+    }
+    .radio-input {
+        margin-left: 100px;
+    }
+    .columns p{
+        flex: calc(50%);
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+}

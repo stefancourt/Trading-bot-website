@@ -131,7 +131,7 @@ $(document).ready(function() {
                             scales: {
                                 r: {
                                     min: 0,
-                                    max: Math.ceil(maxData / 100) * 100,
+                                    max: Math.ceil(maxData / 50) * 50,
                                     stepSize: 20
                                 }
                             }

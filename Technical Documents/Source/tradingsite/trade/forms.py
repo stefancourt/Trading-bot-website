@@ -24,6 +24,7 @@ class TypeForm(forms.ModelForm):
         }
 
 class PlaceTradeForm(forms.Form):
+    amount = forms.DecimalField(label='Amount', widget=forms.TextInput(attrs={'class': 'form-control'}))
     take_profit = forms.DecimalField(label='Take Profit', widget=forms.TextInput(attrs={'class': 'form-control'}))
     stop_loss = forms.DecimalField(label='Stop Loss', widget=forms.TextInput(attrs={'class': 'form-control'}))
     order_type = forms.ChoiceField(
