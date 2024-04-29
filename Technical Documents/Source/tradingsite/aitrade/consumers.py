@@ -1,6 +1,6 @@
 import json
 from asyncio import sleep
-from trade.models import AAPLStock, MSFTStock
+from trade.models import AAPLStock, MSFTStock, JNJStock, JPMStock, PFEStock, BACStock
 from main.models import UserProfile, Trades
 from asgiref.sync import sync_to_async
 from django.utils.timezone import make_aware
@@ -241,11 +241,6 @@ class GraphConsumer(AsyncWebsocketConsumer):
                         start = start_date.strftime("%Y-%m-%d")
 
 
-
-
-
-
-
         elif stock_type == "Apple":
             first_date = await sync_to_async(AAPLStock.objects.first)()
             last_date = await sync_to_async(AAPLStock.objects.last)()
@@ -294,6 +289,236 @@ class GraphConsumer(AsyncWebsocketConsumer):
                             await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
                         else:
                             await self.send(json.dumps({"date": aapl_stocks[0].date.isoformat(), "close": aapl_stocks[0].close, "signal": row["signal"].values[0]}))
+                        await sleep(1)
+                        break
+                    else:
+                        # Changes the start date to one day ahead
+                        n += 1
+                        start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
+                        start_date += datetime.timedelta(days=1)
+                        start = start_date.strftime("%Y-%m-%d")
+        
+        elif stock_type == "Jhonson&Jhonson":
+            first_date = await sync_to_async(JNJStock.objects.first)()
+            last_date = await sync_to_async(JNJStock.objects.last)()
+            # If date entered is before start or after last date, allow javascript to pick up error
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() < first_date.date:
+                await self.send(json.dumps({'first_date': first_date.date.isoformat()}))
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
+                await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
+            # Creates a file in stock_data/signals/ for the signals the websocket is using
+            if first_pass:
+                df = pd.read_csv("stock_data/JNJ_hist.csv")
+                # Start the file from the start date selected
+                df = df[df['Date'] >= start]
+                # Generates in the file the strategy selected
+                if ai_type == "ma":
+                    signals = trading_strategy(df, short_window=10, long_window=30,) # tp = 0.2
+                elif ai_type == "adx":
+                    signals = trading_strategy(df, adx_window=14, adx_threshold=25) # tp = 0.2
+                elif ai_type == "rsi":
+                    signals = trading_strategy(df, rsi_window=70, overbought_threshold=90, oversold_threshold=60) # tp = 0.2
+                else:
+                    signals = trading_strategy(df, complete=True, short_window=5, long_window=10, adx_window=14, adx_threshold=25, rsi_window=70, overbought_threshold=70, oversold_threshold=60) # tp = 0.2
+                signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
+                # Only on first pass
+                first_pass=False
+            dataframe = pd.read_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
+            jnj_stocks = await sync_to_async(list)(
+                JNJStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
+            )
+            if jnj_stocks[0].date.isoformat() == start:
+                row = dataframe.loc[dataframe['Date'] == start]
+                if data.get('take_profit') or data.get("stop_loss"):
+                    # Sends the user's balance to change in the page dynamically
+                    await self.send(json.dumps({"date": jnj_stocks[0].date.isoformat(), "close": jnj_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                else:
+                    await self.send(json.dumps({"date": jnj_stocks[0].date.isoformat(), "close": jnj_stocks[0].close, "signal": row["signal"].values[0]}))
+                await sleep(1)
+            else:
+                n = 1
+                # Loop is needed as some days are not available in the dataset
+                while n < len(jnj_stocks):
+                    if jnj_stocks[0].date.isoformat() == start:
+                        row = dataframe.loc[dataframe['Date'] == start]
+                        if data.get('take_profit') or data.get("stop_loss"):
+                            # Sends the user's balance to change in the page dynamically
+                            await self.send(json.dumps({"date": jnj_stocks[0].date.isoformat(), "close": jnj_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                        else:
+                            await self.send(json.dumps({"date": jnj_stocks[0].date.isoformat(), "close": jnj_stocks[0].close, "signal": row["signal"].values[0]}))
+                        await sleep(1)
+                        break
+                    else:
+                        # Changes the start date to one day ahead
+                        n += 1
+                        start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
+                        start_date += datetime.timedelta(days=1)
+                        start = start_date.strftime("%Y-%m-%d")
+
+        elif stock_type == "Pfizer":
+            first_date = await sync_to_async(PFEStock.objects.first)()
+            last_date = await sync_to_async(PFEStock.objects.last)()
+            # If date entered is before start or after last date, allow javascript to pick up error
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() < first_date.date:
+                await self.send(json.dumps({'first_date': first_date.date.isoformat()}))
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
+                await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
+            # Creates a file in stock_data/signals/ for the signals the websocket is using
+            if first_pass:
+                df = pd.read_csv("stock_data/PFE_hist.csv")
+                # Start the file from the start date selected
+                df = df[df['Date'] >= start]
+                # Generates in the file the strategy selected
+                if ai_type == "ma":
+                    signals = trading_strategy(df, short_window=10, long_window=30,) # tp = 0.2
+                elif ai_type == "adx":
+                    signals = trading_strategy(df, adx_window=14, adx_threshold=25) # tp = 0.2
+                elif ai_type == "rsi":
+                    signals = trading_strategy(df, rsi_window=70, overbought_threshold=90, oversold_threshold=60) # tp = 0.2
+                else:
+                    signals = trading_strategy(df, complete=True, short_window=5, long_window=10, adx_window=14, adx_threshold=25, rsi_window=70, overbought_threshold=70, oversold_threshold=60) # tp = 0.2
+                signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
+                # Only on first pass
+                first_pass=False
+            dataframe = pd.read_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
+            pfe_stocks = await sync_to_async(list)(
+                PFEStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
+            )
+            if pfe_stocks[0].date.isoformat() == start:
+                row = dataframe.loc[dataframe['Date'] == start]
+                if data.get('take_profit') or data.get("stop_loss"):
+                    # Sends the user's balance to change in the page dynamically
+                    await self.send(json.dumps({"date": pfe_stocks[0].date.isoformat(), "close": pfe_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                else:
+                    await self.send(json.dumps({"date": pfe_stocks[0].date.isoformat(), "close": pfe_stocks[0].close, "signal": row["signal"].values[0]}))
+                await sleep(1)
+            else:
+                n = 1
+                # Loop is needed as some days are not available in the dataset
+                while n < len(pfe_stocks):
+                    if pfe_stocks[0].date.isoformat() == start:
+                        row = dataframe.loc[dataframe['Date'] == start]
+                        if data.get('take_profit') or data.get("stop_loss"):
+                            # Sends the user's balance to change in the page dynamically
+                            await self.send(json.dumps({"date": pfe_stocks[0].date.isoformat(), "close": pfe_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                        else:
+                            await self.send(json.dumps({"date": pfe_stocks[0].date.isoformat(), "close": pfe_stocks[0].close, "signal": row["signal"].values[0]}))
+                        await sleep(1)
+                        break
+                    else:
+                        # Changes the start date to one day ahead
+                        n += 1
+                        start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
+                        start_date += datetime.timedelta(days=1)
+                        start = start_date.strftime("%Y-%m-%d")
+
+
+        elif stock_type == "JPMorgan":
+            first_date = await sync_to_async(JPMStock.objects.first)()
+            last_date = await sync_to_async(JPMStock.objects.last)()
+            # If date entered is before start or after last date, allow javascript to pick up error
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() < first_date.date:
+                await self.send(json.dumps({'first_date': first_date.date.isoformat()}))
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
+                await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
+            # Creates a file in stock_data/signals/ for the signals the websocket is using
+            if first_pass:
+                df = pd.read_csv("stock_data/JPM_hist.csv")
+                # Start the file from the start date selected
+                df = df[df['Date'] >= start]
+                # Generates in the file the strategy selected
+                if ai_type == "ma":
+                    signals = trading_strategy(df, short_window=10, long_window=30,) # tp = 0.2
+                elif ai_type == "adx":
+                    signals = trading_strategy(df, adx_window=14, adx_threshold=25) # tp = 0.2
+                elif ai_type == "rsi":
+                    signals = trading_strategy(df, rsi_window=70, overbought_threshold=90, oversold_threshold=60) # tp = 0.2
+                else:
+                    signals = trading_strategy(df, complete=True, short_window=5, long_window=10, adx_window=14, adx_threshold=25, rsi_window=70, overbought_threshold=70, oversold_threshold=60) # tp = 0.2
+                signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
+                # Only on first pass
+                first_pass=False
+            dataframe = pd.read_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
+            jpm_stocks = await sync_to_async(list)(
+                JPMStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
+            )
+            if jpm_stocks[0].date.isoformat() == start:
+                row = dataframe.loc[dataframe['Date'] == start]
+                if data.get('take_profit') or data.get("stop_loss"):
+                    # Sends the user's balance to change in the page dynamically
+                    await self.send(json.dumps({"date": jpm_stocks[0].date.isoformat(), "close": jpm_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                else:
+                    await self.send(json.dumps({"date": jpm_stocks[0].date.isoformat(), "close": jpm_stocks[0].close, "signal": row["signal"].values[0]}))
+                await sleep(1)
+            else:
+                n = 1
+                # Loop is needed as some days are not available in the dataset
+                while n < len(jpm_stocks):
+                    if jpm_stocks[0].date.isoformat() == start:
+                        row = dataframe.loc[dataframe['Date'] == start]
+                        if data.get('take_profit') or data.get("stop_loss"):
+                            # Sends the user's balance to change in the page dynamically
+                            await self.send(json.dumps({"date": jpm_stocks[0].date.isoformat(), "close": jpm_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                        else:
+                            await self.send(json.dumps({"date": jpm_stocks[0].date.isoformat(), "close": jpm_stocks[0].close, "signal": row["signal"].values[0]}))
+                        await sleep(1)
+                        break
+                    else:
+                        # Changes the start date to one day ahead
+                        n += 1
+                        start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
+                        start_date += datetime.timedelta(days=1)
+                        start = start_date.strftime("%Y-%m-%d")
+
+
+        elif stock_type == "BankofAmerica":
+            first_date = await sync_to_async(BACStock.objects.first)()
+            last_date = await sync_to_async(BACStock.objects.last)()
+            # If date entered is before start or after last date, allow javascript to pick up error
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() < first_date.date:
+                await self.send(json.dumps({'first_date': first_date.date.isoformat()}))
+            if datetime.datetime.strptime(start, '%Y-%m-%d').date() > last_date.date:
+                await self.send(json.dumps({'last_date': last_date.date.isoformat()}))
+            # Creates a file in stock_data/signals/ for the signals the websocket is using
+            if first_pass:
+                df = pd.read_csv("stock_data/BAC_hist.csv")
+                # Start the file from the start date selected
+                df = df[df['Date'] >= start]
+                # Generates in the file the strategy selected
+                if ai_type == "ma":
+                    signals = trading_strategy(df, short_window=10, long_window=30,) # tp = 0.2
+                elif ai_type == "adx":
+                    signals = trading_strategy(df, adx_window=14, adx_threshold=25) # tp = 0.2
+                elif ai_type == "rsi":
+                    signals = trading_strategy(df, rsi_window=70, overbought_threshold=90, oversold_threshold=60) # tp = 0.2
+                else:
+                    signals = trading_strategy(df, complete=True, short_window=5, long_window=10, adx_window=14, adx_threshold=25, rsi_window=70, overbought_threshold=70, oversold_threshold=60) # tp = 0.2
+                signals.to_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
+                # Only on first pass
+                first_pass=False
+            dataframe = pd.read_csv(f"stock_data/signals/{self.unique_id}_signal.csv")
+            bac_stocks = await sync_to_async(list)(
+                BACStock.objects.filter(date__gte=make_aware(datetime.datetime.strptime(start, '%Y-%m-%d')))
+            )
+            if bac_stocks[0].date.isoformat() == start:
+                row = dataframe.loc[dataframe['Date'] == start]
+                if data.get('take_profit') or data.get("stop_loss"):
+                    # Sends the user's balance to change in the page dynamically
+                    await self.send(json.dumps({"date": bac_stocks[0].date.isoformat(), "close": bac_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                else:
+                    await self.send(json.dumps({"date": bac_stocks[0].date.isoformat(), "close": bac_stocks[0].close, "signal": row["signal"].values[0]}))
+                await sleep(1)
+            else:
+                n = 1
+                # Loop is needed as some days are not available in the dataset
+                while n < len(bac_stocks):
+                    if bac_stocks[0].date.isoformat() == start:
+                        row = dataframe.loc[dataframe['Date'] == start]
+                        if data.get('take_profit') or data.get("stop_loss"):
+                            # Sends the user's balance to change in the page dynamically
+                            await self.send(json.dumps({"date": bac_stocks[0].date.isoformat(), "close": bac_stocks[0].close, "signal": row["signal"].values[0], "money_in_account": user_profile.money_in_account}))
+                        else:
+                            await self.send(json.dumps({"date": bac_stocks[0].date.isoformat(), "close": bac_stocks[0].close, "signal": row["signal"].values[0]}))
                         await sleep(1)
                         break
                     else:

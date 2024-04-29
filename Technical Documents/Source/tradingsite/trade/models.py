@@ -22,7 +22,40 @@ class MSFTStock(models.Model):
     class Meta:
         ordering = ('date',)
 
-class METAStock(models.Model):
+class JNJStock(models.Model):
+    date = models.DateField()
+    open = models.FloatField()
+    close = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+
+
+    class Meta:
+        ordering = ('date',)
+
+class PFEStock(models.Model):
+    date = models.DateField()
+    open = models.FloatField()
+    close = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+
+
+    class Meta:
+        ordering = ('date',)
+
+class JPMStock(models.Model):
+    date = models.DateField()
+    open = models.FloatField()
+    close = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+
+
+    class Meta:
+        ordering = ('date',)
+
+class BACStock(models.Model):
     date = models.DateField()
     open = models.FloatField()
     close = models.FloatField()
@@ -37,10 +70,19 @@ class StockType(models.Model):
 
     AAPL = 'Apple'
     MSFT = 'Microsoft'
+    JNJ = 'Jhonson&Jhonson'
+    PFE = 'Pfizer'
+    JPM = 'JPMorgan'
+    BAC = 'BankofAmerica'
 
     STOCK_TYPE_CHOICES = [
         (AAPL, 'Apple'),
         (MSFT, 'Microsoft'),
+        (JNJ, 'Jhonson&Jhonson'),
+        (PFE, 'Pfizer'),
+        (JPM, 'JPMorgan'),
+        (BAC, 'BankofAmerica'),
+        
     ]
 
     stock_type = models.CharField(
