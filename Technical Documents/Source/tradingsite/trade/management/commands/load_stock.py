@@ -19,6 +19,7 @@ class Command(BaseCommand):
 
         datafile = settings.BASE_DIR / 'stock_data' / 'AAPL_hist.csv'
 
+        AAPLStock.objects.all().delete()
         with open(datafile, 'r') as csvfile:
             reader = csv.DictReader(csvfile)
 
@@ -28,6 +29,7 @@ class Command(BaseCommand):
         
         datafile = settings.BASE_DIR / 'stock_data' / 'MSFT_hist.csv'
 
+        MSFTStock.objects.all().delete()
         with open(datafile, 'r') as csvfile:
             reader = csv.DictReader(csvfile)
 
@@ -38,6 +40,7 @@ class Command(BaseCommand):
 
         datafile = settings.BASE_DIR / 'stock_data' / 'JNJ_hist.csv'
 
+        JNJStock.objects.all().delete()
         with open(datafile, 'r') as csvfile:
             reader = csv.DictReader(csvfile)
 
@@ -45,6 +48,9 @@ class Command(BaseCommand):
                 # Creates a stock object for each row in the csv with the following attributes to be used
                 JNJStock.objects.get_or_create(date=row['Date'],open=row['Open'],high=row['High'],low=row['Low'],close=row['Close'])
 
+        datafile = settings.BASE_DIR / 'stock_data' / 'PFE_hist.csv'
+
+        PFEStock.objects.all().delete()
         with open(datafile, 'r') as csvfile:
             reader = csv.DictReader(csvfile)
 
@@ -52,6 +58,9 @@ class Command(BaseCommand):
                 # Creates a stock object for each row in the csv with the following attributes to be used
                 PFEStock.objects.get_or_create(date=row['Date'],open=row['Open'],high=row['High'],low=row['Low'],close=row['Close'])
 
+        datafile = settings.BASE_DIR / 'stock_data' / 'JPM_hist.csv'
+
+        JPMStock.objects.all().delete()
         with open(datafile, 'r') as csvfile:
             reader = csv.DictReader(csvfile)
 
@@ -59,16 +68,12 @@ class Command(BaseCommand):
                 # Creates a stock object for each row in the csv with the following attributes to be used
                 JPMStock.objects.get_or_create(date=row['Date'],open=row['Open'],high=row['High'],low=row['Low'],close=row['Close'])
 
+        datafile = settings.BASE_DIR / 'stock_data' / 'BAC_hist.csv'
+
+        BACStock.objects.all().delete()
         with open(datafile, 'r') as csvfile:
             reader = csv.DictReader(csvfile)
 
             for row in reader:
                 # Creates a stock object for each row in the csv with the following attributes to be used
                 BACStock.objects.get_or_create(date=row['Date'],open=row['Open'],high=row['High'],low=row['Low'],close=row['Close'])
-
-        with open(datafile, 'r') as csvfile:
-            reader = csv.DictReader(csvfile)
-
-            for row in reader:
-                # Creates a stock object for each row in the csv with the following attributes to be used
-                JNJStock.objects.get_or_create(date=row['Date'],open=row['Open'],high=row['High'],low=row['Low'],close=row['Close'])

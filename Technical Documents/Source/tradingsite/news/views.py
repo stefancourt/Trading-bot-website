@@ -65,6 +65,14 @@ def news_view(request):
                     'apple_change': "{:.2f}".format(apple[0].close - apple[1].close),
                     'microsoft': "{:.2f}".format(microsoft[0].close),
                     'microsoft_change': "{:.2f}".format(microsoft[0].close - microsoft[1].close),
+                    'jnj': "{:.2f}".format(jnj[0].close),
+                    'jnj_change': "{:.2f}".format(jnj[0].close - jnj[1].close),
+                    'pfe': "{:.2f}".format(pfe[0].close),
+                    'pfe_change': "{:.2f}".format(pfe[0].close - pfe[1].close),
+                    'jpm': "{:.2f}".format(jpm[0].close),
+                    'jpm_change': "{:.2f}".format(jpm[0].close - jpm[1].close),
+                    'bac': "{:.2f}".format(bac[0].close),
+                    'bac_change': "{:.2f}".format(bac[0].close - bac[1].close),
                 }
                 return render(request, "news/news.html", context=context)
         else:
