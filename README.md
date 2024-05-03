@@ -179,6 +179,5 @@ TradeIT/
 │   └── Jupyter/
 │       ├── (stock)_hist.csv
 │       └── AI-Backtesting.ipynb
-├── LICENSE
 └── README.md
 ```
