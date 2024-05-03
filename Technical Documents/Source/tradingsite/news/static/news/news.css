@@ -129,7 +129,7 @@ label {
 .submit {
     position: absolute;
     display: block;
-    top: 19px;
+    top: 18px;
     left: 230px;
     cursor: pointer;
     background-color: var(--container-color);
@@ -162,7 +162,7 @@ label {
     background-color: var(--navbar-color);
     height: 100%;
     width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
     display: inline;
     white-space: nowrap;
 }.dark .stock-prices-container {
@@ -227,6 +227,14 @@ label {
         height: 5%;
     }
     .submit {
+        height: 20px;
+        margin-top: -2px;
+    }
+}
+
+@media only screen and (max-width: 560px){
+    .submit {
+        margin-top: 4px;
         height: 20px;
     }
 }

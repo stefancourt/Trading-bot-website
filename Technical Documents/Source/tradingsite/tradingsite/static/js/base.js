@@ -12,7 +12,6 @@ const body = document.querySelector("body"),
           sidebar.classList.remove("open");
           sidebar.classList.add("close");
       })
-
 function toggleMode(mode) {
   const body = document.body;
   body.classList.toggle('light', mode === 'light');
@@ -43,5 +42,14 @@ document.getElementById('toggle').addEventListener('click', function() {
   } else {
       toggleMode('light');
       setModePreference('light');
+  }
+});
+document.addEventListener('click', function(event) {
+  const sidebar = document.querySelector('.sidebar');
+  const sidebarOpenClick = event.target.closest('.menu-button');
+  const sidebarClick = event.target.closest('.sidebar');
+  if (!sidebarClick && !sidebarOpenClick && !sidebar.classList.contains('close')) {
+    sidebar.classList.remove("open");
+    sidebar.classList.add('close');
   }
 });

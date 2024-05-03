@@ -362,7 +362,7 @@ button.logout:hover {
 }
 
 #post-form {
-    height: 136px;
+    height: 148px;
     padding-top: 10px;
 }
 
@@ -537,6 +537,10 @@ button.logout:hover {
         transition: var(--tran-02);
         border: 0.7px solid rgb(209, 243, 255);
     }
+    #post-form {
+        height: 136px;
+        padding-top: 10px;
+    }
     
     /* ==== Stock Prices ==== */
     .stock-prices {
@@ -548,7 +552,7 @@ button.logout:hover {
     }
     .stock-prices-container {
         position: absolute;
-        top: 10px;
+        top: 12px;
         left: 20px;
         right: 10px;
         bottom: 20px;
@@ -570,6 +574,7 @@ button.logout:hover {
     .stock-prices span{
         width: calc(100% - 6px);
         margin-left: 6px;
+        margin-top: 10px;
     }
     
     /* ==== Section 2 ==== */
@@ -629,5 +634,8 @@ button.logout:hover {
         flex: calc(50%);
         margin-bottom: 10px;
         box-sizing: border-box;
+    }
+    .title {
+        top: 0px
     }
 }

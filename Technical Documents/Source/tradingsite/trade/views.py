@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from trade.models import AAPLStock, MSFTStock, JNJStock, PFEStock, JPMStock, BACStock
+from trade.models import AAPLStock, MSFTStock, JNJStock, PFEStock, JPMStock, BACStock,  AMZNStock, NVDAStock, TSLAStock, METAStock, XOMStock,  PEPStock
 from trade.forms import DateForm, TypeForm, PlaceTradeForm
 from main.models import UserProfile
 from django.http import JsonResponse
@@ -52,6 +52,18 @@ def trade_view(request):
                 'jpm_change': "{:.2f}".format(jpm[0].close - jpm[1].close),
                 'bac': "{:.2f}".format(bac[0].close),
                 'bac_change': "{:.2f}".format(bac[0].close - bac[1].close),
+                'amazon': "{:.2f}".format(AMZNStock.objects.first().close),
+                'amazon_change': "{:.2f}".format(AMZNStock.objects.last().close - AMZNStock.objects.first().close),
+                'nvidia': "{:.2f}".format(NVDAStock.objects.first().close),
+                'nvidia_change': "{:.2f}".format(NVDAStock.objects.last().close - NVDAStock.objects.first().close),
+                'tesla': "{:.2f}".format(TSLAStock.objects.first().close),
+                'tesla_change': "{:.2f}".format(TSLAStock.objects.last().close - TSLAStock.objects.first().close),
+                'meta': "{:.2f}".format(METAStock.objects.first().close),
+                'meta_change': "{:.2f}".format(METAStock.objects.last().close - METAStock.objects.first().close),
+                'xom': "{:.2f}".format(XOMStock.objects.first().close),
+                'xom_change': "{:.2f}".format(XOMStock.objects.last().close - XOMStock.objects.first().close),
+                'pep': "{:.2f}".format(PEPStock.objects.first().close),
+                'pep_change': "{:.2f}".format(PEPStock.objects.last().close - PEPStock.objects.first().close),
             }
             return render(request, "trade/trade.html", context=context)
     else:

@@ -2,7 +2,7 @@ from django.test import TestCase, RequestFactory, Client
 from django.contrib.auth.models import User
 from main.models import UserProfile, Trades
 from django.urls import reverse
-from trade.models import AAPLStock, MSFTStock
+from trade.models import AAPLStock, MSFTStock, JNJStock, PFEStock, JPMStock, BACStock,  AMZNStock, NVDAStock, TSLAStock, METAStock, XOMStock
 from trade.forms import DateForm, TypeForm, AmountForm, AITypeForm
 from aitrade.views import aitrade_view
 from datetime import date
@@ -19,6 +19,24 @@ class AITradeViewTest(TestCase):
         self.microsoft_stock = MSFTStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
         self.apple_stock = AAPLStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
         self.microsoft_stock = MSFTStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.jnj_stock = JNJStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.jnj_stock = JNJStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
+        self.pfe_stock = PFEStock.objects.create(date=date(2014, 1, 1), open=120, close=130, high=135, low=115)
+        self.pfe_stock = PFEStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.jpm_stock = JPMStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.jpm_stock = JPMStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
+        self.bac_stock = BACStock.objects.create(date=date(2014, 1, 1), open=120, close=130, high=135, low=115)
+        self.bac_stock = BACStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.amazon_stock = AMZNStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.amazon_stock = AMZNStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
+        self.nvidia_stock = NVDAStock.objects.create(date=date(2014, 1, 1), open=120, close=130, high=135, low=115)
+        self.nvidia_stock = NVDAStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.tesla_stock = TSLAStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.tesla_stock = TSLAStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
+        self.meta_stock = METAStock.objects.create(date=date(2014, 1, 1), open=120, close=130, high=135, low=115)
+        self.meta_stock = METAStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.xom_stock = XOMStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.xom_stock = XOMStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
         self.trade = Trades.objects.create(user=self.user, pnl=50, total_pnl=100)
 
     def test_aitrade_view_authenticated_get(self):

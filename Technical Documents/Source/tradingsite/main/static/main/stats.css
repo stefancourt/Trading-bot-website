@@ -129,13 +129,10 @@ button.logout:hover {
     left: 10px;
     right: 10px;
     background-color: var(--container-color);
+    overflow-y: scroll;
 }.dark .bar-chart-container {
     background-color: var(--container-color-dark);
     border: 1px solid var(--border-color-dark)
-}
-.bar-chart img {
-    height: 300px;
-    width: 100%;
 }
 .ai-options {
     position: absolute;
@@ -180,7 +177,8 @@ button.logout:hover {
 .type-form {
     position: absolute;
     left: 20px;
-    top: 7px;
+    top: 16px;
+    z-index: 3;
 }
 .form-type {
     width: 120px;
@@ -201,12 +199,13 @@ button.logout:hover {
 .submit {
     position: absolute;
     display: block;
-    bottom: 10px;
+    top: 30px;
     right: 80px;
     cursor: pointer;
     background-color: var(--container-color);
     border-radius: 3px;
     border: 0.7px solid black;
+    z-index: 3;
 }.dark .submit {
     background-color: var(--container-color-dark);
     border: 0.7px solid var(--border-color-dark);
@@ -220,12 +219,9 @@ button.logout:hover {
     border: 0.7px solid rgb(39, 39, 61);
 }
 
-
 .chart {
-    margin-top: 60px;
-    height: 100%;
+    margin-top: -34px;
 }
-
 
 
 
@@ -325,11 +321,22 @@ button.logout:hover {
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
     }
+    .chart {
+        margin-top: 60px;
+        height: 100%;
+    }
     .submit {
         position: absolute;
-        top: 23px;
+        top: 31px;
         height: 23px;
         width: 50px;
         left: 250px;
+    }
+}
+
+@media only screen and (max-width: 560px){
+    .submit {
+        margin-top: 8px;
+        height: 20px;
     }
 }

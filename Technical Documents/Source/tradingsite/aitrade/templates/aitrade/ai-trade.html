@@ -47,7 +47,7 @@
 
             </form>
             {% endblock content %}
-            <canvas id="myChart"></canvas>
+            <canvas id="myChart" height="115"></canvas>
 
             <form method="POST" id="post-form">
                 {% csrf_token %}
@@ -79,6 +79,11 @@
             <span class="text past-trades">Pfizer: {{ pfe }}, {{ pfe_change }}</span>
             <span class="text past-trades">JPMorgan: {{ jpm }}, {{ jpm_change }}</span>
             <span class="text past-trades">BankOfAmerica: {{ microsoft }}, {{ microsoft_change }}</span>
+            <span class="past-trades text">Amazon: {{ amazon }} {{ amazon_change }}</span>
+            <span class="past-trades text">Nvidia: {{ nvidia }} {{ nvidia_change }}</span>
+            <span class="text past-trades">Tesla: {{ tesla }}, {{ tesla_change }}</span>
+            <span class="text past-trades">Meta: {{ meta }}, {{ meta_change }}</span>
+            <span class="text past-trades">Exxon: {{ xom }}, {{ xom_change }}</span>
         </div>
     </div>
     <script src="{% static 'aitrade/ai-trade.js' %}"></script>

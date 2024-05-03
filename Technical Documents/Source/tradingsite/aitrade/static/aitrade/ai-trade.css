@@ -324,7 +324,7 @@ canvas {
     background-color: var(--container-color);
     border-radius: 3px;
     border: 0.7px solid black;
-    z-index: 100;
+    z-index: 8;
 }.dark .submit {
     background-color: var(--container-color-dark);
     border: 0.7px solid var(--border-color-dark);
@@ -410,7 +410,6 @@ canvas {
 
 
 
-
 @media only screen and (max-width: 560px){
     .ai-type .strategies {
         width: 100%;
@@ -437,8 +436,7 @@ canvas {
     }
     .date-form {
         margin-bottom: 20px;
-        top: 0em;
-        bottom: 4em;
+        top: -0.8em;
         padding-bottom: 10px;
         padding-left: 5px;
     }
@@ -447,7 +445,7 @@ canvas {
         width: 100px;
     }
     .type-form {
-        top: 1.5em;
+        top: 0.5em;
         bottom: 0em;
         left: 0em;
         padding-left: 5px;
@@ -458,7 +456,7 @@ canvas {
     }
     .amount-form {
         left: 0px;
-        top: 5em;
+        top: 4em;
         bottom: 0em;
         padding-left: 5px;
     }
@@ -501,16 +499,17 @@ canvas {
     }
     .stocks-container {
         position: absolute;
-        top: 10px;
+        top: 12px;
         right: 10px;
         left: 20px;
-        bottom: 20px;
+        bottom: 10px;
         background-color: var(--container-color);
         border-radius: 15px;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
         border-top-left-radius: 0px;
         overflow-y: scroll;
+        border-bottom: none;
     }.dark .stocks-container {
         background-color: var(--container-color-dark);
         border: 1px solid var(--border-color-dark);

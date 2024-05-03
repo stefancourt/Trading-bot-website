@@ -24,9 +24,10 @@ Introducing TradeIt your all in one software for managining finance, completing 
 
 
 ## 🌱 Configuring the Virtual Environment
-
+### On Mac
 To configure the virtual environment for the TradeIT application on macOS, follow these steps:
 
+1. Make sure that [Python 3.11.x](https://www.python.org/downloads/macos/) is installed on the device
 1. Navigate to the **Technical Documents/Source/tradingsite directory**.
 2. Run the following commands to activate the virtual environment:
 
@@ -37,6 +38,22 @@ chmod +x commands.sh
 
 This will create a virtual environment, install all packages and the redis server needed for the application. Please ensure that you have python 3.11.x installed on the device.
 
+### On Windows
+To configure the virtual environment for the TradeIT application on Windows, follow these steps:
+
+1. Make sure that [Python 3.11.x](https://www.python.org/downloads/windows/) is installed on the device
+2. download the developer version of [Memurai](https://www.memurai.com/get-memurai)
+3. Navigate to the **Technical Documents/Source/tradingsite directory**.
+4. Run the following commands to activate the virtual environment:
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+This will create a virtual environment, install all packages and the memurai server needed for the application.
+
 ## 🚀 Launching the Application
 
 To launch the TradeIT application, follow the steps below:
@@ -44,15 +61,38 @@ To launch the TradeIT application, follow the steps below:
 1. Execute the following command:
 
 ```bash
+# For MacOS
 redis-server
 ```
+
+```bash
+# For Windows
+memurai-server
+```
+
 2. In a seperate terminal navigate to the **Technical Documents/Source/tradingsite** directory.
 3. In a seperate terminal execute the following commands:
 
 ```bash
+# For MacOS
 source venv/bin/activate
 python3 manage.py runserver 0.0.0.0:8000
 ```
+
+```bash
+# For Windows
+venv\Scripts\activate
+python3 manage.py runserver 0.0.0.0:8000
+```
+
+4. If the when running the previous command, a migration warning appears, execute
+
+```bash
+# Should only occur on first time running the application
+python3 manage.py makemigrations
+python3 manage.py migrate
+```
+
 ### 💻 On PC
 1. Put http://127.0.0.1:8000/ into the url to run the application.
 
@@ -69,7 +109,7 @@ socket = new WebSocket('ws://{your_ip}:8000/ws/trade/');
 in both **Technical Documents/Source/tradingsite/tradingsite/trade/trade.js** and **Technical Documents/Source/tradingsite/tradingsite/aitrade/ai-trade.js** files
 
 3. Put http://{your_ip}:8000/ into the url to run the application
-Important: If these changes have completed to run on computer you will need to rever the changes.
+Important: If these changes have completed to run on computer you will need to revert the changes.
 ## 🧪 Executing Test Suites
 
 To execute the test suites for the TradeIT application, follow these steps:

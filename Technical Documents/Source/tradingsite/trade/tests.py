@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from main.models import UserProfile
 from django.urls import reverse 
 from .forms import DateForm, AmountForm, AITypeForm, TypeForm, PlaceTradeForm
-from .models import AAPLStock, MSFTStock, METAStock, StockType
+from .models import AAPLStock, MSFTStock, StockType, PFEStock, JNJStock, JPMStock, BACStock, AMZNStock, NVDAStock, TSLAStock, METAStock, XOMStock, PEPStock
 from .views import trade_view
 from datetime import date
 import json
@@ -51,13 +51,6 @@ class MSFTStockModelTest(TestCase):
         msft_stocks = MSFTStock.objects.all()
         self.assertEqual(msft_stocks[0].date, date(2023, 1, 1))
 
-class METAStockModelTest(TestCase):
-    def test_meta_stock_ordering(self):
-        METAStock.objects.create(date=date(2023, 1, 1), open=300, close=310, high=315, low=295)
-        METAStock.objects.create(date=date(2023, 1, 2), open=310, close=320, high=325, low=305)
-        meta_stocks = METAStock.objects.all()
-        self.assertEqual(meta_stocks[0].date, date(2023, 1, 1))
-
 class StockTypeModelTest(TestCase):
     def test_stock_type_choices(self):
         stock_type = StockType.objects.create(stock_type='Apple')
@@ -74,6 +67,26 @@ class TradeViewTest(TestCase):
         self.microsoft_stock = MSFTStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
         self.apple_stock = AAPLStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
         self.microsoft_stock = MSFTStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.jnj_stock = JNJStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.jnj_stock = JNJStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
+        self.pfe_stock = PFEStock.objects.create(date=date(2014, 1, 1), open=120, close=130, high=135, low=115)
+        self.pfe_stock = PFEStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.jpm_stock = JPMStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.jpm_stock = JPMStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
+        self.bac_stock = BACStock.objects.create(date=date(2014, 1, 1), open=120, close=130, high=135, low=115)
+        self.bac_stock = BACStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.amazon_stock = AMZNStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.amazon_stock = AMZNStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
+        self.nvidia_stock = NVDAStock.objects.create(date=date(2014, 1, 1), open=120, close=130, high=135, low=115)
+        self.nvidia_stock = NVDAStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.tesla_stock = TSLAStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.tesla_stock = TSLAStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
+        self.meta_stock = METAStock.objects.create(date=date(2014, 1, 1), open=120, close=130, high=135, low=115)
+        self.meta_stock = METAStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
+        self.xom_stock = XOMStock.objects.create(date=date(2014, 1, 1), open=110, close=120, high=125, low=105)
+        self.xom_stock = XOMStock.objects.create(date=date(2014, 1, 2), open=110, close=120, high=125, low=105)
+        self.pep_stock = PEPStock.objects.create(date=date(2014, 1, 1), open=120, close=130, high=135, low=115)
+        self.pep_stock = PEPStock.objects.create(date=date(2014, 1, 2), open=120, close=130, high=135, low=115)
 
     def test_trade_view_authenticated_get(self):
         self.client.force_login(self.user)

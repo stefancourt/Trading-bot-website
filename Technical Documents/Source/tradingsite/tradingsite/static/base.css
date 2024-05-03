@@ -160,6 +160,9 @@
     margin-left: -15px;
     opacity: 1;
 }
+.sidebar.open .nav-links span {
+    width: 400px;
+}
 .sidebar.open .nav-links {
     display: flex;
     justify-content: space-between;

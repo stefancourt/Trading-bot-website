@@ -8,7 +8,6 @@ AAPL_url = 'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AA
 MSFT_url = 'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=MSFT&apikey=7N8C29LEDB288DN7'
 JNJ_url = 'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=JNJ&apikey=7N8C29LEDB288DN7'
 PFE_url = 'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=PFE&apikey=7N8C29LEDB288DN7'
-JPM_url = 'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=IBM&apikey=7N8C29LEDB288DN7'
 BAC_url = 'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=BAC&apikey=7N8C29LEDB288DN7'
 
 class Command(BaseCommand):
@@ -49,16 +48,6 @@ class Command(BaseCommand):
 
         # Sends a request to pull information from alpha vantage api
         r = requests.get(PFE_url)
-        data = r.json()
-
-        # Writes this data to a json file in /stock_data/news/
-        with open(datafile, 'w') as f:
-            json.dump(data, f)
-
-        datafile = settings.BASE_DIR / 'stock_data' / 'news' / 'JPM_news.json'
-
-        # Sends a request to pull information from alpha vantage api
-        r = requests.get(JPM_url)
         data = r.json()
 
         # Writes this data to a json file in /stock_data/news/
