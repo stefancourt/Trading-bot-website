@@ -22,7 +22,9 @@ var isPaused = false;
 var takeProfitLineAdded = false;
 var stopLossLineAdded = false;
 var takeProfitValue;
+var takeProfitAcceptedValue;
 var stopLossValue;
+var stopLossAcceptedValue;
 var buy = false;
 var sell = false;
 var userId;
@@ -32,6 +34,7 @@ var start;
 var stockType;
 var currentClose;
 var amount;
+var amountExceded;
 
 function createWebSocket() {
     if (socket === null || socket.readyState === WebSocket.CLOSED) {
@@ -112,13 +115,13 @@ function createWebSocket() {
                 if (takeProfitLineAdded) {
                     var newGraphTakeLine = graphData.data.datasets[1].data;
                     // Adds point to the take profit line on each run
-                    newGraphTakeLine.push(takeProfitValue);
+                    newGraphTakeLine.push(takeProfitAcceptedValue);
                     graphData.data.datasets[1].data = newGraphTakeLine;
                 }
                 if (stopLossLineAdded) {
                     var newGraphStopLine = graphData.data.datasets[2].data;
                     // Adds point to the stop loss line on each run
-                    newGraphStopLine.push(stopLossValue);
+                    newGraphStopLine.push(stopLossAcceptedValue);
                     graphData.data.datasets[2].data = newGraphStopLine;
                 }
                 // Sets the date one day forward
@@ -133,9 +136,9 @@ function createWebSocket() {
                 start = year + '-' + month + '-' + day;
 
                 // If take-profit/stop-loss hit sends the value to the consumer
-                if (buy && djangoData.close > takeProfitValue) {
-                    socket.send(JSON.stringify({'amount': amount, 'take_profit': takeProfitValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start}));
-                    console.log(takeProfitValue)
+                if (buy && djangoData.close > takeProfitAcceptedValue) {
+                    socket.send(JSON.stringify({'amount': amount, 'take_profit': takeProfitAcceptedValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start}));
+                    console.log(takeProfitAcceptedValue)
                     console.log(userId)
                     console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
@@ -145,9 +148,9 @@ function createWebSocket() {
                     buy = false;
                     userIdFlag = false;
                 }
-                else if (buy && djangoData.close < stopLossValue) {
-                    socket.send(JSON.stringify({'amount': amount, 'stop_loss': stopLossValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start}));
-                    console.log(stopLossValue)
+                else if (buy && djangoData.close < stopLossAcceptedValue) {
+                    socket.send(JSON.stringify({'amount': amount, 'stop_loss': stopLossAcceptedValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start}));
+                    console.log(stopLossAcceptedValue)
                     console.log(userId)
                     console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
@@ -157,9 +160,9 @@ function createWebSocket() {
                     buy = false;
                     userIdFlag = false;
                 }
-                else if (sell && djangoData.close < takeProfitValue) {
-                    socket.send(JSON.stringify({'amount': amount, 'take_profit': takeProfitValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType,'start': start}));
-                    console.log(takeProfitValue)
+                else if (sell && djangoData.close < takeProfitAcceptedValue) {
+                    socket.send(JSON.stringify({'amount': amount, 'take_profit': takeProfitAcceptedValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType,'start': start}));
+                    console.log(takeProfitAcceptedValue)
                     console.log(userId)
                     console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
@@ -169,9 +172,9 @@ function createWebSocket() {
                     sell = false;
                     uaserIdFlag = false;
                 }
-                else if (sell && djangoData.close > stopLossValue) {
-                    socket.send(JSON.stringify({'amount': amount, 'stop_loss': stopLossValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start}));
-                    console.log(stopLossValue)
+                else if (sell && djangoData.close > stopLossAcceptedValue) {
+                    socket.send(JSON.stringify({'amount': amount, 'stop_loss': stopLossAcceptedValue, 'user_id': userId, 'close_trade': closeTrade, 'stockType': stockType, 'start': start}));
+                    console.log(stopLossAcceptedValue)
                     console.log(userId)
                     console.log(closeTrade)
                     graphData.data.datasets.splice(1, 1)
@@ -243,7 +246,24 @@ $(document).ready(function() {
             closeTrade = graphData.data.datasets[0].data[graphData.data.datasets[0].data.length - 1]
             takeProfitValue = parseFloat(data["take_profit"])
             stopLossValue = parseFloat(data["stop_loss"])
-            if (data["order_type"] === 'buy' && takeProfitValue <= stopLossValue) {
+            var thresholdValue = document.getElementById('money_in_account');
+            if (parseFloat(amount) <= parseFloat(thresholdValue.innerText.replace('£', ''))) {
+                amountExceded = false
+            }
+            else if (parseFloat(amount) > parseFloat(thresholdValue.innerText.replace('£', ''))) {
+                $('#error-message').text('Amount willing to trade cannot exceed amount held in account. Please enter £'+ (amount - parseFloat(thresholdValue.innerText.replace('£', ''))).toFixed(2) +' less');
+                $("#error-modal").show();
+                amountExceded = true
+            }
+            if (buy) {
+                $('#error-message').text('Cannot place another trade while one is still active');
+                $('#error-modal').show();
+            }
+            else if (sell) {
+                $('#error-message').text('Cannot place another trade while one is still active');
+                $('#error-modal').show();
+            }
+            else if (data["order_type"] === 'buy' && takeProfitValue <= stopLossValue) {
                 $('#error-message').text('The value of your Stop Loss cannot be greater than your Take Profit on a buy order');
                 $('#error-modal').show();
             }
@@ -267,8 +287,10 @@ $(document).ready(function() {
                 $('#error-message').text('You cannot place a sell order where the Stop Loss value is below the current price of the stock');
                 $('#error-modal').show();
             }
-            else if (data["order_type"] === 'buy' && takeProfitValue >= stopLossValue) {
+            else if (data["order_type"] === 'buy' && takeProfitValue >= stopLossValue && amountExceded === false) {
                 buy = true;
+                takeProfitAcceptedValue = takeProfitValue
+                stopLossAcceptedValue = stopLossValue
                 var takeProfitLineData = Array(myChart.data.labels.length).fill(takeProfitValue);
                 var stopLossLineData = Array(myChart.data.labels.length).fill(stopLossValue);
                 
@@ -295,8 +317,10 @@ $(document).ready(function() {
                 
                 myChart.update('none');
             }
-            else if (data["order_type"] === 'sell' && takeProfitValue <= stopLossValue) {
+            else if (data["order_type"] === 'sell' && takeProfitValue <= stopLossValue && amountExceded === false) {
                 sell = true;
+                takeProfitAcceptedValue = takeProfitValue
+                stopLossAcceptedValue = stopLossValue
                 var takeProfitLineData = Array(myChart.data.labels.length).fill(takeProfitValue);
                 var stopLossLineData = Array(myChart.data.labels.length).fill(stopLossValue);
                 
