@@ -28,8 +28,8 @@ Introducing TradeIt your all in one software for managining finance, completing 
 To configure the virtual environment for the TradeIT application on macOS, follow these steps:
 
 1. Make sure that [Python 3.11.x](https://www.python.org/downloads/macos/) is installed on the device
-1. Navigate to the **Technical Documents/Source/tradingsite directory**.
-2. Run the following commands to activate the virtual environment:
+2. Navigate to the **Technical Documents/Source/tradingsite directory**.
+3. Run the following commands to activate the virtual environment:
 
 ```bash
 chmod +x commands.sh
@@ -70,8 +70,8 @@ redis-server
 memurai-server
 ```
 
-2. In a seperate terminal navigate to the **Technical Documents/Source/tradingsite** directory.
-3. In a seperate terminal execute the following commands:
+2. In a separate terminal navigate to the **Technical Documents/Source/tradingsite** directory.
+3. In a separate terminal execute the following commands:
 
 ```bash
 # For MacOS
